@@ -23,3 +23,8 @@
   font-size: 2em;
   height: 3em;
 }
+
+#reportButton {
+  position: absolute;
+  z-index: 3;
+}
