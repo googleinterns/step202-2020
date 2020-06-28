@@ -24,3 +24,8 @@
   font-size: 30px;
   height: 5vh;
 }
+
+#reportButton {
+  position: absolute;
+  z-index: 3;
+}
