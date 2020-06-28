@@ -1,9 +1,6 @@
-#content {
-  margin-left: auto;
-  margin-right: auto;
-  width: 650px;
-}
-
-#greeting-container {
-  margin-top: 20px;
+#map {
+  width: 100%;
+  height: 100vh;
+  /* placeholder until we add a map */
+  background-color: #000000;
 }
