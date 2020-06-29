@@ -35,17 +35,27 @@
 
 /* Bottom dock */
 #reportButton {
-  bottom: 200px;
+  bottom: 100px;
   height: 200px;
-  position: absolute;
+  left: 50%;
+  margin-left: -100px;
+  position: relative;
+  top: 6px;
   width: 200px;
   z-index: 3;
 }
 
 #dock {
+  bottom: 0;
+  height: 280px;
+  position: absolute;
+  width: 100%;
+}
+
+#dock-background {
   background: rgba(0, 0, 23, 0.6);
   bottom: 0;
-  height: 200px;
+  height: 180px;
   position: absolute;
   width: 100%;
   z-index: 2;
