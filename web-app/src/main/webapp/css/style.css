@@ -1,3 +1,4 @@
+/* Home screen */
 #map {
   /* TODO(AshleyLTW) placeholder until we add a map */
   background-color: #add8e6;
@@ -24,6 +25,14 @@
   height: 3em;
 }
 
+/* Report form */
+#reportForm {
+  position: absolute;
+  top: 200px;
+  z-index: 3;
+}
+
+/* Bottom dock */
 #reportButton {
   bottom: 200px;
   height: 200px;

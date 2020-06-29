@@ -24,11 +24,64 @@
     <div id="map">
       A map will appear here
     </div>
+    <!-- Report submission form -->
+    <div class="container">
+      <form id="reportForm">
+        <div class="row">
+          <div class="two-thirds columns">
+            <input class="u-full-width" type="text" placeholder="Title"
+              id="titleInput">
+          </div>
+        </div>
+        <div class="row">
+          <div class="seven columns">
+            <input class="u-full-width" type="text" placeholder="Location"
+              id="locationInput">
+          </div>
+          <div class="one column">
+            <img src="images/map.svg" alt="button to pick location using map">
+          </div>
+        </div>
+        <div class="row">
+          <div class="two-thirds columns">
+            <input class="u-full-width" type="datetime-local" placeholder="Time"
+              id="timeInput">
+          </div>
+        </div>
+        <div class="row">
+          <div class="two-thirds columns">
+            <select class="u-full-width" type="text" placeholder="Category"
+              id="categoryInput">
+              <option value="foo">foo</option>
+              <option value="bar">bar</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="two-thirds columns">
+            <input class="u-full-width" type="text" placeholder="Description"
+              id="descriptionInput">
+          </div>
+        </div>
+        <div class="row">
+          <div class="two-thirds columns">
+            <button class="u-full-width" type="button"
+              id="attachImageButton">Attach an image (optional)</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="two-thirds columns">
+            <button class="u-full-width" type="submit"
+              id="submitButton">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
     <!-- Bottom dock -->
     <div class="container u-full-width" id="dock">
-
     </div>
     <img id="reportButton" src="images/report.svg" alt="button to report a new
       incident">
+
   </body>
 </html>
