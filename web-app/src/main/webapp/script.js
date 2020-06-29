@@ -59,3 +59,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 window.onload = function() {
   document.getElementById("report-form").style.visibility = "hidden";
 };
+
+function showReportForm() {
+  document.getElementById("report-form").style.visibility = "visible";
+}
