@@ -31,9 +31,6 @@
 
 /* Report form */
 #report-form {
-  position: absolute;
-  top: 200px;
-  z-index: 3;
 }
 
 /* Bottom dock */

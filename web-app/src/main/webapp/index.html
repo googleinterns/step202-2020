@@ -24,8 +24,32 @@
     <div id="map" class="home">
       A map will appear here
     </div>
-    <!-- Report submission form -->
-    <div class="container report-form">
+    <!-- Bottom dock -->
+    <div id="dock" class="home">
+      <div id="dock-buttons">
+        <img id="menu-button" class="small-button" src="images/options-menu.svg"
+          alt="button to open the options menu">
+        <img id="report-button" src="images/report.svg" alt="button to report a
+          new incident">
+        <img id="toggle-button" class="small-button"
+          src="images/toggle-view.svg" alt="button to toggle between heatmap and
+          markers">
+      </div>
+      <div id="dock-background"></div>
+    </div>
+    <!-- Report submission screen -->
+    <div class="container report">
+      <div class="row">
+        <div class="one column">
+          <img src="images/back-arrow.svg" alt="back to home screen">
+        </div>
+        <div class="eleven columns">
+          <h1>Submit a report</h1>
+        </div>
+      </div>
+    </div>
+    <!-- Form -->
+    <div class="container report">
       <form id="report-form">
         <div class="row">
           <div class="two-thirds columns">
@@ -76,19 +100,6 @@
           </div>
         </div>
       </form>
-    </div>
-    <!-- Bottom dock -->
-    <div id="dock" class="home">
-      <div id="dock-buttons">
-        <img id="menu-button" class="small-button" src="images/options-menu.svg"
-          alt="button to open the options menu">
-        <img id="report-button" src="images/report.svg" alt="button to report a
-          new incident">
-        <img id="toggle-button" class="small-button"
-          src="images/toggle-view.svg" alt="button to toggle between heatmap and
-          markers">
-      </div>
-      <div id="dock-background"></div>
     </div>
   </body>
 </html>
