@@ -19,6 +19,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import com.google.sps.data.Report;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
@@ -29,6 +32,27 @@ public class DataServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html;");
     response.getWriter().println("<h1>Hello world!</h1>");
+  }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String title = getParameter(request, "title", "");
+    double latitude = getParameter(request, "latitude", 0.0);
+    double longitude = getParameter(request, "longitude", 0.0);
+    long timestamp = getParameter(request, "timestamp", System.currentTimeMillis());
+    String incidentType = getParameter(request, "incidentType", "etc");
+    String description = getParameter(request, "description", "");
+
+    Entity reportEntity = new Entity("Report");
+    reportEntity.setProperty("title", title);
+    reportEntity.setProperty("latitude", latitude);
+    reportEntity.setProperty("longitude", longitude);
+    reportEntity.setProperty("timestamp", timestamp);
+    reportEntity.setProperty("incidentType", incidentType);
+    reportEntity.setProperty("description", description);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(reportEntity);
   }
 
   /**
