@@ -1,4 +1,8 @@
 /* Home screen */
+.home {
+  display: none;
+}
+
 #map {
   /* TODO(AshleyLTW) placeholder until we add a map */
   background-color: #add8e6;
