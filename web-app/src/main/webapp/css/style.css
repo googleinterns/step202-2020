@@ -31,6 +31,20 @@
 
 /* Report form */
 #report-form {
+  background-color: rgba(0, 0, 23, 0.7);
+}
+
+/* Applying skeleton style to datetime-local inputs */
+input[type="datetime-local"],
+textarea,
+select {
+  height: 38px;
+  padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
+  background-color: #fff;
+  border: 1px solid #d1d1d1;
+  border-radius: 4px;
+  box-shadow: none;
+  box-sizing: border-box;
 }
 
 /* Bottom dock */

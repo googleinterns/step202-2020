@@ -37,7 +37,7 @@
       </div>
       <div id="dock-background"></div>
     </div>
-    <!-- Report submission screen -->
+    <!-- Submit report -->
     <div class="container report">
       <div class="row">
         <div class="one column">
@@ -47,58 +47,43 @@
           <h1>Submit a report</h1>
         </div>
       </div>
-    </div>
-    <!-- Form -->
-    <div class="container report">
-      <form id="report-form">
+      <form>
         <div class="row">
-          <div class="two-thirds columns">
-            <input class="u-full-width" type="text" placeholder="Title"
-              id="title-input">
-          </div>
+          <label for="title-input">Title</label>
+          <input class="u-full-width" type="text" placeholder="Title"
+            id="title-input">
         </div>
         <div class="row">
-          <div class="seven columns">
+          <div class="eleven columns">
+            <label for="location-input">Location</label>
             <input class="u-full-width" type="text" placeholder="Location"
               id="location-input">
           </div>
-          <div class="one column">
+          <div class="one columns">
             <img src="images/map.svg" alt="button to pick location using map">
           </div>
         </div>
         <div class="row">
-          <div class="two-thirds columns">
-            <input class="u-full-width" type="datetime-local" placeholder="Time"
-              id="time-input">
-          </div>
+          <label for="time-input">Date and time</label>
+          <input class="u-full-width" type="datetime-local" placeholder="Time"
+            id="time-input">
         </div>
         <div class="row">
-          <div class="two-thirds columns">
-            <select class="u-full-width" type="text" placeholder="Category"
-              id="category-input">
-              <option value="foo">foo</option>
-              <option value="bar">bar</option>
-            </select>
-          </div>
+          <label for="category-input">Category of incident</label>
+          <select class="u-full-width" type="text" id="category-input">
+            <option selected disabled>Category</option>
+            <option value="foo">foo</option>
+            <option value="bar">bar</option>
+          </select>
         </div>
-        <div class="row">
-          <div class="two-thirds columns">
-            <input class="u-full-width" type="text" placeholder="Description"
-              id="description-input">
-          </div>
-        </div>
-        <div class="row">
-          <div class="two-thirds columns">
-            <button class="u-full-width" type="button"
-              id="attach-image-button">Attach an image (optional)</button>
-          </div>
-        </div>
-        <div class="row">
-          <div class="two-thirds columns">
-            <button class="u-full-width" type="submit"
-              id="submit-button">Submit</button>
-          </div>
-        </div>
+        <label for="description-input">Description</label>
+        <textarea placeholder="Tell us more about what happened"
+          class="u-full-width"
+          id="description-input"></textarea>
+        <button type="button" id="attach-image-button">Attach an image
+          (optional)</button>
+        <input id="submit-button" class="button-primary" type="submit"
+          value="Submit">
       </form>
     </div>
   </body>
