@@ -26,14 +26,14 @@
 }
 
 /* Report form */
-#reportForm {
+#report-form {
   position: absolute;
   top: 200px;
   z-index: 3;
 }
 
 /* Bottom dock */
-#reportButton {
+#report-button {
   bottom: 200px;
   height: 200px;
   position: absolute;
