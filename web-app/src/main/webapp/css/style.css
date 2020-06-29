@@ -58,6 +58,32 @@
 }
 
 /* Bottom dock */
+#dock {
+  bottom: 0;
+  height: 280px;
+  position: absolute;
+  width: 100%;
+}
+
+#dockBackground {
+  background: rgba(0, 0, 23, 0.6);
+  bottom: 0;
+  height: 180px;
+  position: absolute;
+  width: 100%;
+  z-index: 2;
+}
+
+#dockButtons {
+  height: 100%;
+  left: 50%;
+  margin-left: -290px;
+  position: relative;
+  top: 0;
+  width: 580px;
+  z-index: 3;
+}
+
 #reportButton {
   bottom: 100px;
   height: 200px;
@@ -66,21 +92,19 @@
   position: relative;
   top: 6px;
   width: 200px;
-  z-index: 3;
 }
 
-#dock {
-  bottom: 0;
-  height: 280px;
+.smallButton {
+  bottom: 45px;
+  height: 90px;
   position: absolute;
-  width: 100%;
+  width: 90px;
 }
 
-#dock-background {
-  background: rgba(0, 0, 23, 0.6);
-  bottom: 0;
-  height: 180px;
-  position: absolute;
-  width: 100%;
-  z-index: 2;
+#menuButton {
+  left: 0;
+}
+
+#toggleButton {
+  right: 0;
 }
