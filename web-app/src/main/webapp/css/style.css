@@ -51,7 +51,7 @@
 }
 
 /* Report form */
-#reportForm {
+#report-form {
   position: absolute;
   top: 200px;
   z-index: 3;
@@ -65,7 +65,7 @@
   width: 100%;
 }
 
-#dockBackground {
+#dock-background {
   background: rgba(0, 0, 23, 0.6);
   bottom: 0;
   height: 180px;
@@ -74,7 +74,7 @@
   z-index: 2;
 }
 
-#dockButtons {
+#dock-buttons {
   height: 100%;
   left: 50%;
   margin-left: -290px;
@@ -84,7 +84,7 @@
   z-index: 3;
 }
 
-#reportButton {
+#report-button {
   bottom: 100px;
   height: 200px;
   left: 50%;
@@ -94,17 +94,17 @@
   width: 200px;
 }
 
-.smallButton {
+.small-button {
   bottom: 45px;
   height: 90px;
   position: absolute;
   width: 90px;
 }
 
-#menuButton {
+#menu-button {
   left: 0;
 }
 
-#toggleButton {
+#toggle-button {
   right: 0;
 }
