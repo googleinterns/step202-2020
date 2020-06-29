@@ -12,19 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-var map, infoWindow;
 function initMap() {
-  map = new google.maps.Map(document.getElementById("map"), {
+  const map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: -34.397, lng: 150.644 },
-    zoom: 6,
+    zoom: 5,
   });
-  infoWindow = new google.maps.InfoWindow();
+  const infoWindow = new google.maps.InfoWindow();
+  displayUserLocation(map, infoWindow);
+}
 
-  // Try HTML5 geolocation.
+function displayUserLocation(map, infoWindow) {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
-      function (position) {
-        var userPosition = {
+      function(position) {
+        let userPosition = {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         };
@@ -35,7 +36,7 @@ function initMap() {
         });
         map.setCenter(userPosition);
       },
-      function () {
+      function() {
         handleLocationError(true, infoWindow, map.getCenter());
       }
     );
