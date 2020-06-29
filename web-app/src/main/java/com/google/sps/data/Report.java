@@ -8,14 +8,14 @@ public class Report {
   private final String incidentType;
   private final String description;
   /** TODO (Ashley): Add image. */
-}
 
-public Report(String title, double latitude, double longitude, 
-  long timestamp, String incidentType, String description) {
+  public Report(String title, double latitude, double longitude, 
+    long timestamp, String incidentType, String description) {
     this.title = title;
     this.latitude = latitude;
     this.longitude = longitude;
     this.timestamp = timestamp;
     this.incidentType = incidentType;
     this.description = description;
+  }
 }
