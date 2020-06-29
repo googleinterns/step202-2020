@@ -33,30 +33,6 @@
 }
 
 /* Bottom dock */
-#report-button {
-  bottom: 200px;
-  height: 200px;
-  position: absolute;
-  width: 200px;
-  z-index: 3;
-}
-
-#dock {
-  bottom: 0;
-  height: 200px;
-  position: absolute;
-  width: 100%;
-  z-index: 2;
-}
-
-/* Report form */
-#report-form {
-  position: absolute;
-  top: 200px;
-  z-index: 3;
-}
-
-/* Bottom dock */
 #dock {
   bottom: 0;
   height: 280px;
