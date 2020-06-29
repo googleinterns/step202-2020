@@ -30,14 +30,18 @@
 }
 
 /* Report form */
-#report-form {
+input {
+  height: 10%;
+}
+
+#form-container {
   background-color: rgba(0, 0, 23, 0.7);
+  height: 100vh;
+  padding: 3% 5%;
 }
 
 /* Applying skeleton style to datetime-local inputs */
-input[type="datetime-local"],
-textarea,
-select {
+input[type="datetime-local"] {
   height: 38px;
   padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
   background-color: #fff;
