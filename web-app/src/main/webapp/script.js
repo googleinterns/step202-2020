@@ -55,3 +55,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   );
   infoWindow.open(map);
 }
+
+window.onload = function() {
+  document.getElementById("report-form").style.visibility = "hidden";
+};
