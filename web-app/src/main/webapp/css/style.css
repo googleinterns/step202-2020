@@ -1,6 +1,6 @@
 /* Home screen */
 #map {
-  /* placeholder until we add a map */
+  /* TODO(AshleyLTW) placeholder until we add a map */
   background-color: #add8e6;
   height: 100vh;
   position: absolute;
@@ -8,7 +8,7 @@
   z-index: 1;
 }
 
-#addressForm {
+#address-form {
   /* overwrite skeleton margins on form */
   margin-top: 50px;
   margin-bottom: 0;
@@ -17,13 +17,37 @@
   z-index: 2;
 }
 
-#searchInput {
+#search-location {
   background: #fffcfc;
   border: 2px solid #9e9e9e;
   border-radius: 6px;
-  box-sizing: border-box;
-  font-size: 30px;
-  height: 5vh;
+  font-size: 2em;
+  height: 3em;
+}
+
+/* Report form */
+#report-form {
+  position: absolute;
+  top: 200px;
+  z-index: 3;
+}
+
+/* Bottom dock */
+#report-button {
+  bottom: 200px;
+  height: 200px;
+  position: absolute;
+  width: 200px;
+  z-index: 3;
+}
+
+#dock {
+  background: rgba(0, 0, 23, 0.6);
+  bottom: 0;
+  height: 200px;
+  position: absolute;
+  width: 100%;
+  z-index: 2;
 }
 
 /* Report form */

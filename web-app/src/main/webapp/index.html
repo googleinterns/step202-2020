@@ -18,15 +18,11 @@
   <body>
     <!-- Search bar -->
     <div class="container">
-      <form id="addressForm">
+      <form id="address-form">
         <div class="row">
           <div class="two-thirds columns">
-            <input
-              class="u-full-width"
-              type="text"
-              placeholder="Search"
-              id="searchInput"
-            />
+            <input class="u-full-width" type="text" placeholder="Search"
+              id="search-location">
           </div>
         </div>
       </form>
@@ -37,25 +33,17 @@
     </div>
     <!-- Report submission form -->
     <div class="container">
-      <form id="reportForm">
+      <form id="report-form">
         <div class="row">
           <div class="two-thirds columns">
-            <input
-              class="u-full-width"
-              type="text"
-              placeholder="Title"
-              id="titleInput"
-            />
+            <input class="u-full-width" type="text" placeholder="Title"
+              id="title-input">
           </div>
         </div>
         <div class="row">
           <div class="seven columns">
-            <input
-              class="u-full-width"
-              type="text"
-              placeholder="Location"
-              id="locationInput"
-            />
+            <input class="u-full-width" type="text" placeholder="Location"
+              id="location-input">
           </div>
           <div class="one column">
             <img src="images/map.svg" alt="button to pick location using map" />
@@ -63,22 +51,14 @@
         </div>
         <div class="row">
           <div class="two-thirds columns">
-            <input
-              class="u-full-width"
-              type="datetime-local"
-              placeholder="Time"
-              id="timeInput"
-            />
+            <input class="u-full-width" type="datetime-local" placeholder="Time"
+              id="time-input">
           </div>
         </div>
         <div class="row">
           <div class="two-thirds columns">
-            <select
-              class="u-full-width"
-              type="text"
-              placeholder="Category"
-              id="categoryInput"
-            >
+            <select class="u-full-width" type="text" placeholder="Category"
+              id="category-input">
               <option value="foo">foo</option>
               <option value="bar">bar</option>
             </select>
@@ -86,37 +66,28 @@
         </div>
         <div class="row">
           <div class="two-thirds columns">
-            <input
-              class="u-full-width"
-              type="text"
-              placeholder="Description"
-              id="descriptionInput"
-            />
+            <input class="u-full-width" type="text" placeholder="Description"
+              id="description-input">
           </div>
         </div>
         <div class="row">
           <div class="two-thirds columns">
-            <button class="u-full-width" type="button" id="attachImageButton">
-              Attach an image (optional)
-            </button>
+            <button class="u-full-width" type="button"
+              id="attach-image-button">Attach an image (optional)</button>
           </div>
         </div>
         <div class="row">
           <div class="two-thirds columns">
-            <button class="u-full-width" type="submit" id="submitButton">
-              Submit
-            </button>
+            <button class="u-full-width" type="submit"
+              id="submit-button">Submit</button>
           </div>
         </div>
       </form>
     </div>
     <!-- Bottom dock -->
-    <div class="container u-full-width" id="dock"></div>
-    <img
-      id="reportButton"
-      src="images/report.svg"
-      alt="button to report a new
-      incident"
-    />
+    <div class="container u-full-width" id="dock">
+    </div>
+    <img id="report-button" src="images/report.svg" alt="button to report a new
+      incident">
   </body>
 </html>
