@@ -42,11 +42,19 @@
 }
 
 #back-icon {
-  padding-top: 75px;
+  height: 50px;
+  padding-top: 70px;
+  width: 50px;
 }
 
 #map-icon {
-  padding-top: 100px;
+  height: 50px;
+  width: 60px;
+}
+
+#map-icon-container {
+  margin-left: 15px;
+  padding-top: 95px;
 }
 
 /* Override Skeleton styles */
