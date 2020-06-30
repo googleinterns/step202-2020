@@ -57,9 +57,9 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
 }
 
 window.onload = function() {
-  document.getElementById("report-form").style.visibility = "hidden";
+  document.getElementById("report-form").style.display = "none";
 };
 
 function showReportForm() {
-  document.getElementById("report-form").style.visibility = "visible";
+  document.getElementById("report-form").style.display = "block";
 }
