@@ -19,6 +19,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
+import java.util.HashMap;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -28,6 +30,15 @@ import com.google.sps.data.Report;
 @WebServlet("/report")
 public class ReportServlet extends HttpServlet {
 
+  private Map<String, String> PARAM_DEFAULT_MAP = new HashMap<String, String>(){{
+      put("title", "");
+      put("latitude", "0.0");
+      put("longitude", "0.0");
+      put("timestamp", "0");
+      put("incidentType", "etc");
+      put("description", "");
+  }};
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html;");
@@ -35,16 +46,39 @@ public class ReportServlet extends HttpServlet {
   }
 
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    
-    String[] PARAM_NAMES = {"title", "latitude", "longitude", "timestamp", "incidentType", "description"};
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {    
+  
     Entity reportEntity = new Entity("Report");
 
-    for (String param : PARAM_NAMES) {
-      reportEntity.setProperty(param, request.getParameter(param));
+    for (String paramName : PARAM_DEFAULT_MAP.keySet()) {
+      String defaultValue = PARAM_DEFAULT_MAP.get(paramName);
+      String value = getParameter(request, paramName, defaultValue);
+      switch (paramName){
+        case "latitude":
+        case "longitude":
+          reportEntity.setProperty(paramName, Double.parseDouble(value));
+          break;
+        case "timestamp":
+          reportEntity.setProperty(paramName, value);
+          break;
+        default:
+          reportEntity.setProperty(paramName, value);
+      }
     }
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(reportEntity);
+  }
+
+  /**
+   * @return the request parameter, or the default value if the parameter
+   *         was not specified by the client
+   */
+  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+    String value = request.getParameter(name);
+    if (value == null) {
+      return defaultValue;
+    }
+    return value;
   }
 }
