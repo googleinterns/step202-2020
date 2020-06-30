@@ -1,9 +1,9 @@
-/* Home screen */
 .report,
-.menu {
+.home {
   display: none;
 }
 
+/* Home screen */
 #map {
   /* TODO(AshleyLTW) placeholder until we add a map */
   background-color: #add8e6;
@@ -27,6 +27,13 @@
   border-radius: 6px;
   font-size: 2em;
   height: 3em;
+}
+
+/* Options menu */
+#menu {
+  background-color: rgba(0, 0, 23, 0.7);
+  height: 100vh;
+  width: 600px;
 }
 
 /* Report form */
