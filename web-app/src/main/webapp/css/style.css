@@ -46,15 +46,12 @@ input[type="text"],
 input[type="datetime-local"],
 textarea,
 select {
+  background: rgba(0, 0, 23, 0.3);
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
   font-size: 1.5em;
-  height: 2.5em;
-
-  background-color: #fff;
-  border: 1px solid #d1d1d1;
-  border-radius: 4px;
-  box-shadow: none;
-  box-sizing: border-box;
-  padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
+  height: 3em;
+  padding-left: 20px;
 }
 
 label {
