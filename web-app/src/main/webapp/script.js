@@ -77,6 +77,11 @@ function reportFormToURLQuery() {
     const value = document.getElementById(formID).value;
     searchParams.append(paramName, value);
   }
-  
+
   return searchParams;
+}
+
+function postUserReport() {
+  const URLQuery = reportFormToURLQuery();
+  fetch('/report', {method: 'POST', body: URLQuery}); 
 }
