@@ -43,8 +43,8 @@
     <div id="form-container" class="report">
       <div class="row">
         <div class="one column">
-          <img id="back-icon" src="images/back-arrow.svg" alt="back to home
-            screen">
+          <button id="back-icon" class="icon-button"><span class="sr-only">return
+              to home screen</span></button>
         </div>
         <div class="eleven columns">
           <h1 id="form-title">Submit a report</h1>
@@ -62,9 +62,9 @@
             <input class="u-full-width" type="text" placeholder="Location"
               id="location-input">
           </div>
-          <div class="one columns" id="map-icon-container">
-            <img id="map-icon" src="images/map.svg" alt="button to pick location
-              using map">
+          <div class="one column">
+            <button id="map-icon" class="icon-button"><span class="sr-only">pick
+                location using map</span></button>
           </div>
         </div>
         <div class="row">
@@ -84,11 +84,12 @@
         <textarea placeholder="Tell us more about what happened"
           class="u-full-width"></textarea>
         <div class="row button-container">
-          <button type="button" id="attach-image-button">Attach an image
-            (optional)</button>
+          <button type="button" id="attach-image-button" class="big-button">Attach
+            an image (optional)</button>
         </div>
         <div class="row button-container">
-          <button id="submit-button" type="submit" value="Submit">Submit</button>
+          <button id="submit-button" class="big-button" type="submit"
+            value="Submit">Submit</button>
         </div>
 
       </form>
