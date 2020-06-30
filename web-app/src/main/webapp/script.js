@@ -59,6 +59,7 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
 window.onload = () => {
   document.getElementById("report-form").style.display = "none";
   document.getElementById('report-button').addEventListener('click', showReportForm);
+  document.getElementById('submit-button').addEventListener('click', postUserReport);
 };
 
 function showReportForm() {
