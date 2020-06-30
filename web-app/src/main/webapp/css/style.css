@@ -36,6 +36,15 @@
   width: 600px;
 }
 
+#close-menu {
+  background-image: url(/images/back-arrow.svg);
+  background-repeat: no-repeat;
+  background-size: 70px 70px;
+  height: 70px;
+  margin-left: 20px;
+  margin-top: 20px;
+  width: 70px;
+}
 /* Report form */
 #form-container {
   background-color: rgba(0, 0, 23, 0.7);
