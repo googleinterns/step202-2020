@@ -57,6 +57,22 @@
   padding-top: 95px;
 }
 
+.button-container {
+  margin-top: 30px;
+  text-align: center;
+}
+
+#form-container button {
+  border: 2px solid #e0e0e0;
+  font-size: 2em;
+  height: 2.4em;
+}
+
+#submit-button {
+  background: rgba(224, 224, 224, 0.8);
+  color: rgba(0, 0, 23, 0.7);
+}
+
 /* Override Skeleton styles */
 input[type="text"],
 input[type="datetime-local"],
