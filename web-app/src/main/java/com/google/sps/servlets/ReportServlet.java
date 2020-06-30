@@ -26,7 +26,7 @@ import com.google.sps.data.Report;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/report")
-public class DataServlet extends HttpServlet {
+public class ReportServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -36,34 +36,15 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String title = getParameter(request, "title", "");
-    double latitude = getParameter(request, "latitude", 0.0);
-    double longitude = getParameter(request, "longitude", 0.0);
-    long timestamp = getParameter(request, "timestamp", System.currentTimeMillis());
-    String incidentType = getParameter(request, "incidentType", "etc");
-    String description = getParameter(request, "description", "");
-
+    
+    String[] PARAM_NAMES = {"title", "latitude", "longitude", "timestamp", "incidentType", "description"};
     Entity reportEntity = new Entity("Report");
-    reportEntity.setProperty("title", title);
-    reportEntity.setProperty("latitude", latitude);
-    reportEntity.setProperty("longitude", longitude);
-    reportEntity.setProperty("timestamp", timestamp);
-    reportEntity.setProperty("incidentType", incidentType);
-    reportEntity.setProperty("description", description);
+
+    for (String param : PARAM_NAMES) {
+      reportEntity.setProperty(param, request.getParameter(param));
+    }
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(reportEntity);
-  }
-
-  /**
-   * @return the request parameter, or the default value if the parameter
-   *         was not specified by the client
-   */
-  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
-    String value = request.getParameter(name);
-    if (value == null) {
-      return defaultValue;
-    }
-    return value;
   }
 }
