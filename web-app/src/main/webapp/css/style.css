@@ -112,6 +112,10 @@ label {
   border: none;
 }
 
+.icon-button:focus {
+  outline: none;
+}
+
 #report-button {
   background-image: url(/images/report.svg);
   background-size: 200px 200px;
