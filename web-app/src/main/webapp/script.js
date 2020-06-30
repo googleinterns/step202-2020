@@ -63,3 +63,20 @@ window.onload = function() {
 function showReportForm() {
   document.getElementById("report-form").style.visibility = "visible";
 }
+
+function reportFormToURLQuery() {
+  const PARAMS_FORM_MAP = new Map([
+    ['title-input', 'title'],
+    ['time-input', 'timestamp'],
+    ['category-input', 'incidentType'],
+    ['description-input', 'description'],
+  ]);
+
+  let searchParams = new URLSearchParams();
+  for (const [formID, paramName] of PARAMS_FORM_MAP.entries()) {
+    const value = document.getElementById(formID).value;
+    searchParams.append(paramName, value);
+  }
+  
+  return searchParams;
+}
