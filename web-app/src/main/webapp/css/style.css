@@ -107,15 +107,6 @@ label {
   width: 100%;
 }
 
-#dock-buttons {
-  height: 100%;
-  left: 50%;
-  margin-left: -290px;
-  position: relative;
-  top: 0;
-  width: 580px;
-}
-
 #report-button {
   bottom: 100px;
   height: 200px;
@@ -134,9 +125,9 @@ label {
 }
 
 #menu-button {
-  left: 0;
+  left: 50px;
 }
 
 #toggle-button {
-  right: 0;
+  right: 50px;
 }
