@@ -21,6 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -36,8 +39,10 @@ public class ReportServlet extends HttpServlet {
       put("longitude", "0.0");
       put("timestamp", "0");
       put("incidentType", "etc");
-      put("description", "");
+      put("description", ""); 
   }};
+
+  private DateFormat timeStampFormatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -59,7 +64,12 @@ public class ReportServlet extends HttpServlet {
           reportEntity.setProperty(paramName, Double.parseDouble(value));
           break;
         case "timestamp":
-          reportEntity.setProperty(paramName, value);
+          try {
+            Date timestamp = timeStampFormatter.parse(value);
+            reportEntity.setProperty(paramName, timestamp.getTime());
+          } catch (Exception exception) {
+            response.getWriter().println(exception);
+          }
           break;
         default:
           reportEntity.setProperty(paramName, value);
