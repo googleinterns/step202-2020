@@ -22,46 +22,47 @@ function initMap() {
 }
 
 function displayUserLocation(map, infoWindow) {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      function(position) {
-        let userPosition = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-
-        const marker = new google.maps.Marker({
-          position: userPosition,
-          map: map,
-        });
-        map.setCenter(userPosition);
-      },
-      function() {
-        handleLocationError(true, infoWindow, map.getCenter());
-      }
-    );
-  } else {
-    // Browser doesn't support Geolocation
-    handleLocationError(false, infoWindow, map.getCenter());
+  if (!navigator.geolocation) {
+    showMessageOnInfoWindow(
+      "Error: Your browser doesn't support geolocation.", 
+      map.getCenter(), map, infoWindow);
+    return;
   }
-}
+  
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const userPosition = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      };
 
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-  infoWindow.setPosition(pos);
-  infoWindow.setContent(
-    browserHasGeolocation
-      ? "Error: The Geolocation service failed."
-      : "Error: Your browser doesn't support geolocation."
+      const marker = new google.maps.Marker({
+        position: userPosition,
+        map: map,
+      });
+      map.setCenter(userPosition);
+    }, 
+    () => {
+      showMessageOnInfoWindow(
+        "Error: The Geolocation service failed.", 
+        map.getCenter(), map, infoWindow);
+    }
   );
+} 
+
+function showMessageOnInfoWindow(message, position, map, infoWindow) {
+  infoWindow.setPosition(position);
+  infoWindow.setContent(message);
   infoWindow.open(map);
 }
 
-window.onload = function() {
-  document.getElementById("report-form").style.visibility = "hidden";
+window.onload = () => {
+  document.getElementById("report-form").style.display = "none";
+  document.getElementById('report-button').addEventListener('click', showReportForm);
 };
 
 function showReportForm() {
-  document.getElementById("report-form").style.visibility = "visible";
+  document.getElementById("report-form").style.display = "block";
 }
 
 function reportFormToURLQuery() {
