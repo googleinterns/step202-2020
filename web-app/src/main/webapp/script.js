@@ -55,3 +55,12 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
   infoWindow.setContent(message);
   infoWindow.open(map);
 }
+
+window.onload = () => {
+  document.getElementById("report-form").style.display = "none";
+  document.getElementById('report-button').addEventListener('click', showReportForm);
+};
+
+function showReportForm() {
+  document.getElementById("report-form").style.display = "block";
+}
