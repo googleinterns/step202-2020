@@ -32,19 +32,34 @@
 /* Report form */
 #form-container {
   background-color: rgba(0, 0, 23, 0.7);
+  color: #e0e0e0;
   height: 100vh;
   padding: 3% 5%;
 }
 
-/* Applying skeleton style to datetime-local inputs */
-input[type="datetime-local"] {
-  height: 38px;
-  padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
+#form-title {
+  font-size: 5em;
+}
+
+/* Override Skeleton styles */
+input[type="text"],
+input[type="datetime-local"],
+textarea,
+select {
+  font-size: 1.5em;
+  height: 2.5em;
+
   background-color: #fff;
   border: 1px solid #d1d1d1;
   border-radius: 4px;
   box-shadow: none;
   box-sizing: border-box;
+  padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
+}
+
+label {
+  font-size: 2.5em;
+  margin-top: 3%;
 }
 
 /* Bottom dock */
