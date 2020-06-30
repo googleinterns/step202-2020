@@ -29,7 +29,6 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.sps.data.Report;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/report")
 public class ReportServlet extends HttpServlet {
 

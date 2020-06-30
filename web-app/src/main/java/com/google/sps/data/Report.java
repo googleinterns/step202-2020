@@ -7,7 +7,7 @@ public class Report {
   private final long timestamp;
   private final String incidentType;
   private final String description;
-  /** TODO (Ashley): Add image. */
+  /** TODO (AshleyLTW): Add image. */
 
   public Report(String title, double latitude, double longitude, 
     long timestamp, String incidentType, String description) {
