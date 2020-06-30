@@ -12,17 +12,46 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Adds a random greeting to the page.
- */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
+function initMap() {
+  const map = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: -34.397, lng: 150.644 },
+    zoom: 5,
+  });
+  const infoWindow = new google.maps.InfoWindow();
+  displayUserLocation(map, infoWindow);
+}
 
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+function displayUserLocation(map, infoWindow) {
+  if (!navigator.geolocation) {
+    showMessageOnInfoWindow(
+      "Error: Your browser doesn't support geolocation.", 
+      map.getCenter(), map, infoWindow);
+    return;
+  }
+  
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const userPosition = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      };
 
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
+      const marker = new google.maps.Marker({
+        position: userPosition,
+        map: map,
+      });
+      map.setCenter(userPosition);
+    }, 
+    () => {
+      showMessageOnInfoWindow(
+        "Error: The Geolocation service failed.", 
+        map.getCenter(), map, infoWindow);
+    }
+  );
+} 
+
+function showMessageOnInfoWindow(message, position, map, infoWindow) {
+  infoWindow.setPosition(position);
+  infoWindow.setContent(message);
+  infoWindow.open(map);
 }
