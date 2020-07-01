@@ -57,10 +57,10 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
 }
 
 window.onload = () => {
-  document.getElementById("report-form").style.display = "none";
+  document.getElementById("form-container").style.display = "none";
   document.getElementById('report-button').addEventListener('click', showReportForm);
 };
 
 function showReportForm() {
-  document.getElementById("report-form").style.display = "block";
+  document.getElementById("form-container").style.display = "block";
 }
