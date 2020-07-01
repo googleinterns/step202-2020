@@ -57,10 +57,18 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
 }
 
 window.onload = () => {
-  document.getElementById("report-form").style.display = "none";
+  Sdocument.getElementById("report-form").style.display = "none";
   document.getElementById('report-button').addEventListener('click', showReportForm);
+  loadJson()
 };
 
 function showReportForm() {
   document.getElementById("report-form").style.display = "block";
+}
+
+async function jsonToArray(filepath) {
+  const data = await fetch(filepath);
+  const dataJson = await data.text();
+  const array = JSON.parse(dataJson);
+  console.log(array[0]);
 }
