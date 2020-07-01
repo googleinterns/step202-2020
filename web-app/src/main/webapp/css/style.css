@@ -32,6 +32,7 @@
 /* Options menu */
 #menu {
   background-color: rgba(0, 0, 23, 0.7);
+  color: #e0e0e0;
   height: 100vh;
   width: 600px;
 }
@@ -47,7 +48,6 @@
 }
 
 #auth-container {
-  color: #e0e0e0;
   font-size: 1.75em;
   padding-right: 20px;
   padding-top: 40px;
@@ -57,6 +57,13 @@
   color: #e0e0e0;
   text-decoration: none;
 }
+
+#menu-title {
+  font-size: 2.7em;
+  padding: 0 60px;
+  text-align: left;
+}
+
 /* Report form */
 #form-container {
   background-color: rgba(0, 0, 23, 0.7);
