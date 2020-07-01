@@ -70,20 +70,35 @@
   text-align: right;
 }
 
-.radio {
+.right {
   text-align: right;
 }
 
 input[type="radio"] {
   height: 30px;
-  margin-top: 15px;
+  margin-top: 11px;
   vertical-align: middle;
   width: 30px;
 }
 
 #menu label {
   font-weight: normal;
-  margin: 0px;
+  margin: -5px 0;
+}
+
+#custom-interval {
+  background-color: rgba(0, 0, 23, 0.3);
+  color: #e0e0e0;
+  font-size: 30px;
+  width: 130px;
+}
+
+.desc {
+  font-size: 30px;
+}
+
+.last-row {
+  margin-bottom: 30px;
 }
 
 /* Report form */
