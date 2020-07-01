@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8">
     <title>My Portfolio</title>
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/skeleton.css">
     <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
     <script src="script.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtnOIOa1q7Mwn8OeRkeXdNPxpbaWT2ZFw&callback=initMap" 
       type="text/javascript"></script>
@@ -43,10 +43,11 @@
     <div id="form-container" class="report">
       <div class="row">
         <div class="one column">
-          <img src="images/back-arrow.svg" alt="back to home screen">
+          <img id="back-icon" src="images/back-arrow.svg" alt="back to home
+            screen">
         </div>
         <div class="eleven columns">
-          <h1>Submit a report</h1>
+          <h1 id="form-title">Submit a report</h1>
         </div>
       </div>
       <form>
@@ -61,8 +62,9 @@
             <input class="u-full-width" type="text" placeholder="Location"
               id="location-input">
           </div>
-          <div class="one columns">
-            <img src="images/map.svg" alt="button to pick location using map">
+          <div class="one columns" id="map-icon-container">
+            <img id="map-icon" src="images/map.svg" alt="button to pick location
+              using map">
           </div>
         </div>
         <div class="row">
@@ -80,12 +82,15 @@
         </div>
         <label for="description-input">Description</label>
         <textarea placeholder="Tell us more about what happened"
-          class="u-full-width"
-          id="description-input"></textarea>
-        <button type="button" id="attach-image-button">Attach an image
-          (optional)</button>
-        <input id="submit-button" class="button-primary" type="submit"
-          value="Submit">
+          class="u-full-width"></textarea>
+        <div class="row button-container">
+          <button type="button" id="attach-image-button">Attach an image
+            (optional)</button>
+        </div>
+        <div class="row button-container">
+          <button id="submit-button" type="submit" value="Submit">Submit</button>
+        </div>
+
       </form>
     </div>
   </body>
