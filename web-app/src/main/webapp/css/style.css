@@ -1,5 +1,4 @@
-.report,
-.home {
+.report {
   display: none;
 }
 
@@ -31,9 +30,10 @@
 
 /* Options menu */
 #menu {
-  background-color: rgba(0, 0, 23, 0.7);
+  background-color: rgba(0, 0, 23, 0.8);
   color: #e0e0e0;
   height: 100vh;
+  position: absolute;
   width: 600px;
 }
 
