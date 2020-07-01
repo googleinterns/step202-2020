@@ -74,7 +74,7 @@ function reportFormToURLQuery() {
     ['description-input', 'description'],
   ]);
 
-  let searchParams = new URLSearchParams();
+  const searchParams = new URLSearchParams();
   for (const [formID, paramName] of PARAMS_FORM_MAP.entries()) {
     const value = document.getElementById(formID).value;
     searchParams.append(paramName, value);
@@ -84,6 +84,6 @@ function reportFormToURLQuery() {
 }
 
 function postUserReport() {
-  const URLQuery = reportFormToURLQuery();
-  fetch('/report', {method: 'POST', body: URLQuery}); 
+  const urlQuery = reportFormToURLQuery();
+  fetch('/report', {method: 'POST', body: urlQuery}); 
 }
