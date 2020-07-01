@@ -64,6 +64,12 @@
   text-align: left;
 }
 
+.menu-subheading {
+  font-size: 1.5em;
+  padding-right: 40px;
+  text-align: right;
+}
+
 /* Report form */
 #form-container {
   background-color: rgba(0, 0, 23, 0.7);
