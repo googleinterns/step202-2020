@@ -49,67 +49,107 @@
       <div class="row" id="menu-title">
         <h1>Customise the markers</h1>
       </div>
-      <div class="row menu-subheading">
-        <h2>Time Frame</h2>
+      <div id="time-frame-container">
+        <div class="row menu-subheading">
+          <h2>Time Frame</h2>
+        </div>
+        <div class="row">
+          <div class="two columns right">
+            <input type="radio" id="four-weeks" name="time-frame"
+              value="four-weeks">
+          </div>
+          <div class="ten columns">
+            <label for="four-weeks">Last 4 weeks</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="two columns right">
+            <input type="radio" id="three-months" name="time-frame"
+              value="three-months">
+          </div>
+          <div class="ten columns">
+            <label for="three-months">Last 3 months</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="two columns right">
+            <input type="radio" id="six-months" name="time-frame"
+              value="six-months">
+          </div>
+          <div class="ten columns">
+            <label for="six-months">Last 6 months</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="two columns right">
+            <input type="radio" id="twelve-months" name="time-frame"
+              value="twelve-months" checked="checked">
+          </div>
+          <div class="ten columns">
+            <label for="twelve-months">Last 12 months</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="two columns right">
+            <input type="radio" id="custom-radio" name="time-frame"
+              value="custom">
+          </div>
+          <div class="ten columns">
+            <label for="custom-radio">Custom:</label>
+          </div>
+        </div>
+        <div class="row last-row">
+          <div class="six columns right desc">
+            Last
+          </div>
+          <div class="three columns">
+            <input type="number" id="custom-interval" name="custom-interval">
+          </div>
+          <div class="three columns desc">
+            months
+          </div>
+        </div>
       </div>
-      <div class="row">
-        <div class="two columns right">
-          <input type="radio" id="four-weeks" name="time-frame"
-            value="four-weeks">
+      <div id="category-container">
+        <div class="row menu-subheading">
+          <h2>Category</h2>
         </div>
-        <div class="ten columns">
-          <label for="four-weeks">Last 4 weeks</label>
+        <div class="row">
+          <div class="two columns right">
+            <input type="checkbox" id="four-weeks" name="time-frame"
+              value="four-weeks">
+          </div>
+          <div class="ten columns">
+            <label for="four-weeks">Last 4 weeks</label>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="two columns right">
-          <input type="radio" id="three-months" name="time-frame"
-            value="three-months">
+        <div class="row">
+          <div class="two columns right">
+            <input type="checkbox" id="three-months" name="time-frame"
+              value="three-months">
+          </div>
+          <div class="ten columns">
+            <label for="three-months">Last 3 months</label>
+          </div>
         </div>
-        <div class="ten columns">
-          <label for="three-months">Last 3 months</label>
+        <div class="row">
+          <div class="two columns right">
+            <input type="checkbox" id="six-months" name="time-frame"
+              value="six-months">
+          </div>
+          <div class="ten columns">
+            <label for="six-months">Last 6 months</label>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="two columns right">
-          <input type="radio" id="six-months" name="time-frame"
-            value="six-months">
+        <div class="row last-row">
+          <div class="two columns right">
+            <input type="checkbox" id="twelve-months" name="time-frame"
+              value="twelve-months" checked="checked">
+          </div>
+          <div class="ten columns">
+            <label for="twelve-months">Last 12 months</label>
+          </div>
         </div>
-        <div class="ten columns">
-          <label for="six-months">Last 6 months</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="two columns right">
-          <input type="radio" id="twelve-months" name="time-frame"
-            value="twelve-months" checked="checked">
-        </div>
-        <div class="ten columns">
-          <label for="twelve-months">Last 12 months</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="two columns right">
-          <input type="radio" id="custom-radio" name="time-frame"
-            value="custom">
-        </div>
-        <div class="ten columns">
-          <label for="custom-radio">Custom:</label>
-        </div>
-      </div>
-      <div class="row last-row">
-        <div class="six columns right desc">
-          Last
-        </div>
-        <div class="three columns">
-          <input type="number" id="custom-interval" name="custom-interval">
-        </div>
-        <div class="three columns desc">
-          months
-        </div>
-      </div>
-      <div class="row menu-subheading">
-        <h2>Category</h2>
       </div>
       <div class="row menu-subheading">
         <h2>Time of Day</h2>

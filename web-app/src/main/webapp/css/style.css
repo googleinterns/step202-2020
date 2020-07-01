@@ -74,7 +74,8 @@
   text-align: right;
 }
 
-input[type="radio"] {
+input[type="radio"],
+input[type="checkbox"] {
   height: 30px;
   margin-top: 11px;
   vertical-align: middle;
