@@ -65,9 +65,24 @@
 }
 
 .menu-subheading {
-  font-size: 1.5em;
+  font-size: 2em;
   padding-right: 40px;
   text-align: right;
+}
+
+.radio {
+  text-align: right;
+}
+
+input[type="radio"] {
+  height: 30px;
+  margin-top: 30px;
+  vertical-align: middle;
+  width: 30px;
+}
+
+#menu label {
+  font-weight: normal;
 }
 
 /* Report form */
