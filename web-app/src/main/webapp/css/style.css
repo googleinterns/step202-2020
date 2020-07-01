@@ -45,6 +45,18 @@
   margin-top: 20px;
   width: 70px;
 }
+
+#auth-container {
+  color: #e0e0e0;
+  font-size: 1.75em;
+  padding-right: 20px;
+  padding-top: 40px;
+}
+
+#auth-container a {
+  color: #e0e0e0;
+  text-decoration: none;
+}
 /* Report form */
 #form-container {
   background-color: rgba(0, 0, 23, 0.7);
