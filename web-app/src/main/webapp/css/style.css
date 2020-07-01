@@ -102,6 +102,19 @@ input[type="checkbox"] {
   margin-bottom: 30px;
 }
 
+.menu-button {
+  background-color: #c4c4c4;
+  color: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  font-size: 2.2em;
+  height: 1.7em;
+  text-align: center;
+  margin-bottom: 30px;
+  margin-left: 100px;
+  margin-top: 15px;
+  width: 240px;
+}
+
 /* Report form */
 #form-container {
   background-color: rgba(0, 0, 23, 0.7);
