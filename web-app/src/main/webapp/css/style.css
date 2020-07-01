@@ -1,4 +1,8 @@
 /* Home screen */
+.home {
+  display: none;
+}
+
 #map {
   /* TODO(AshleyLTW) placeholder until we add a map */
   background-color: #add8e6;
@@ -26,10 +30,21 @@
 }
 
 /* Report form */
-#report-form {
-  position: absolute;
-  top: 200px;
-  z-index: 3;
+#form-container {
+  background-color: rgba(0, 0, 23, 0.7);
+  height: 100vh;
+  padding: 3% 5%;
+}
+
+/* Applying skeleton style to datetime-local inputs */
+input[type="datetime-local"] {
+  height: 38px;
+  padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
+  background-color: #fff;
+  border: 1px solid #d1d1d1;
+  border-radius: 4px;
+  box-shadow: none;
+  box-sizing: border-box;
 }
 
 /* Bottom dock */

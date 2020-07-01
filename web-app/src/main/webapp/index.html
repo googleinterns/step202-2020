@@ -12,7 +12,7 @@
   </head>
   <body>
     <!-- Search bar -->
-    <div class="container">
+    <div class="container home">
       <form id="address-form">
         <div class="row">
           <div class="two-thirds columns">
@@ -23,64 +23,11 @@
       </form>
     </div>
     <!-- Map -->
-    <div id="map">
+    <div id="map" class="home">
       A map will appear here
     </div>
-    <!-- Report submission form -->
-    <div class="container">
-      <form id="report-form">
-        <div class="row">
-          <div class="two-thirds columns">
-            <input class="u-full-width" type="text" placeholder="Title"
-              id="title-input">
-          </div>
-        </div>
-        <div class="row">
-          <div class="seven columns">
-            <input class="u-full-width" type="text" placeholder="Location"
-              id="location-input">
-          </div>
-          <div class="one column">
-            <img src="images/map.svg" alt="button to pick location using map">
-          </div>
-        </div>
-        <div class="row">
-          <div class="two-thirds columns">
-            <input class="u-full-width" type="datetime-local" placeholder="Time"
-              id="time-input">
-          </div>
-        </div>
-        <div class="row">
-          <div class="two-thirds columns">
-            <select class="u-full-width" type="text" placeholder="Category"
-              id="category-input">
-              <option value="foo">foo</option>
-              <option value="bar">bar</option>
-            </select>
-          </div>
-        </div>
-        <div class="row">
-          <div class="two-thirds columns">
-            <input class="u-full-width" type="text" placeholder="Description"
-              id="description-input">
-          </div>
-        </div>
-        <div class="row">
-          <div class="two-thirds columns">
-            <button class="u-full-width" type="button"
-              id="attach-image-button">Attach an image (optional)</button>
-          </div>
-        </div>
-        <div class="row">
-          <div class="two-thirds columns">
-            <button class="u-full-width" type="submit"
-              id="submit-button">Submit</button>
-          </div>
-        </div>
-      </form>
-    </div>
     <!-- Bottom dock -->
-    <div id="dock">
+    <div id="dock" class="home">
       <div id="dock-buttons">
         <img id="menu-button" class="small-button" src="images/options-menu.svg"
           alt="button to open the options menu">
@@ -91,6 +38,55 @@
           markers">
       </div>
       <div id="dock-background"></div>
+    </div>
+    <!-- Submit report -->
+    <div id="form-container" class="report">
+      <div class="row">
+        <div class="one column">
+          <img src="images/back-arrow.svg" alt="back to home screen">
+        </div>
+        <div class="eleven columns">
+          <h1>Submit a report</h1>
+        </div>
+      </div>
+      <form>
+        <div class="row">
+          <label for="title-input">Title</label>
+          <input class="u-full-width" type="text" placeholder="Title"
+            id="title-input">
+        </div>
+        <div class="row">
+          <div class="eleven columns">
+            <label for="location-input">Location</label>
+            <input class="u-full-width" type="text" placeholder="Location"
+              id="location-input">
+          </div>
+          <div class="one columns">
+            <img src="images/map.svg" alt="button to pick location using map">
+          </div>
+        </div>
+        <div class="row">
+          <label for="time-input">Date and time</label>
+          <input class="u-full-width" type="datetime-local" placeholder="Time"
+            id="time-input">
+        </div>
+        <div class="row">
+          <label for="category-input">Category of incident</label>
+          <select class="u-full-width" type="text" id="category-input">
+            <option selected disabled>Category</option>
+            <option value="foo">foo</option>
+            <option value="bar">bar</option>
+          </select>
+        </div>
+        <label for="description-input">Description</label>
+        <textarea placeholder="Tell us more about what happened"
+          class="u-full-width"
+          id="description-input"></textarea>
+        <button type="button" id="attach-image-button">Attach an image
+          (optional)</button>
+        <input id="submit-button" class="button-primary" type="submit"
+          value="Submit">
+      </form>
     </div>
   </body>
 </html>
