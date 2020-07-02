@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+let map;
 function initMap() {
-  const map = new google.maps.Map(document.getElementById("map"), {
+  map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: -34.397, lng: 150.644 },
     zoom: 5,
   });
@@ -24,11 +25,11 @@ function initMap() {
 function displayUserLocation(map, infoWindow) {
   if (!navigator.geolocation) {
     showMessageOnInfoWindow(
-      "Error: Your browser doesn't support geolocation.", 
+      "Error: Your browser doesn't support geolocation.",
       map.getCenter(), map, infoWindow);
     return;
   }
-  
+
   navigator.geolocation.getCurrentPosition(
     (position) => {
       const userPosition = {
@@ -41,14 +42,14 @@ function displayUserLocation(map, infoWindow) {
         map: map,
       });
       map.setCenter(userPosition);
-    }, 
+    },
     () => {
       showMessageOnInfoWindow(
-        "Error: The Geolocation service failed.", 
+        "Error: The Geolocation service failed.",
         map.getCenter(), map, infoWindow);
     }
   );
-} 
+}
 
 function showMessageOnInfoWindow(message, position, map, infoWindow) {
   infoWindow.setPosition(position);
@@ -59,7 +60,7 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
 window.onload = () => {
   document.getElementById("form-container").style.display = "none";
   document.getElementById('report-button').addEventListener('click', showReportForm);
-  loadJson()
+  loadPoliceReports();
 };
 
 function showReportForm() {
@@ -71,4 +72,21 @@ async function jsonToArray(filepath) {
   const dataJson = await data.text();
   const array = JSON.parse(dataJson);
   console.log(array[0]);
+}
+
+async function loadPoliceReports() {
+  const FILE_NAMES = ['2020_04_london']
+  for (let i = 0; i < FILE_NAMES.length; i++) {
+    const data = await fetch('../data/' + FILE_NAMES[i] + '.json');
+    const report = await data.json();
+    report.forEach((report) => {
+      new google.maps.Marker(
+        {
+          position: {
+            lat: parseFloat(report.Latitude),
+            lng: parseFloat(report.Longitude)
+          }, map: map
+        });
+    });
+  }
 }
