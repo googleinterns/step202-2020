@@ -19,11 +19,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import com.google.appengine.api.blobstore.BlobInfo;
+import com.google.appengine.api.blobstore.BlobInfoFactory;
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -40,6 +46,7 @@ public class ReportServlet extends HttpServlet {
       put("timestamp", "0");
       put("incidentType", "etc");
       put("description", "");
+      put("image", "");
     }
   };
 
@@ -53,7 +60,6 @@ public class ReportServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    System.out.println("reached java");
     Entity reportEntity = new Entity("Report");
 
     for (String paramName : PARAM_DEFAULT_MAP.keySet()) {
@@ -72,6 +78,8 @@ public class ReportServlet extends HttpServlet {
             response.getWriter().println(exception);
           }
           break;
+        case "image":
+          reportEntity.setProperty(paramName, getUploadedFileUrl(request, "image"));
         default:
           reportEntity.setProperty(paramName, value);
       }

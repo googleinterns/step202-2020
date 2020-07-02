@@ -74,18 +74,21 @@ function reportFormToURLQuery() {
     ['description-input', 'description'],
   ]);
 
-  const searchParams = new URLSearchParams();
+  const formData = new FormData();
   for (const [formID, paramName] of PARAMS_FORM_MAP.entries()) {
     const value = document.getElementById(formID).value;
-    searchParams.append(paramName, value);
+    formData.append(paramName, value);
   }
 
-  return searchParams;
+  formData.append('image', document.getElementById('attach-image').files[0])
+
+  return formData;
 }
 
-function postUserReport() {
+async function postUserReport() {
   const urlQuery = reportFormToURLQuery();
-  fetch(fetchBlobstoreUrl(), { method: 'POST', body: urlQuery });
+  const url = await fetchBlobstoreUrl();
+  fetch(url, { method: 'POST', body: urlQuery });
 }
 
 async function fetchBlobstoreUrl() {
