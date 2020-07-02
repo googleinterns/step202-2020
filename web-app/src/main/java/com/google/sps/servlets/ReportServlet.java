@@ -32,14 +32,16 @@ import com.google.sps.data.Report;
 @WebServlet("/report")
 public class ReportServlet extends HttpServlet {
 
-  private Map<String, String> PARAM_DEFAULT_MAP = new HashMap<String, String>(){{
+  private Map<String, String> PARAM_DEFAULT_MAP = new HashMap<String, String>() {
+    {
       put("title", "");
       put("latitude", "0.0");
       put("longitude", "0.0");
       put("timestamp", "0");
       put("incidentType", "etc");
-      put("description", ""); 
-  }};
+      put("description", "");
+    }
+  };
 
   private DateFormat timeStampFormatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
 
@@ -50,14 +52,14 @@ public class ReportServlet extends HttpServlet {
   }
 
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {    
-  
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    System.out.println("reached java");
     Entity reportEntity = new Entity("Report");
 
     for (String paramName : PARAM_DEFAULT_MAP.keySet()) {
       String defaultValue = PARAM_DEFAULT_MAP.get(paramName);
       String value = getParameter(request, paramName, defaultValue);
-      switch (paramName){
+      switch (paramName) {
         case "latitude":
         case "longitude":
           reportEntity.setProperty(paramName, Double.parseDouble(value));
@@ -80,8 +82,8 @@ public class ReportServlet extends HttpServlet {
   }
 
   /**
-   * @return the request parameter, or the default value if the parameter
-   *         was not specified by the client
+   * @return the request parameter, or the default value if the parameter was not
+   *         specified by the client
    */
   private String getParameter(HttpServletRequest request, String name, String defaultValue) {
     String value = request.getParameter(name);
