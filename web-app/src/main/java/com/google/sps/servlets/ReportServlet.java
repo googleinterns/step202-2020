@@ -79,7 +79,9 @@ public class ReportServlet extends HttpServlet {
           }
           break;
         case "image":
+          System.out.print("image case reached");
           reportEntity.setProperty(paramName, getUploadedFileUrl(request, "image"));
+          // break;
         default:
           reportEntity.setProperty(paramName, value);
       }
@@ -113,37 +115,45 @@ public class ReportServlet extends HttpServlet {
     // User submitted form without selecting a file, so we can't get a URL. (dev
     // server)
     if (blobKeys == null || blobKeys.isEmpty()) {
+      System.out.println("Empty blobkey\n\n");
       return null;
+    } else {
+      System.out.println("Present blobkey\n\n");
+      System.out.println(blobKeys.get(0).getKeyString());
+      String url = "/serve?blob-key=" + blobKeys.get(0).getKeyString();
+      return url;
     }
 
     // Our form only contains a single file input, so get the first index.
-    BlobKey blobKey = blobKeys.get(0);
+    // BlobKey blobKey = blobKeys.get(0);
 
-    // User submitted form without selecting a file, so we can't get a URL. (live
-    // server)
-    BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(blobKey);
-    if (blobInfo.getSize() == 0) {
-      blobstoreService.delete(blobKey);
-      return null;
-    }
+    // // User submitted form without selecting a file, so we can't get a URL. (live
+    // // server)
+    // BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(blobKey);
+    // if (blobInfo.getSize() == 0) {
+    // blobstoreService.delete(blobKey);
+    // return null;
+    // }
 
-    // We could check the validity of the file here, e.g. to make sure it's an image
-    // file
-    // https://stackoverflow.com/q/10779564/873165
+    // // We could check the validity of the file here, e.g. to make sure it's an
+    // image
+    // // file
+    // // https://stackoverflow.com/q/10779564/873165
 
-    // Use ImagesService to get a URL that points to the uploaded file.
-    ImagesService imagesService = ImagesServiceFactory.getImagesService();
-    ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
+    // // Use ImagesService to get a URL that points to the uploaded file.
+    // ImagesService imagesService = ImagesServiceFactory.getImagesService();
+    // ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
 
-    // To support running in Google Cloud Shell with AppEngine's devserver, we must
-    // use the relative
-    // path to the image, rather than the path returned by imagesService which
-    // contains a host.
-    try {
-      URL url = new URL(imagesService.getServingUrl(options));
-      return url.getPath();
-    } catch (MalformedURLException e) {
-      return imagesService.getServingUrl(options);
-    }
+    // // To support running in Google Cloud Shell with AppEngine's devserver, we
+    // must
+    // // use the relative
+    // // path to the image, rather than the path returned by imagesService which
+    // // contains a host.
+    // try {
+    // URL url = new URL(imagesService.getServingUrl(options));
+    // return url.getPath();
+    // } catch (MalformedURLException e) {
+    // return imagesService.getServingUrl(options);
+    // }
   }
 }
