@@ -79,7 +79,6 @@ public class ReportServlet extends HttpServlet {
           }
           break;
         case "image":
-          System.out.print("image case reached");
           reportEntity.setProperty(paramName, getUploadedFileUrl(request, "image"));
           break;
         default:
