@@ -5,7 +5,7 @@ import javax.servlet.http.*;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
-public class ReportServletTest extends Mockito{
+public class TestReportServlet extends Mockito{
 
   @Test
   public void testReportServlet() throws Exception {
