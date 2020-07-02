@@ -83,17 +83,21 @@ function reportFormToURLQuery() {
     formData.append(paramName, value);
   }
 
-  formData.append('location', convertAddressToCoordinates());
+  formData.append('location', geocodeAddress());
   formData.append('image', document.getElementById('attach-image').files[0]);
 
   return formData;
 }
 
 // This currently gets the address from the report form's location field (no autopopulate, no map picker)
-function convertAddressToCoordinates() {
-  var address = document.getElementById('location-input'.value);
+function geocodeAddress() {
+  console.log('convert address');
+  const address = document.getElementById('location-input'.value);
+  console.log(address);
   geocoder.geocode({ 'address': address }, function (results, status) {
+    console.log(status);
     if (status == 'OK') {
+      console.log(results[0].geometry.location);
       return results[0].geometry.location;
     } else {
       alert('Geocode was not successful: ' + status);
