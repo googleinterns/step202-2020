@@ -67,26 +67,18 @@ function showReportForm() {
   document.getElementById("form-container").style.display = "block";
 }
 
-async function jsonToArray(filepath) {
-  const data = await fetch(filepath);
-  const dataJson = await data.text();
-  const array = JSON.parse(dataJson);
-  console.log(array[0]);
-}
-
 async function loadPoliceReports() {
   const FILE_NAMES = ['2020_04_london']
   for (let i = 0; i < FILE_NAMES.length; i++) {
     const data = await fetch('../data/' + FILE_NAMES[i] + '.json');
     const report = await data.json();
     report.forEach((report) => {
-      new google.maps.Marker(
-        {
-          position: {
-            lat: parseFloat(report.Latitude),
-            lng: parseFloat(report.Longitude)
-          }, map: map
-        });
+      new google.maps.Marker({
+        position: {
+          lat: parseFloat(report.Latitude),
+          lng: parseFloat(report.Longitude)
+        }, map: map
+      });
     });
   }
 }
