@@ -30,7 +30,7 @@
   </div>
   <!-- Report submission form -->
   <div class="container">
-    <form id="report-form" enctype="multipart/form-data">
+    <form id="report-form">
       <div class="row">
         <div class="two-thirds columns">
           <input class="u-full-width" type="text" placeholder="Title" id="title-input" />
@@ -65,14 +65,12 @@
       <div class="row">
         <div class="two-thirds columns">
           <label for="attach-image-button">Attach an image (optional)</label>
-          <input type="file" id="attach-image" name="image" />
+          <input type="file" id="attach-image-button" name="image" />
         </div>
       </div>
       <div class="row">
         <div class="two-thirds columns">
-          <button class="u-full-width" id="submit-button" type="button">
-            Submit
-          </button>
+          <button class="u-full-width" id="submit-button">Submit</button>
         </div>
       </div>
     </form>
@@ -80,7 +78,7 @@
   <!-- Bottom dock -->
   <div class="container u-full-width" id="dock"></div>
   <img id="report-button" src="images/report.svg" alt="button to report a new
-        incident" />
+      incident" />
 </body>
 
 </html>
