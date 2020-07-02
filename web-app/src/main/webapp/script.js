@@ -12,7 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+let geocoder;
+
 function initMap() {
+  geocoder = new google.maps.Geocoder();
   const map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: -34.397, lng: 150.644 },
     zoom: 5,
@@ -80,9 +83,22 @@ function reportFormToURLQuery() {
     formData.append(paramName, value);
   }
 
-  formData.append('image', document.getElementById('attach-image').files[0])
+  formData.append('location', convertAddressToCoordinates());
+  formData.append('image', document.getElementById('attach-image').files[0]);
 
   return formData;
+}
+
+// This currently gets the address from the report form's location field (no autopopulate, no map picker)
+function convertAddressToCoordinates() {
+  var address = document.getElementById('location-input'.value);
+  geocoder.geocode({ 'address': address }, function (results, status) {
+    if (status == 'OK') {
+      return results[0].geometry.location;
+    } else {
+      alert('Geocode was not successful: ' + status);
+    }
+  })
 }
 
 async function postUserReport() {
