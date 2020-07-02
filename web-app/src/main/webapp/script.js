@@ -68,7 +68,7 @@ function showReportForm() {
 }
 
 async function loadPoliceReports() {
-  const FILE_NAMES = ['2020_04_london']
+  const FILE_NAMES = ['2019_12_london', '2020_01_london', '2020_02_london', '2020_03_london', '2020_04_london', '2020_05_london']
   for (let i = 0; i < FILE_NAMES.length; i++) {
     const data = await fetch('../data/' + FILE_NAMES[i] + '.json');
     const report = await data.json();

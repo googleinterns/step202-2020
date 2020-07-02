@@ -1,8 +1,8 @@
 import csv
 import json
 
-csvFilePath = '2020_04_london.csv'
-jsonFilePath = '2020_04_london.json'
+csvFilePath = '2020_05_london.csv'
+jsonFilePath = '2020_05_london.json'
 
 data = []
 with open(csvFilePath) as csvFile:
