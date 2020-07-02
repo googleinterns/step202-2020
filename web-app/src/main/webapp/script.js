@@ -24,11 +24,11 @@ function initMap() {
 function displayUserLocation(map, infoWindow) {
   if (!navigator.geolocation) {
     showMessageOnInfoWindow(
-      "Error: Your browser doesn't support geolocation.", 
+      "Error: Your browser doesn't support geolocation.",
       map.getCenter(), map, infoWindow);
     return;
   }
-  
+
   navigator.geolocation.getCurrentPosition(
     (position) => {
       const userPosition = {
@@ -41,14 +41,14 @@ function displayUserLocation(map, infoWindow) {
         map: map,
       });
       map.setCenter(userPosition);
-    }, 
+    },
     () => {
       showMessageOnInfoWindow(
-        "Error: The Geolocation service failed.", 
+        "Error: The Geolocation service failed.",
         map.getCenter(), map, infoWindow);
     }
   );
-} 
+}
 
 function showMessageOnInfoWindow(message, position, map, infoWindow) {
   infoWindow.setPosition(position);
@@ -57,7 +57,7 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
 }
 
 window.onload = () => {
-  document.getElementById("report-form").style.display = "none";
+  // document.getElementById("report-form").style.display = "none";
   document.getElementById('report-button').addEventListener('click', showReportForm);
   document.getElementById('submit-button').addEventListener('click', postUserReport);
 };
@@ -85,5 +85,11 @@ function reportFormToURLQuery() {
 
 function postUserReport() {
   const urlQuery = reportFormToURLQuery();
-  fetch('/report', {method: 'POST', body: urlQuery}); 
+  fetch(fetchBlobstoreUrl(), { method: 'POST', body: urlQuery });
+}
+
+async function fetchBlobstoreUrl() {
+  const response = await fetch('/blobstore-upload-url');
+  const imageURL = await response.text();
+  return imageURL;
 }
