@@ -13,15 +13,16 @@
 // limitations under the License.
 
 let map;
+
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: -34.397, lng: 150.644 },
     zoom: 5,
   });
-  const infoWindow = new google.maps.InfoWindow();
+  const infoWindow = new google.maps.InfoWindow(); 
   displayUserLocation(map, infoWindow);
 }
-
+  
 function displayUserLocation(map, infoWindow) {
   if (!navigator.geolocation) {
     showMessageOnInfoWindow(
@@ -42,14 +43,14 @@ function displayUserLocation(map, infoWindow) {
         map: map,
       });
       map.setCenter(userPosition);
-    },
+    }, 
     () => {
       showMessageOnInfoWindow(
-        "Error: The Geolocation service failed.",
+        "Error: The Geolocation service failed.", 
         map.getCenter(), map, infoWindow);
     }
   );
-}
+} 
 
 function showMessageOnInfoWindow(message, position, map, infoWindow) {
   infoWindow.setPosition(position);
