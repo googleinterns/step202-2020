@@ -46,7 +46,6 @@ public class ReportServlet extends HttpServlet {
       put("timestamp", "0");
       put("incidentType", "etc");
       put("description", "");
-      put("image", "");
     }
   };
 
@@ -78,13 +77,12 @@ public class ReportServlet extends HttpServlet {
             response.getWriter().println(exception);
           }
           break;
-        case "image":
-          reportEntity.setProperty(paramName, getUploadedFileUrl(request, "image"));
-          break;
         default:
           reportEntity.setProperty(paramName, value);
       }
     }
+
+    reportEntity.setProperty("imageUrl", getUploadedFileUrl(request, "image"));
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(reportEntity);
