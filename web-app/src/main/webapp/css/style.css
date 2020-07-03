@@ -1,9 +1,8 @@
-/* Home screen */
-.report,
-.menu {
+.report {
   display: none;
 }
 
+/* Home screen */
 #map {
   /* TODO(AshleyLTW) placeholder until we add a map */
   background-color: #add8e6;
@@ -27,6 +26,98 @@
   border-radius: 6px;
   font-size: 2em;
   height: 3em;
+}
+
+/* Options menu */
+#menu {
+  background-color: rgba(0, 0, 23, 0.8);
+  border: 1px solid rgba(0, 0, 23, 0.8);
+  box-shadow: 10px 0 10px rgba(0, 0, 0, 0.4);
+  color: #e0e0e0;
+  height: 100vh;
+  position: absolute;
+  width: 600px;
+}
+
+#close-menu {
+  background-image: url(/images/back-arrow.svg);
+  background-repeat: no-repeat;
+  background-size: 70px 70px;
+  height: 70px;
+  margin-left: 20px;
+  margin-top: 20px;
+  width: 70px;
+}
+
+#auth-container {
+  font-size: 1.75em;
+  padding-right: 20px;
+  padding-top: 40px;
+}
+
+#auth-container a {
+  color: #e0e0e0;
+  text-decoration: none;
+}
+
+#menu-title {
+  font-size: 2.7em;
+  padding: 0 60px;
+  text-align: left;
+}
+
+.menu-subheading {
+  font-size: 2.3em;
+  padding-left: 40px;
+}
+
+.menu-subheading h2 {
+  margin-bottom: 10px;
+}
+
+.right {
+  text-align: right;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  height: 30px;
+  margin-top: 11px;
+  vertical-align: middle;
+  width: 30px;
+}
+
+#menu label {
+  font-weight: normal;
+  margin: -5px 0;
+}
+
+#custom-interval {
+  background-color: rgba(0, 0, 23, 0.3);
+  color: #e0e0e0;
+  font-size: 30px;
+  width: 130px;
+}
+
+.desc {
+  font-size: 30px;
+}
+
+.last-row {
+  margin-bottom: 30px;
+}
+
+.menu-button {
+  background-color: #c4c4c4;
+  color: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  font-size: 2.2em;
+  height: 1.7em;
+  text-align: center;
+  margin-bottom: 40px;
+  margin-left: 100px;
+  margin-top: 15px;
+  width: 240px;
 }
 
 /* Report form */
@@ -152,4 +243,9 @@ label {
   position: absolute;
   white-space: nowrap;
   width: 1px;
+}
+
+/* Global styles */
+body {
+  font-family: 'Roboto', sans-serif;
 }
