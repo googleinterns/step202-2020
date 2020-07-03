@@ -28,15 +28,15 @@ function initMap() {
 
 async function fetchMarkers() {
   const response = await fetch('/report');
-  const markers = response.json();
+  const markers = await response.json();
   markers.forEach((marker) => {
     createMarkerForDisplay(marker);
   });
 }
 
-function createMarkerForDisplay(marker) {
+function createMarkerForDisplay(data) {
   const marker =
-    new google.maps.Marker({ position: { lat: marker.latitude, lng: marker.longitude }, map: map });
+    new google.maps.Marker({ position: { lat: data.latitude, lng: data.longitude }, map: map });
 
   const infoWindow = new google.maps.InfoWindow({ content: marker.description });
   marker.addListener('click', () => {
