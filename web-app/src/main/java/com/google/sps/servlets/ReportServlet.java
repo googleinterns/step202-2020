@@ -67,6 +67,7 @@ public class ReportServlet extends HttpServlet {
       switch (paramName) {
         case "latitude":
         case "longitude":
+          System.out.println(request.getParameter(paramName));
           reportEntity.setProperty(paramName, Double.parseDouble(value));
           break;
         case "timestamp":
