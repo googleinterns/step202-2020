@@ -62,14 +62,28 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
 window.onload = () => {
   // document.getElementById("report-form").style.display = "none";
   document.getElementById('report-button').addEventListener('click', showReportForm);
-  document.getElementById('submit-button').addEventListener('click', postUserReport);
+  document.getElementById('submit-button').addEventListener('click', geocodeAddress);
 };
 
 function showReportForm() {
   document.getElementById("report-form").style.display = "block";
 }
 
-function reportFormToURLQuery() {
+// This currently gets the address from the report form's location field (no autopopulate, no map picker)
+function geocodeAddress() {
+  const address = document.getElementById('location-input').value;
+  geocoder.geocode({ 'address': address }, function (results, status) {
+    if (status == 'OK') {
+      const coordinates = results[0].geometry.location;
+      const data = reportFormToURLQuery(coordinates.lat(), coordinates.lng());
+      postUserReport(data);
+    } else {
+      alert('Geocode was not successful: ' + status);
+    }
+  })
+}
+
+function reportFormToURLQuery(latitude, longitude) {
   const PARAMS_FORM_MAP = new Map([
     ['title-input', 'title'],
     ['time-input', 'timestamp'],
@@ -83,31 +97,20 @@ function reportFormToURLQuery() {
     formData.append(paramName, value);
   }
 
-  formData.append('location', geocodeAddress());
+  console.log(latitude);
+  console.log(longitude);
+  formData.append('latitude', latitude);
+  formData.append('longitude', longitude);
   formData.append('image', document.getElementById('attach-image').files[0]);
 
   return formData;
 }
 
-// This currently gets the address from the report form's location field (no autopopulate, no map picker)
-function geocodeAddress() {
-  const address = document.getElementById('location-input').value;
-  geocoder.geocode({ 'address': address }, function (results, status) {
-    console.log(status);
-    if (status == 'OK') {
-      console.log(results[0].geometry.location);
-      return results[0].geometry.location;
-    } else {
-      alert('Geocode was not successful: ' + status);
-    }
-  })
+async function postUserReport(data) {
+  const url = await fetchBlobstoreUrl();
+  fetch(url, { method: 'POST', body: data });
 }
 
-async function postUserReport() {
-  const urlQuery = reportFormToURLQuery();
-  const url = await fetchBlobstoreUrl();
-  fetch(url, { method: 'POST', body: urlQuery });
-}
 
 async function fetchBlobstoreUrl() {
   const response = await fetch('/blobstore-upload-url');
