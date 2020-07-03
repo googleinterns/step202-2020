@@ -91,9 +91,7 @@ function reportFormToURLQuery() {
 
 // This currently gets the address from the report form's location field (no autopopulate, no map picker)
 function geocodeAddress() {
-  console.log('convert address');
-  const address = document.getElementById('location-input'.value);
-  console.log(address);
+  const address = document.getElementById('location-input').value;
   geocoder.geocode({ 'address': address }, function (results, status) {
     console.log(status);
     if (status == 'OK') {
