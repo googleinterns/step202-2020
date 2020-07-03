@@ -13,15 +13,35 @@
 // limitations under the License.
 
 let geocoder;
+let map;
 
 function initMap() {
   geocoder = new google.maps.Geocoder();
-  const map = new google.maps.Map(document.getElementById("map"), {
+  map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: -34.397, lng: 150.644 },
     zoom: 5,
   });
   const infoWindow = new google.maps.InfoWindow();
   displayUserLocation(map, infoWindow);
+  fetchMarkers();
+}
+
+async function fetchMarkers() {
+  const response = await fetch('/report');
+  const markers = response.json();
+  markers.forEach((marker) => {
+    createMarkerForDisplay(marker);
+  });
+}
+
+function createMarkerForDisplay(marker) {
+  const marker =
+    new google.maps.Marker({ position: { lat: marker.latitude, lng: marker.longitude }, map: map });
+
+  const infoWindow = new google.maps.InfoWindow({ content: marker.description });
+  marker.addListener('click', () => {
+    infoWindow.open(map, marker);
+  });
 }
 
 function displayUserLocation(map, infoWindow) {

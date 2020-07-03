@@ -14,26 +14,29 @@
 
 package com.google.sps.servlets;
 
-import java.io.IOException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import com.google.appengine.api.blobstore.BlobInfo;
-import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.gson.Gson;
 import com.google.sps.data.Report;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/report")
 public class ReportServlet extends HttpServlet {
@@ -53,8 +56,13 @@ public class ReportServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html;");
-    response.getWriter().println("<h1>Hello world!</h1>");
+    response.setContentType("application/json");
+
+    Collection<Report> markers = getMarkers();
+    Gson gson = new Gson();
+    String json = gson.toJson(markers);
+
+    response.getWriter().println(json);
   }
 
   @Override
@@ -86,6 +94,28 @@ public class ReportServlet extends HttpServlet {
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(reportEntity);
+  }
+
+  private Collection<Report> getMarkers() {
+    Collection<Report> markers = new ArrayList<>();
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query query = new Query("Marker");
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+      String title = (String) entity.getProperty("title");
+      double latitude = (double) entity.getProperty("latitude");
+      double longitude = (double) entity.getProperty("longitude");
+      long timestamp = (long) entity.getProperty("timestamp");
+      String incidentType = (String) entity.getProperty("incidentType");
+      String description = (String) entity.getProperty("description");
+      String imageURL = (String) entity.getProperty("imageURL");
+
+      Report marker = new Report(title, latitude, longitude, timestamp, incidentType, description, imageURL);
+      markers.add(marker);
+    }
+    return markers;
   }
 
   /**
