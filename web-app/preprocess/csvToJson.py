@@ -1,4 +1,7 @@
 # Script to convert csv file to json downloaded from data.police.uk
+# Needs to be run once a month because new data set is released every month
+# To Run: > python csvToJson.py <filename>
+# From filename.csv file, store only relevant properties to filename.json
 
 import csv
 import json
