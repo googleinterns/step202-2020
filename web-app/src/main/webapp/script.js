@@ -76,8 +76,8 @@ async function loadPoliceReports() {
     for (report of reports) {
       new google.maps.Marker({
         position: {
-          lat: Number(report.Latitude),
-          lng: Number(report.Longitude)
+          lat: Number(report.latitude),
+          lng: Number(report.longitude)
         }, map: map
       });
     };
