@@ -1,19 +1,22 @@
+# Script to convert csv file to json downloaded from data.police.uk
+
 import csv
 import json
 
-csvFilePath = '2020_05_london.csv'
-jsonFilePath = '2020_05_london.json'
+CSV_FILE_PATH = '2020_05_london.csv'
+JSON_FILE_PATH = '2020_05_london.json'
 
 data = []
-with open(csvFilePath) as csvFile:
+with open(CSV_FILE_PATH) as csvFile:
     csvReader = csv.DictReader(csvFile)
     for rows in csvReader:
-        entry = {}
-        entry['Month'] = rows['Month']
-        entry['Longitude'] = rows['Longitude']
-        entry['Latitude'] = rows['Latitude']
-        entry['Crime type'] = rows['Crime type']
+        entry = {
+          'month': rows['Month'],
+          'longitude': rows['Longitude'],
+          'latitude': rows['Latitude'],
+          'crimeType': rows['Crime type']
+        }
         data.append(entry)
 
-with open(jsonFilePath, 'w') as jsonFile:
+with open(JSON_FILE_PATH, 'w') as jsonFile:
     jsonFile.write(json.dumps(data, indent=2))
