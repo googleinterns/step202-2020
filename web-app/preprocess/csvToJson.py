@@ -2,26 +2,31 @@
 
 import csv
 import json
+import sys
 
-def csvToJson(): 
-  CSV_FILE_PATH = '2020_05_london.csv'
-  JSON_FILE_PATH = '2020_05_london.json'
 
-  data = []
-  with open(CSV_FILE_PATH) as csvFile:
-      csvReader = csv.DictReader(csvFile)
-      for rows in csvReader:
-          entry = {
-            'month': rows['Month'],
-            'longitude': rows['Longitude'],
-            'latitude': rows['Latitude'],
-            'crimeType': rows['Crime type']
-          }
-          data.append(entry)
+def csvToJson(filename):
+    CSV_FILE_PATH = filename + '.csv'
+    JSON_FILE_PATH = filename + '.json'
 
-  with open(JSON_FILE_PATH, 'w') as jsonFile:
-      jsonFile.write(json.dumps(data, indent=2))
-  
+    data = []
+    with open(CSV_FILE_PATH) as csvFile:
+        csvReader = csv.DictReader(csvFile)
+        for rows in csvReader:
+            entry = {
+                'month': rows['Month'],
+                'longitude': rows['Longitude'],
+                'latitude': rows['Latitude'],
+                'crimeType': rows['Crime type']
+            }
+            data.append(entry)
+
+    with open(JSON_FILE_PATH, 'w') as jsonFile:
+        jsonFile.write(json.dumps(data, indent=2))
+
+
 if __name__ == "__main__":
-  csvToJson()
-
+    if (len(sys.argv) != 2):
+        print("Incorrect number of arguments.")
+        quit()
+    csvToJson(sys.argv[1])
