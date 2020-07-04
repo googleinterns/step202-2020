@@ -19,10 +19,10 @@ function initMap() {
     center: { lat: -34.397, lng: 150.644 },
     zoom: 5,
   });
-  const infoWindow = new google.maps.InfoWindow(); 
+  const infoWindow = new google.maps.InfoWindow();
   displayUserLocation(map, infoWindow);
 }
-  
+
 function displayUserLocation(map, infoWindow) {
   if (!navigator.geolocation) {
     showMessageOnInfoWindow(
@@ -43,14 +43,14 @@ function displayUserLocation(map, infoWindow) {
         map: map,
       });
       map.setCenter(userPosition);
-    }, 
+    },
     () => {
       showMessageOnInfoWindow(
-        "Error: The Geolocation service failed.", 
+        "Error: The Geolocation service failed.",
         map.getCenter(), map, infoWindow);
     }
   );
-} 
+}
 
 function showMessageOnInfoWindow(message, position, map, infoWindow) {
   infoWindow.setPosition(position);
@@ -70,16 +70,16 @@ function showReportForm() {
 
 async function loadPoliceReports() {
   const FILE_NAMES = ['2019_12_london', '2020_01_london', '2020_02_london', '2020_03_london', '2020_04_london', '2020_05_london']
-  for (let i = 0; i < FILE_NAMES.length; i++) {
-    const data = await fetch('../data/' + FILE_NAMES[i] + '.json');
-    const report = await data.json();
-    report.forEach((report) => {
+  for (const file_name of FILE_NAMES) {
+    const data = await fetch('../data/' + file_name + '.json');
+    const reports = await data.json();
+    for (report of reports) {
       new google.maps.Marker({
         position: {
-          lat: parseFloat(report.Latitude),
-          lng: parseFloat(report.Longitude)
+          lat: Number(report.Latitude),
+          lng: Number(report.Longitude)
         }, map: map
       });
-    });
+    };
   }
 }
