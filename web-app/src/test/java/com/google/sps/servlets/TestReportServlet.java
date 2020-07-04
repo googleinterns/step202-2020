@@ -1,10 +1,6 @@
 import static org.junit.Assert.assertEquals;
-
+import static org.mockito.Mockito.when;
+import org.junit.Before;
 import org.junit.Test;
-
-public class TestReportServlet {
-  @Test
-  public void testAddition() {
-    assertEquals(3, 2 + 2);
-  }
-}
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
