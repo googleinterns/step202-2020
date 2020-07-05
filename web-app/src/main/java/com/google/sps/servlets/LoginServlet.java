@@ -17,9 +17,9 @@ public class LoginServlet extends HttpServlet {
     response.setContentType("text/plain");
     String url;
     if (!userService.isUserLoggedIn()) {
-      url = userService.createLoginURL("/index.html")
+      url = userService.createLoginURL("/index.html");
     } else {
-      url = userService.createLogoutURL("/index.html")
+      url = userService.createLogoutURL("/index.html");
     }
     response.getWriter().println(url);
   }
