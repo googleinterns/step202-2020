@@ -76,15 +76,6 @@ public class ReportServlet extends HttpServlet {
         case "longitude":
           reportEntity.setProperty(paramName, Double.parseDouble(value));
           break;
-        case "timestamp":
-          try {
-            System.out.println("timestamp here");
-            reportEntity.setProperty(paramName, value);
-            System.out.println(value);
-          } catch (Exception exception) {
-            response.getWriter().println(exception);
-          }
-          break;
         default:
           reportEntity.setProperty(paramName, value);
       }
