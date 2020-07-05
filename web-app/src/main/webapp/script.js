@@ -27,18 +27,14 @@ function initMap() {
 }
 
 async function fetchMarkers() {
-  console.log("fetch markers")
   const response = await fetch('/report');
   const markers = await response.json();
   markers.forEach((marker) => {
-    console.log("marker");
-    console.log(marker);
     createMarkerForDisplay(marker);
   });
 }
 
 function createMarkerForDisplay(data) {
-  console.log("createMarkerForDisplay");
   const marker =
     new google.maps.Marker({ position: { lat: data.latitude, lng: data.longitude }, map: map });
 
@@ -117,13 +113,10 @@ function reportFormToURLQuery(latitude, longitude) {
   const formData = new FormData();
   for (const [formID, paramName] of PARAMS_FORM_MAP.entries()) {
     const value = document.getElementById(formID).value;
-    console.log(paramName);
-    console.log(value);
     formData.append(paramName, value);
   }
 
   const timestamp = new Date(document.getElementById('time-input').value);
-  console.log(timestamp.getTime());
   formData.append('timestamp', timestamp.getTime());
   formData.append('latitude', latitude);
   formData.append('longitude', longitude);
