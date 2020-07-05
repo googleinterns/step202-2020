@@ -57,7 +57,6 @@ public class ReportServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json");
-
     Collection<Report> markers = getMarkers();
     Gson gson = new Gson();
     String json = gson.toJson(markers);
@@ -79,8 +78,10 @@ public class ReportServlet extends HttpServlet {
           break;
         case "timestamp":
           try {
+            System.out.println("timestamp here");
             Date timestamp = timeStampFormatter.parse(value);
             reportEntity.setProperty(paramName, timestamp.getTime());
+            System.out.println(timestamp.getTime());
           } catch (Exception exception) {
             response.getWriter().println(exception);
           }
@@ -100,7 +101,7 @@ public class ReportServlet extends HttpServlet {
     Collection<Report> markers = new ArrayList<>();
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query = new Query("Marker");
+    Query query = new Query("Report");
     PreparedQuery results = datastore.prepare(query);
 
     for (Entity entity : results.asIterable()) {
