@@ -24,11 +24,11 @@ function initMap() {
 function displayUserLocation(map, infoWindow) {
   if (!navigator.geolocation) {
     showMessageOnInfoWindow(
-      "Error: Your browser doesn't support geolocation.", 
+      "Error: Your browser doesn't support geolocation.",
       map.getCenter(), map, infoWindow);
     return;
   }
-  
+
   navigator.geolocation.getCurrentPosition(
     (position) => {
       const userPosition = {
@@ -41,14 +41,14 @@ function displayUserLocation(map, infoWindow) {
         map: map,
       });
       map.setCenter(userPosition);
-    }, 
+    },
     () => {
       showMessageOnInfoWindow(
-        "Error: The Geolocation service failed.", 
+        "Error: The Geolocation service failed.",
         map.getCenter(), map, infoWindow);
     }
   );
-} 
+}
 
 function showMessageOnInfoWindow(message, position, map, infoWindow) {
   infoWindow.setPosition(position);
@@ -59,8 +59,15 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
 window.onload = () => {
   document.getElementById("form-container").style.display = "none";
   document.getElementById('report-button').addEventListener('click', showReportForm);
+  document.getElementById('login').addEventListener('click', getLoginUrl);
 };
 
 function showReportForm() {
   document.getElementById("form-container").style.display = "block";
+}
+
+async function getLoginUrl() {
+  const response = await fetch('/login');
+  const url = await response.text();
+  location.replace(url);
 }
