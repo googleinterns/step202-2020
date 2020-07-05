@@ -123,8 +123,8 @@ function reportFormToURLQuery(latitude, longitude) {
   }
 
   const timestamp = new Date(document.getElementById('time-input').value);
-  // console.log(timestamp.getTime());
-  // formData.append('timestamp', timestamp.getTime());
+  console.log(timestamp.getTime());
+  formData.append('timestamp', timestamp.getTime());
   formData.append('latitude', latitude);
   formData.append('longitude', longitude);
   formData.append('image', document.getElementById('attach-image').files[0]);

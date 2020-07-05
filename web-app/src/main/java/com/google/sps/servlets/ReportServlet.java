@@ -79,9 +79,8 @@ public class ReportServlet extends HttpServlet {
         case "timestamp":
           try {
             System.out.println("timestamp here");
-            Date timestamp = timeStampFormatter.parse(value);
-            reportEntity.setProperty(paramName, timestamp.getTime());
-            System.out.println(timestamp.getTime());
+            reportEntity.setProperty(paramName, value);
+            System.out.println(value);
           } catch (Exception exception) {
             response.getWriter().println(exception);
           }
