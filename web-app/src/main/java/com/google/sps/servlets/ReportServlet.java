@@ -52,8 +52,6 @@ public class ReportServlet extends HttpServlet {
     }
   };
 
-  private DateFormat timeStampFormatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
-
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json");
@@ -98,7 +96,7 @@ public class ReportServlet extends HttpServlet {
       String title = (String) entity.getProperty("title");
       double latitude = (double) entity.getProperty("latitude");
       double longitude = (double) entity.getProperty("longitude");
-      long timestamp = (long) entity.getProperty("timestamp");
+      long timestamp = Long.parseLong((String) entity.getProperty("timestamp"), 10);
       String incidentType = (String) entity.getProperty("incidentType");
       String description = (String) entity.getProperty("description");
       String imageURL = (String) entity.getProperty("imageURL");
