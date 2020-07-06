@@ -57,7 +57,7 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
 }
 
 window.onload = () => {
-  document.getElementById("form-container").style.display = "none";
+  document.getElementById('form-container').style.display = 'none';
   document.getElementById('report-button').addEventListener('click', showReportForm);
   setLoginStatus();
 };
@@ -71,9 +71,9 @@ async function setLoginStatus() {
   const url = await response.text();
   const loginLogout = document.getElementById('login-logout');
   if (url.includes('logout')) {
-    loginLogout.innerText = "Logout";
+    loginLogout.innerText = 'Logout';
   } else {
-    loginLogout.innerText = "Login";
+    loginLogout.innerText = 'Login';
   }
   loginLogout.addEventListener('click', () => { location.replace(url) });
 }
