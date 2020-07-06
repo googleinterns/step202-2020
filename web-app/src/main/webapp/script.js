@@ -12,12 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-let geocoder;
-let map;
-
 function initMap() {
-  geocoder = new google.maps.Geocoder();
-  map = new google.maps.Map(document.getElementById("map"), {
+  const map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: -34.397, lng: 150.644 },
     zoom: 5,
   });
@@ -81,9 +77,9 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
 }
 
 window.onload = () => {
-  // document.getElementById("report-form").style.display = "none";
+  const geocoder = new google.maps.Geocoder();
   document.getElementById('report-button').addEventListener('click', showReportForm);
-  document.getElementById('submit-button').addEventListener('click', geocodeAddress);
+  document.getElementById('submit-button').addEventListener('click', (event) => postUserReport(geocoder));
 };
 
 function showReportForm() {
@@ -91,13 +87,14 @@ function showReportForm() {
 }
 
 // This currently gets the address from the report form's location field (no autopopulate, no map picker)
-function geocodeAddress() {
+async function postUserReport(geocoder) {
   const address = document.getElementById('location-input').value;
-  geocoder.geocode({ 'address': address }, function (results, status) {
+  geocoder.geocode({ 'address': address }, async function (results, status) {
     if (status == 'OK') {
       const coordinates = results[0].geometry.location;
       const data = reportFormToURLQuery(coordinates.lat(), coordinates.lng());
-      postUserReport(data);
+      const url = await fetchBlobstoreUrl();
+      fetch(url, { method: 'POST', body: data });
     } else {
       alert('Geocode was not successful: ' + status);
     }
@@ -123,11 +120,6 @@ function reportFormToURLQuery(latitude, longitude) {
   formData.append('image', document.getElementById('attach-image').files[0]);
 
   return formData;
-}
-
-async function postUserReport(data) {
-  const url = await fetchBlobstoreUrl();
-  fetch(url, { method: 'POST', body: data });
 }
 
 
