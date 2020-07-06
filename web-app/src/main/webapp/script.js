@@ -26,10 +26,18 @@ async function fetchMarkers(map) {
   const response = await fetch('/report');
   const markers = await response.json();
   let openWindow = { window: null };
+
   markers.forEach((marker) => {
     console.log(marker);
     createMarkerForDisplay(map, marker, openWindow);
   });
+
+  map.addListener('click', () => {
+    if (openWindow.window) {
+      openWindow.window.close();
+      openWindow.window = null;
+    }
+  })
 }
 
 function createMarkerForDisplay(map, data, openWindow) {
