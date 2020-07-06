@@ -19,6 +19,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -33,6 +35,9 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.gson.Gson;
 import com.google.sps.data.Report;
 
 @WebServlet("/report")
@@ -53,8 +58,12 @@ public class ReportServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html;");
-    response.getWriter().println("<h1>Hello world!</h1>");
+    response.setContentType("application/json");
+    Collection<Report> markers = getMarkers();
+    Gson gson = new Gson();
+    String json = gson.toJson(markers);
+
+    response.getWriter().println(json);
   }
 
   @Override
@@ -86,6 +95,28 @@ public class ReportServlet extends HttpServlet {
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(reportEntity);
+  }
+
+  private Collection<Report> getMarkers() {
+    Collection<Report> markers = new ArrayList<>();
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query query = new Query("Report");
+    PreparedQuery results = datastore.prepare(query);
+
+    for (Entity entity : results.asIterable()) {
+      String title = (String) entity.getProperty("title");
+      double latitude = (double) entity.getProperty("latitude");
+      double longitude = (double) entity.getProperty("longitude");
+      long timestamp = Long.parseLong((String) entity.getProperty("timestamp"), 10);
+      String incidentType = (String) entity.getProperty("incidentType");
+      String description = (String) entity.getProperty("description");
+      String imageUrl = (String) entity.getProperty("imageUrl");
+
+      Report marker = new Report(title, latitude, longitude, timestamp, incidentType, description, imageUrl);
+      markers.add(marker);
+    }
+    return markers;
   }
 
   /**

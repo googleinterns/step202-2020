@@ -22,6 +22,25 @@ function initMap() {
   });
   const infoWindow = new google.maps.InfoWindow();
   displayUserLocation(map, infoWindow);
+  fetchMarkers();
+}
+
+async function fetchMarkers() {
+  const response = await fetch('/report');
+  const markers = await response.json();
+  markers.forEach((marker) => {
+    createMarkerForDisplay(marker);
+  });
+}
+
+function createMarkerForDisplay(data) {
+  const marker =
+    new google.maps.Marker({ position: { lat: data.latitude, lng: data.longitude }, map: map });
+
+  const infoWindow = new google.maps.InfoWindow({ content: marker.description });
+  marker.addListener('click', () => {
+    infoWindow.open(map, marker);
+  });
 }
 
 function displayUserLocation(map, infoWindow) {
