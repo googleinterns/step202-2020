@@ -59,8 +59,10 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
 window.onload = () => {
   document.getElementById('report-button').addEventListener('click', showReportForm);
   document.getElementById('back-icon').addEventListener('click', hideReportForm);
-  document.getElementById('menu-button').addEventListener('click', showMenu);
-  document.getElementById('close-menu').addEventListener('click', hideMenu);
+  document.getElementById('menu-button').addEventListener('click',
+    () => { document.getElementById('menu').style.display = 'block' });
+  document.getElementById('close-menu').addEventListener('click',
+    () => document.getElementById('menu').style.display = 'none');
 };
 
 function showReportForm() {
@@ -77,13 +79,4 @@ function hideReportForm() {
   for (let i = 0; i < homeElements.length; i++) {
     homeElements[i].style.display = 'block';
   }
-}
-
-function showMenu() {
-  document.getElementById('menu').style.display = 'block';
-}
-
-function hideMenu() {
-  console.log('hiding')
-  document.getElementById('menu').style.display = 'none';
 }
