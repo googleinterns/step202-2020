@@ -25,11 +25,8 @@ import com.google.appengine.api.datastore.Query;
 import com.google.gson.Gson;
 import com.google.sps.data.Report;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -113,10 +110,7 @@ public class ReportServlet extends HttpServlet {
    */
   private String getParameter(HttpServletRequest request, String name, String defaultValue) {
     String value = request.getParameter(name);
-    System.out.println(name);
-    System.out.println(value);
     if (value.isEmpty()) {
-      System.out.println("HELLO");
       return defaultValue;
     }
     return value;

@@ -118,10 +118,8 @@ function reportFormToURLQuery(latitude, longitude) {
 
   const timestamp = new Date(document.getElementById('time-input').value).getTime();
   if (Number.isNaN(timestamp)) {
-    console.log("true")
     formData.append('timestamp', "");
   } else {
-    console.log("false")
     formData.append('timestamp', timestamp);
   }
   formData.append('latitude', latitude);
