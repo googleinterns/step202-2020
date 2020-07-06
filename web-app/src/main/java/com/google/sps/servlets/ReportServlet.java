@@ -108,7 +108,7 @@ public class ReportServlet extends HttpServlet {
       String title = (String) entity.getProperty("title");
       double latitude = (double) entity.getProperty("latitude");
       double longitude = (double) entity.getProperty("longitude");
-      long timestamp = Long.parseLong((String) entity.getProperty("timestamp"), 10);
+      long timestamp = (Long) entity.getProperty("timestamp");
       String incidentType = (String) entity.getProperty("incidentType");
       String description = (String) entity.getProperty("description");
       String imageUrl = (String) entity.getProperty("imageUrl");

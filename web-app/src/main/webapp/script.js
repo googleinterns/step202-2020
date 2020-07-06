@@ -13,10 +13,11 @@
 // limitations under the License.
 
 let geocoder;
+let map;
 
 function initMap() {
   geocoder = new google.maps.Geocoder();
-  const map = new google.maps.Map(document.getElementById("map"), {
+  map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: -34.397, lng: 150.644 },
     zoom: 5,
   });
@@ -29,6 +30,7 @@ async function fetchMarkers() {
   const response = await fetch('/report');
   const markers = await response.json();
   markers.forEach((marker) => {
+    console.log(marker);
     createMarkerForDisplay(marker);
   });
 }
