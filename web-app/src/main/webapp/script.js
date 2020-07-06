@@ -59,15 +59,20 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
 window.onload = () => {
   document.getElementById("form-container").style.display = "none";
   document.getElementById('report-button').addEventListener('click', showReportForm);
-  document.getElementById('login').addEventListener('click', getLoginUrl);
+  setLoginStatus();
 };
 
 function showReportForm() {
   document.getElementById("form-container").style.display = "block";
 }
 
-async function getLoginUrl() {
+async function setLoginStatus() {
   const response = await fetch('/login');
   const url = await response.text();
-  location.replace(url);
+  if (url.includes('logout')) {
+    document.getElementById('login').innerText = "Logout";
+  } else {
+    document.getElementById('login').innerText = "Login";
+  }
+  document.getElementById('login').addEventListener('click', () => { location.replace(url) });
 }
