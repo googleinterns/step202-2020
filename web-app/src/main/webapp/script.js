@@ -56,11 +56,25 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
   infoWindow.open(map);
 }
 
-window.onload = () => {
+window.onload = async () => {
   document.getElementById("form-container").style.display = "none";
   document.getElementById('report-button').addEventListener('click', showReportForm);
+  await setLoginStatus();
 };
 
 function showReportForm() {
   document.getElementById("form-container").style.display = "block";
+}
+
+async function setLoginStatus() {
+  const response = await fetch('/login');
+  const loginStatus = await response.json();
+  
+  const loginLogout = document.getElementById('login-logout');
+  if (loginStatus.loggedIn) {
+    loginLogout.innerText = "Logout";
+  } else {
+    loginLogout.innerText = "Login";
+  }
+  loginLogout.addEventListener('click', () => { location.replace(loginStatus.url) });
 }
