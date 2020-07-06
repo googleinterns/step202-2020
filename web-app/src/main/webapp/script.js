@@ -65,7 +65,7 @@ window.onload = () => {
 
 function showReportForm() {
   document.getElementById('form-container').style.display = 'block';
-  let homeElements = document.getElementsByClassName('home');
+  const homeElements = document.getElementsByClassName('home');
   for (let i = 0; i < homeElements.length; i++) {
     homeElements[i].style.display = 'none';
   }
