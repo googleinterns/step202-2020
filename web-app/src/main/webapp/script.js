@@ -69,10 +69,11 @@ function showReportForm() {
 async function setLoginStatus() {
   const response = await fetch('/login');
   const url = await response.text();
+  const loginLogout = document.getElementById('login-logout');
   if (url.includes('logout')) {
-    document.getElementById('login').innerText = "Logout";
+    loginLogout.innerText = "Logout";
   } else {
-    document.getElementById('login').innerText = "Login";
+    loginLogout.innerText = "Login";
   }
-  document.getElementById('login').addEventListener('click', () => { location.replace(url) });
+  loginLogout.addEventListener('click', () => { location.replace(url) });
 }
