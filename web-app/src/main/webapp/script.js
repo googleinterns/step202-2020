@@ -24,11 +24,11 @@ function initMap() {
 function displayUserLocation(map, infoWindow) {
   if (!navigator.geolocation) {
     showMessageOnInfoWindow(
-      "Error: Your browser doesn't support geolocation.", 
+      "Error: Your browser doesn't support geolocation.",
       map.getCenter(), map, infoWindow);
     return;
   }
-  
+
   navigator.geolocation.getCurrentPosition(
     (position) => {
       const userPosition = {
@@ -41,14 +41,14 @@ function displayUserLocation(map, infoWindow) {
         map: map,
       });
       map.setCenter(userPosition);
-    }, 
+    },
     () => {
       showMessageOnInfoWindow(
-        "Error: The Geolocation service failed.", 
+        "Error: The Geolocation service failed.",
         map.getCenter(), map, infoWindow);
     }
   );
-} 
+}
 
 function showMessageOnInfoWindow(message, position, map, infoWindow) {
   infoWindow.setPosition(position);
