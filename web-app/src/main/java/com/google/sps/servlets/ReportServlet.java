@@ -113,7 +113,10 @@ public class ReportServlet extends HttpServlet {
    */
   private String getParameter(HttpServletRequest request, String name, String defaultValue) {
     String value = request.getParameter(name);
-    if (value == null) {
+    System.out.println(name);
+    System.out.println(value);
+    if (value.isEmpty()) {
+      System.out.println("HELLO");
       return defaultValue;
     }
     return value;

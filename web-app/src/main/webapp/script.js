@@ -116,8 +116,14 @@ function reportFormToURLQuery(latitude, longitude) {
     formData.append(paramName, value);
   }
 
-  const timestamp = new Date(document.getElementById('time-input').value);
-  formData.append('timestamp', timestamp.getTime());
+  const timestamp = new Date(document.getElementById('time-input').value).getTime();
+  if (Number.isNaN(timestamp)) {
+    console.log("true")
+    formData.append('timestamp', "");
+  } else {
+    console.log("false")
+    formData.append('timestamp', timestamp);
+  }
   formData.append('latitude', latitude);
   formData.append('longitude', longitude);
   formData.append('image', document.getElementById('attach-image').files[0]);
