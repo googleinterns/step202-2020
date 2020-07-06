@@ -39,7 +39,9 @@ function createMarkerForDisplay(data) {
   const marker =
     new google.maps.Marker({ position: { lat: data.latitude, lng: data.longitude }, map: map });
 
-  const infoWindow = new google.maps.InfoWindow({ content: marker.description });
+  let infoParagraph = document.createElement("div");
+  infoParagraph.innerHTML = `<h1>${data.title}</h1>`;
+  const infoWindow = new google.maps.InfoWindow({ content: infoParagraph });
   marker.addListener('click', () => {
     infoWindow.open(map, marker);
   });
