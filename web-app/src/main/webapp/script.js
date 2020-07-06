@@ -25,13 +25,14 @@ function initMap() {
 async function fetchMarkers(map) {
   const response = await fetch('/report');
   const markers = await response.json();
+  let openWindow = { window: null };
   markers.forEach((marker) => {
     console.log(marker);
-    createMarkerForDisplay(map, marker);
+    createMarkerForDisplay(map, marker, openWindow);
   });
 }
 
-function createMarkerForDisplay(map, data) {
+function createMarkerForDisplay(map, data, openWindow) {
   const marker =
     new google.maps.Marker({ position: { lat: data.latitude, lng: data.longitude }, map: map });
 
@@ -48,7 +49,11 @@ function createMarkerForDisplay(map, data) {
   }
   const infoWindow = new google.maps.InfoWindow({ content: infoParagraph });
   marker.addListener('click', () => {
+    if (openWindow.window) {
+      openWindow.window.close();
+    }
     infoWindow.open(map, marker);
+    openWindow.window = infoWindow;
   });
 }
 
