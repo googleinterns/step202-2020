@@ -95,7 +95,7 @@ function geocodeAddress() {
   geocoder.geocode({ 'address': address }, function (results, status) {
     if (status == 'OK') {
       const coordinates = results[0].geometry.location;
-      const data = reportFormToURLQuery(coordinates.lat(), coordinates.lng());
+      const data = reportFormToUrlQuery(coordinates.lat(), coordinates.lng());
       postUserReport(data);
     } else {
       alert('Geocode was not successful: ' + status);
@@ -103,7 +103,7 @@ function geocodeAddress() {
   })
 }
 
-function reportFormToURLQuery(latitude, longitude) {
+function reportFormToUrlQuery(latitude, longitude) {
   const PARAMS_FORM_MAP = new Map([
     ['title-input', 'title'],
     ['category-input', 'incidentType'],
@@ -118,7 +118,7 @@ function reportFormToURLQuery(latitude, longitude) {
 
   const timestamp = new Date(document.getElementById('time-input').value).getTime();
   if (Number.isNaN(timestamp)) {
-    formData.append('timestamp', "");
+    formData.append('timestamp', '');
   } else {
     formData.append('timestamp', timestamp);
   }
@@ -137,6 +137,6 @@ async function postUserReport(data) {
 
 async function fetchBlobstoreUrl() {
   const response = await fetch('/blobstore-upload-url');
-  const imageURL = await response.text();
-  return imageURL;
+  const imageUrl = await response.text();
+  return imageUrl;
 }

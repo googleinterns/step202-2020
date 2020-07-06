@@ -96,9 +96,9 @@ public class ReportServlet extends HttpServlet {
       long timestamp = Long.parseLong((String) entity.getProperty("timestamp"), 10);
       String incidentType = (String) entity.getProperty("incidentType");
       String description = (String) entity.getProperty("description");
-      String imageURL = (String) entity.getProperty("imageURL");
+      String imageUrl = (String) entity.getProperty("imageUrl");
 
-      Report marker = new Report(title, latitude, longitude, timestamp, incidentType, description, imageURL);
+      Report marker = new Report(title, latitude, longitude, timestamp, incidentType, description, imageUrl);
       markers.add(marker);
     }
     return markers;
