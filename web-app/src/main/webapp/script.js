@@ -40,8 +40,11 @@ function createMarkerForDisplay(map, data) {
     <h1>${data.title}</h1>
     <h2>${data.timestamp}</h2>
     <p>${data.description}</p>
-    <img src="${data.imageUrl}" alt="User-submitted image of incident">
   `;
+  if (data.imageUrl) {
+    infoParagraph.insertAdjacentHTML('beforeend',
+      `<img src="${data.imageUrl}" alt="User-submitted image of incident">`)
+  }
   const infoWindow = new google.maps.InfoWindow({ content: infoParagraph });
   marker.addListener('click', () => {
     infoWindow.open(map, marker);
