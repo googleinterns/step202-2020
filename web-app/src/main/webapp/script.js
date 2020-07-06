@@ -12,18 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-let map;
-
 function initMap() {
-  map = new google.maps.Map(document.getElementById("map"), {
+  const map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: -34.397, lng: 150.644 },
     zoom: 5,
   });
-  const infoWindow = new google.maps.InfoWindow();
-  displayUserLocation(map, infoWindow);
+  return map;
 }
 
-function displayUserLocation(map, infoWindow) {
+function displayUserLocation(map) {
+  const infoWindow = new google.maps.InfoWindow();
+
   if (!navigator.geolocation) {
     showMessageOnInfoWindow(
       "Error: Your browser doesn't support geolocation.",
@@ -59,16 +58,18 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
 }
 
 window.onload = () => {
-  document.getElementById("form-container").style.display = "none";
+  document.getElementById('form-container').style.display = 'none';
   document.getElementById('report-button').addEventListener('click', showReportForm);
-  loadPoliceReports();
+  const map = initMap();
+  loadPoliceReports(map);
+  displayUserLocation(map);
 };
 
 function showReportForm() {
   document.getElementById("form-container").style.display = "block";
 }
 
-async function loadPoliceReports() {
+async function loadPoliceReports(map) {
   const FILE_NAMES = ['2019_12_london', '2020_01_london', '2020_02_london', '2020_03_london', '2020_04_london', '2020_05_london']
   for (const file_name of FILE_NAMES) {
     const data = await fetch('../data/' + file_name + '.json');
