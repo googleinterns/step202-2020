@@ -58,7 +58,7 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
 }
 
 window.onload = () => {
-  document.getElementById("form-container").style.display = "none";
+  document.getElementById('form-container').style.display = 'none';
   document.getElementById('report-button').addEventListener('click', showReportForm);
   const map = initMap();
   loadPoliceReports(map);
