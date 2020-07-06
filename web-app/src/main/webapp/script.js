@@ -36,9 +36,10 @@ function createMarkerForDisplay(map, data) {
     new google.maps.Marker({ position: { lat: data.latitude, lng: data.longitude }, map: map });
 
   let infoParagraph = document.createElement("div");
+  let readableTimestamp = new Date(data.timestamp);
   infoParagraph.innerHTML = `
     <h1>${data.title}</h1>
-    <h2>${data.timestamp}</h2>
+    <h2>${readableTimestamp}</h2>
     <p>${data.description}</p>
   `;
   if (data.imageUrl) {
