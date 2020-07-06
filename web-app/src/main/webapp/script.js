@@ -19,24 +19,29 @@ function initMap() {
   });
   const infoWindow = new google.maps.InfoWindow();
   displayUserLocation(map, infoWindow);
-  fetchMarkers();
+  fetchMarkers(map);
 }
 
-async function fetchMarkers() {
+async function fetchMarkers(map) {
   const response = await fetch('/report');
   const markers = await response.json();
   markers.forEach((marker) => {
     console.log(marker);
-    createMarkerForDisplay(marker);
+    createMarkerForDisplay(map, marker);
   });
 }
 
-function createMarkerForDisplay(data) {
+function createMarkerForDisplay(map, data) {
   const marker =
     new google.maps.Marker({ position: { lat: data.latitude, lng: data.longitude }, map: map });
 
   let infoParagraph = document.createElement("div");
-  infoParagraph.innerHTML = `<h1>${data.title}</h1>`;
+  infoParagraph.innerHTML = `
+    <h1>${data.title}</h1>
+    <h2>${data.timestamp}</h2>
+    <p>${data.description}</p>
+    <img src="${data.imageUrl}" alt="User-submitted image of incident">
+  `;
   const infoWindow = new google.maps.InfoWindow({ content: infoParagraph });
   marker.addListener('click', () => {
     infoWindow.open(map, marker);
