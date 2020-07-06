@@ -45,16 +45,19 @@ function createMarkerForDisplay(map, data, openWindow) {
     new google.maps.Marker({ position: { lat: data.latitude, lng: data.longitude }, map: map });
 
   let infoParagraph = document.createElement("div");
+  infoParagraph.setAttribute('id', 'info-window');
   const timestamp = new Date(data.timestamp);
   infoParagraph.innerHTML = `
     <h1>${data.title}</h1>
-    <h2>${timestamp.toLocaleDateString()}, ${timestamp.toLocaleTimeString()}</h2>
+    <p>${timestamp.toLocaleDateString()}, ${timestamp.toLocaleTimeString()}</p>
     <p>${data.description}</p>
   `;
+
   if (data.imageUrl) {
     infoParagraph.insertAdjacentHTML('beforeend',
       `<img src="${data.imageUrl}" alt="User-submitted image of incident">`)
   }
+
   const infoWindow = new google.maps.InfoWindow({ content: infoParagraph });
   marker.addListener('click', () => {
     if (openWindow.window) {

@@ -25,6 +25,10 @@
   height: 3em;
 }
 
+#info-window {
+  font-size: 2.5em;
+}
+
 /* Report form */
 #report-form {
   position: absolute;
