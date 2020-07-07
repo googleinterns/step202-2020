@@ -61,6 +61,10 @@ window.onload = () => {
   document.getElementById('form-container').style.display = 'none';
   document.getElementById('report-button').addEventListener('click', showReportForm);
   const map = initMap();
+  const categories = Array.from(document.getElementsByClassName('category'));
+  const timeFrames = Array.from(document.getElementsByClassName('time-frame'));
+  categories.map(categoryElement => categoryElement.addEventListener('change', () => {loadPoliceReports(map)}));
+  timeFrames.map(timeFrameElement => timeFrameElement.addEventListener('change', () => {loadPoliceReports(map)}));
   loadPoliceReports(map);
   displayUserLocation(map);
 };
@@ -75,6 +79,7 @@ async function loadPoliceReports(map) {
 
   for (const file_name of FILE_NAMES) {
     if (!withinTimeFrame(file_name)) {
+      console.log(file_name);
       continue;
     }
     const data = await fetch('../data/' + file_name + '.json');
