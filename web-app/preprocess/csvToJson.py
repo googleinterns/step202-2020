@@ -29,7 +29,7 @@ def csvToJson(filename):
 
 
 if __name__ == "__main__":
-    if (len(sys.argv) != 2):
+    if len(sys.argv) != 2:
         print("Incorrect number of arguments.")
         quit()
     csvToJson(sys.argv[1])
