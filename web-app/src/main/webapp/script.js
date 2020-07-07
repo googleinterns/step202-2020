@@ -12,12 +12,48 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+window.onload = async () => {
+  const geocoder = new google.maps.Geocoder();
+  document.getElementById('report-button').addEventListener('click', showReportForm);
+  document.getElementById('back-icon').addEventListener('click', hideReportForm);
+  document.getElementById('submit-button').addEventListener('click', () => postUserReport(geocoder));
+  document.getElementById('menu-button').addEventListener('click',
+    () => { document.getElementById('menu').style.display = 'block' });
+  document.getElementById('close-menu').addEventListener('click',
+    () => document.getElementById('menu').style.display = 'none');
+  const map = initMap();
+  fetchMarkers();
+  loadPoliceReports(map);
+  displayUserLocation(map);
+  await setLoginStatus();
+};
+
+
 function initMap() {
   const map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: -34.397, lng: 150.644 },
     zoom: 5,
   });
   return map;
+}
+
+async function fetchMarkers() {
+  const response = await fetch('/report');
+  const markers = await response.json();
+  markers.forEach((marker) => {
+    createMarkerForDisplay(marker);
+  });
+}
+
+function createMarkerForDisplay(data) {
+  const marker =
+    new google.maps.Marker({ position: { lat: data.latitude, lng: data.longitude }, map: map });
+
+  const infoWindow = new google.maps.InfoWindow({ content: marker.description });
+  marker.addListener('click', () => {
+    infoWindow.open(map, marker);
+  });
+
 }
 
 function displayUserLocation(map) {
@@ -56,21 +92,6 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
   infoWindow.setContent(message);
   infoWindow.open(map);
 }
-
-window.onload = async () => {
-  const geocoder = new google.maps.Geocoder();
-  document.getElementById('report-button').addEventListener('click', showReportForm);
-  document.getElementById('back-icon').addEventListener('click', hideReportForm);
-  document.getElementById('submit-button').addEventListener('click', () => postUserReport(geocoder));
-  document.getElementById('menu-button').addEventListener('click',
-    () => { document.getElementById('menu').style.display = 'block' });
-  document.getElementById('close-menu').addEventListener('click',
-    () => document.getElementById('menu').style.display = 'none');
-    const map = initMap();
-  loadPoliceReports(map);
-  displayUserLocation(map);
-  await setLoginStatus();
-};
 
 function showReportForm() {
   document.getElementById('form-container').style.display = 'block';
