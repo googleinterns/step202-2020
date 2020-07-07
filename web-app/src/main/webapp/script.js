@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+let mapMarkers = [];
 
 function initMap() {
   const map = new google.maps.Map(document.getElementById("map"), {
@@ -74,14 +75,16 @@ function showReportForm() {
 }
 
 async function loadPoliceReports(map) {
+  // Clear all markers on the map
+  mapMarkers.map(marker => marker.setMap(null));
+  mapMarkers.length = 0;
+
   const FILE_NAMES = ['2019_12_london', '2020_01_london', '2020_02_london', '2020_03_london', '2020_04_london', '2020_05_london']
   const uncheckedCategoriesElement = Array.from(document.querySelectorAll("input.category:not(:checked)"));
   const uncheckedCategories = uncheckedCategoriesElement.map(element => element.value);
-  console.log(uncheckedCategories);
 
   for (const file_name of FILE_NAMES) {
     if (!withinTimeFrame(file_name)) {
-      console.log(file_name);
       continue;
     }
     const data = await fetch('../data/' + file_name + '.json');
@@ -100,14 +103,9 @@ async function loadPoliceReports(map) {
         lng: Number(report.longitude)
       }, map: map
     }));
-  }
-}
 
-function getCategoriesNotDisplayed() {
-  const categories = Array.from(document.getElementsByClassName('category'));
-  const uncheckedCategoriesElement = categories.filter(category => !category.checked);
-  const uncheckedCategories = uncheckedCategoriesElement.map(element => element.value);
-  return uncheckedCategories;
+    mapMarkers = mapMarkers.concat(markers);
+  }
 }
 
 function displayCrimeType(uncheckedCategories, crimeType) {
