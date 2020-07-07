@@ -58,19 +58,34 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
 }
 
 window.onload = async () => {
-  document.getElementById('form-container').style.display = 'none';
   document.getElementById('report-button').addEventListener('click', showReportForm);
+  document.getElementById('back-icon').addEventListener('click', hideReportForm);
   document.getElementById('submit-button').addEventListener('click', postUserReport);
-  const map = initMap();
+  document.getElementById('menu-button').addEventListener('click',
+    () => { document.getElementById('menu').style.display = 'block' });
+  document.getElementById('close-menu').addEventListener('click',
+    () => document.getElementById('menu').style.display = 'none');
+    const map = initMap();
   loadPoliceReports(map);
   displayUserLocation(map);
   await setLoginStatus();
 };
 
 function showReportForm() {
-  document.getElementById("form-container").style.display = "block";
+  document.getElementById('form-container').style.display = 'block';
+  const homeElements = document.getElementsByClassName('home');
+  for (const element of homeElements) {
+    element.style.display = 'none';
+  }
 }
 
+function hideReportForm() {
+  document.getElementById('form-container').style.display = 'none';
+  const homeElements = document.getElementsByClassName('home');
+  for (const element of homeElements) {
+    element.style.display = 'block';
+  }
+}
 
 function reportFormToURLQuery() {
   const PARAMS_FORM_MAP = new Map([
