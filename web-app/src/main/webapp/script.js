@@ -63,7 +63,6 @@ window.onload = () => {
   const map = initMap();
   loadPoliceReports(map);
   displayUserLocation(map);
-  filter();
 };
 
 function showReportForm() {
@@ -72,6 +71,8 @@ function showReportForm() {
 
 async function loadPoliceReports(map) {
   const FILE_NAMES = ['2019_12_london', '2020_01_london', '2020_02_london', '2020_03_london', '2020_04_london', '2020_05_london']
+  const uncheckedCategories = getCategoriesNotDisplayed();
+
   for (const file_name of FILE_NAMES) {
     if (!withinTimeFrame(file_name)) {
       continue;
@@ -79,6 +80,10 @@ async function loadPoliceReports(map) {
     const data = await fetch('../data/' + file_name + '.json');
     const reports = await data.json();
     for (report of reports) {
+      if (report.latitude == null || report.longitude == null
+        || displayCrimeType(uncheckedCategories, report.crimeType)) {
+        continue;
+      }
       new google.maps.Marker({
         position: {
           lat: Number(report.latitude),
@@ -89,19 +94,25 @@ async function loadPoliceReports(map) {
   }
 }
 
-function filter() {
+function getCategoriesNotDisplayed() {
   const categories = Array.from(document.getElementsByClassName('category'));
-  const uncheckedCategories = categories.filter(category => !category.checked);
-  const time = document.querySelector("input.time-frame[checked]").value;
-  for (category of categories) {
-    console.log(category);
+  const uncheckedCategoriesElement = categories.filter(category => !category.checked);
+  const uncheckedCategories = uncheckedCategoriesElement.map(element => element.value);
+  return uncheckedCategories;
+}
+
+function displayCrimeType(uncheckedCategories, crimeType) {
+  for (category of uncheckedCategories) {
+    if (crimeType.toLowerCase().includes(category)) {
+      return true;
+    }
   }
-  console.log("Theft".includes("theft"));
+  return false;
 }
 
 function withinTimeFrame(filename) {
   const userTimeFrame = Number(document.querySelector("input.time-frame[checked]").value);
-  
+
   const month = Number(filename.substring(5, 7));
   const year = Number(filename.substring(0, 4));
 
