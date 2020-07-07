@@ -111,6 +111,8 @@ function hideReportForm() {
 
 // This currently gets the address from the report form's location field (no autopopulate, no map picker)
 async function postUserReport(geocoder) {
+  document.getElementById('report-form').reset();
+
   const address = document.getElementById('location-input').value;
   geocoder.geocode({ 'address': address }, async (results, status) => {
     if (status === 'OK') {
