@@ -19,11 +19,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import com.google.appengine.api.blobstore.BlobInfo;
+import com.google.appengine.api.blobstore.BlobInfoFactory;
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -47,7 +53,15 @@ public class ReportServlet extends HttpServlet {
 
   public String test = "Test";
 
-  public Entity createReportEntity(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    response.setContentType("text/html;");
+    response.getWriter().println("<h1>Hello world!</h1>");
+  }
+
+  
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Entity reportEntity = new Entity("Report");
 
     for (String paramName : PARAM_DEFAULT_MAP.keySet()) {
@@ -71,18 +85,8 @@ public class ReportServlet extends HttpServlet {
       }
     }
 
-    return reportEntity;
-  }
-
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html;");
-    response.getWriter().println("<h1>Hello world!</h1>");
-  }
-
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Entity reportEntity = createReportEntity(request, response);
+    reportEntity.setProperty("imageUrl", getUploadedFileUrl(request, "image"));
+    
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(reportEntity);
   }
@@ -97,5 +101,23 @@ public class ReportServlet extends HttpServlet {
       return defaultValue;
     }
     return value;
+  }
+
+  /**
+   * Returns a URL that points to the uploaded file, or null if the user didn't
+   * upload a file.
+   */
+  private String getUploadedFileUrl(HttpServletRequest request, String formInputElementName) {
+    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
+    List<BlobKey> blobKeys = blobs.get("image");
+
+    // User submitted form without selecting a file, so we can't get a URL. (dev
+    // server)
+    if (blobKeys == null || blobKeys.isEmpty()) {
+      return null;
+    } else {
+      return "/serve?blob-key=" + blobKeys.get(0).getKeyString();
+    }
   }
 }
