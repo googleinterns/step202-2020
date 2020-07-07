@@ -1,4 +1,4 @@
-package com.google.sps;
+package com.google.sps.servlets;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;

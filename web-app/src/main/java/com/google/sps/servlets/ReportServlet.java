@@ -68,9 +68,14 @@ public class ReportServlet extends HttpServlet {
     response.getWriter().println(json);
   }
 
-  
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Entity reportEntity = createReportEntity(request, response);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(reportEntity);
+  }
+
+  public Entity createReportEntity(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Entity reportEntity = new Entity("Report");
 
     for (String paramName : PARAM_DEFAULT_MAP.keySet()) {
@@ -95,9 +100,7 @@ public class ReportServlet extends HttpServlet {
     }
 
     reportEntity.setProperty("imageUrl", getUploadedFileUrl(request, "image"));
-    
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(reportEntity);
+    return reportEntity;
   }
 
   private Collection<Report> getMarkers() {
