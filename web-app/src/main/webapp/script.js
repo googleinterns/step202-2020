@@ -59,7 +59,7 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
 window.onload = () => {
   const geocoder = new google.maps.Geocoder();
   document.getElementById('report-button').addEventListener('click', showReportForm);
-  document.getElementById('submit-button').addEventListener('click', (event) => postUserReport(geocoder));
+  document.getElementById('submit-button').addEventListener('click', () => postUserReport(geocoder));
 };
 
 function showReportForm() {
@@ -69,14 +69,14 @@ function showReportForm() {
 // This currently gets the address from the report form's location field (no autopopulate, no map picker)
 async function postUserReport(geocoder) {
   const address = document.getElementById('location-input').value;
-  geocoder.geocode({ 'address': address }, async function (results, status) {
-    if (status == 'OK') {
+  geocoder.geocode({ 'address': address }, async (results, status) => {
+    if (status === 'OK') {
       const coordinates = results[0].geometry.location;
       const data = reportFormToURLQuery(coordinates.lat(), coordinates.lng());
       const url = await fetchBlobstoreUrl();
       fetch(url, { method: 'POST', body: data });
     } else {
-      alert('Geocode was not successful: ' + status);
+      console.error('Geocode was not successful: ' + status);
     }
   })
 }
