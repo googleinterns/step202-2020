@@ -9,7 +9,7 @@
       rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <script src="script.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtnOIOa1q7Mwn8OeRkeXdNPxpbaWT2ZFw&callback=initMap" 
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtnOIOa1q7Mwn8OeRkeXdNPxpbaWT2ZFw" 
       type="text/javascript"></script>
   </head>
   <body>
@@ -46,8 +46,7 @@
               options menu</span></button>
         </div>
         <div class="five columns" id="auth-container">
-          <a id="login" href="#">Login</a> | <a id="register"
-            href="#">Register</a>
+          <a id="login-logout" href="#"></a>
         </div>
       </div>
       <div class="row" id="menu-title">
@@ -244,9 +243,11 @@
           <button type="button" id="attach-image-button" class="big-button">Attach
             an image (optional)</button>
         </div>
-        <div class="row button-container">
-          <button id="submit-button" class="big-button" type="submit"
-            value="Submit">Submit</button>
+        <div class="row">
+          <div class="two-thirds columns">
+            <button class="u-full-width"
+              id="submit-button">Submit</button>
+          </div>
         </div>
 
       </form>

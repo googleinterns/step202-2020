@@ -17,11 +17,12 @@ function initMap() {
     center: { lat: -34.397, lng: 150.644 },
     zoom: 5,
   });
-  const infoWindow = new google.maps.InfoWindow();
-  displayUserLocation(map, infoWindow);
+  return map;
 }
 
-function displayUserLocation(map, infoWindow) {
+function displayUserLocation(map) {
+  const infoWindow = new google.maps.InfoWindow();
+
   if (!navigator.geolocation) {
     showMessageOnInfoWindow(
       "Error: Your browser doesn't support geolocation.",
@@ -56,13 +57,18 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
   infoWindow.open(map);
 }
 
-window.onload = () => {
+window.onload = async () => {
   document.getElementById('report-button').addEventListener('click', showReportForm);
   document.getElementById('back-icon').addEventListener('click', hideReportForm);
+  document.getElementById('submit-button').addEventListener('click', postUserReport);
   document.getElementById('menu-button').addEventListener('click',
     () => { document.getElementById('menu').style.display = 'block' });
   document.getElementById('close-menu').addEventListener('click',
     () => document.getElementById('menu').style.display = 'none');
+    const map = initMap();
+  loadPoliceReports(map);
+  displayUserLocation(map);
+  await setLoginStatus();
 };
 
 function showReportForm() {
@@ -79,4 +85,54 @@ function hideReportForm() {
   for (const element of homeElements) {
     element.style.display = 'block';
   }
+}
+
+function reportFormToURLQuery() {
+  const PARAMS_FORM_MAP = new Map([
+    ['title-input', 'title'],
+    ['time-input', 'timestamp'],
+    ['category-input', 'incidentType'],
+    ['description-input', 'description'],
+  ]);
+
+  const searchParams = new URLSearchParams();
+  for (const [formID, paramName] of PARAMS_FORM_MAP.entries()) {
+    const value = document.getElementById(formID).value;
+    searchParams.append(paramName, value);
+  }
+
+  return searchParams;
+}
+
+function postUserReport() {
+  const urlQuery = reportFormToURLQuery();
+  fetch('/report', {method: 'POST', body: urlQuery}); 
+}
+
+async function loadPoliceReports(map) {
+  const FILE_NAMES = ['2019_12_london', '2020_01_london', '2020_02_london', '2020_03_london', '2020_04_london', '2020_05_london']
+  for (const file_name of FILE_NAMES) {
+    const data = await fetch('../data/' + file_name + '.json');
+    const reports = await data.json();
+    for (report of reports) {
+      new google.maps.Marker({
+        position: {
+          lat: Number(report.latitude),
+          lng: Number(report.longitude)
+        }, map: map
+      });
+    };
+  }
+
+async function setLoginStatus() {
+  const response = await fetch('/login');
+  const loginStatus = await response.json();
+  
+  const loginLogout = document.getElementById('login-logout');
+  if (loginStatus.loggedIn) {
+    loginLogout.innerText = "Logout";
+  } else {
+    loginLogout.innerText = "Login";
+  }
+  loginLogout.addEventListener('click', () => { location.replace(loginStatus.url) });
 }
