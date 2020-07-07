@@ -18,11 +18,11 @@ import com.google.appengine.api.datastore.Entity;
 
 @RunWith(JUnit4.class)
 public class ReportServletTest extends Mockito {
-  
+
   @Test
   public void testReportServlet() throws IOException {
-    HttpServletRequest request = mock(HttpServletRequest.class);       
-    HttpServletResponse response = mock(HttpServletResponse.class);    
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    HttpServletResponse response = mock(HttpServletResponse.class);
 
     when(request.getParameter("title")).thenReturn("Test");
     when(request.getParameter("latitude")).thenReturn("1.11");
@@ -32,17 +32,13 @@ public class ReportServletTest extends Mockito {
     when(request.getParameter("description")).thenReturn("Sample request for testing");
 
     Entity testReport = createReportEntity(request, response);
-    
-    Double latitude = 1.11;
-    Double longitude = 10.26;
-    Long epochTime = 1496273400;
 
     Assert.assertEquals(testReport.getProperty("title"), "Test");
-    Assert.assertEquals(testReport.getProperty("latitude"), latitude);
-    Assert.assertEquals(testReport.getProperty("longitude"), longitude);
+    Assert.assertEquals(testReport.getProperty("latitude"), 1.11);
+    Assert.assertEquals(testReport.getProperty("longitude"), 10.26);
     Assert.assertEquals(testReport.getProperty("incidentType"), "Theft");
     Assert.assertEquals(testReport.getProperty("description"), "Sample request for testing");
-    Assert.assertEquals(testReport.getProperty("timestamp"), epochTime);
+    Assert.assertEquals(testReport.getProperty("timestamp"), 1496273400);
   }
 
 }
