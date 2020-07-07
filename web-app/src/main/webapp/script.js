@@ -75,7 +75,7 @@ function showReportForm() {
 
 function hideReportForm() {
   document.getElementById('form-container').style.display = 'none';
-  let homeElements = document.getElementsByClassName('home');
+  const homeElements = document.getElementsByClassName('home');
   for (const element of homeElements) {
     element.style.display = 'block';
   }
