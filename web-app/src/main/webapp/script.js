@@ -63,6 +63,7 @@ window.onload = () => {
   const map = initMap();
   loadPoliceReports(map);
   displayUserLocation(map);
+  filter();
 };
 
 function showReportForm() {
@@ -82,5 +83,12 @@ async function loadPoliceReports(map) {
         }, map: map
       });
     };
+  }
+}
+
+function filter() {
+  const categories = document.getElementsByClassName('category');
+  for (category of categories) {
+    console.log(category)
   }
 }
