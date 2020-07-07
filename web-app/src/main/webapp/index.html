@@ -1,84 +1,89 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8" />
-  <title>My Portfolio</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/skeleton.css" />
-  <link rel="stylesheet" href="css/normalize.css" />
-  <script src="script.js"></script>
-  <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtnOIOa1q7Mwn8OeRkeXdNPxpbaWT2ZFw&callback=initMap"
-    type="text/javascript"></script>
-</head>
-<body>
-  <!-- Search bar -->
-  <div class="container">
-    <form id="address-form">
-      <div class="row">
-        <div class="two-thirds columns">
-          <input class="u-full-width" type="text" placeholder="Search" id="search-location" />
+  <head>
+    <meta charset="UTF-8">
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/skeleton.css">
+    <link rel="stylesheet" href="css/normalize.css">
+    <script src="script.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtnOIOa1q7Mwn8OeRkeXdNPxpbaWT2ZFw&callback=initMap" 
+      type="text/javascript"></script>
+  </head>
+  <body>
+    <!-- Search bar -->
+    <div class="container">
+      <form id="address-form">
+        <div class="row">
+          <div class="two-thirds columns">
+            <input class="u-full-width" type="text" placeholder="Search"
+              id="search-location">
+          </div>
         </div>
-      </div>
-    </form>
-  </div>
-  <!-- Map -->
-  <div id="map">
-    A map will appear here
-  </div>
-  <!-- Report submission form -->
-  <div class="container">
-    <form id="report-form" enctype="multipart/form-data">
-      <div class="row">
-        <div class="two-thirds columns">
-          <input class="u-full-width" type="text" placeholder="Title" id="title-input" />
+      </form>
+    </div>
+    <!-- Map -->
+    <div id="map">
+      A map will appear here
+    </div>
+    <!-- Report submission form -->
+    <div class="container">
+      <form id="report-form">
+        <div class="row">
+          <div class="two-thirds columns">
+            <input class="u-full-width" type="text" placeholder="Title"
+              id="title-input">
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="seven columns">
-          <input class="u-full-width" type="text" placeholder="Location" id="location-input" />
+        <div class="row">
+          <div class="seven columns">
+            <input class="u-full-width" type="text" placeholder="Location"
+              id="location-input">
+          </div>
+          <div class="one column">
+            <img src="images/map.svg" alt="button to pick location using map">
+          </div>
         </div>
-        <div class="one column">
-          <img src="images/map.svg" alt="button to pick location using map" />
+        <div class="row">
+          <div class="two-thirds columns">
+            <input class="u-full-width" type="datetime-local" placeholder="Time"
+              id="time-input">
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="two-thirds columns">
-          <input class="u-full-width" type="datetime-local" placeholder="Time" id="time-input" />
+        <div class="row">
+          <div class="two-thirds columns">
+            <select class="u-full-width" type="text" placeholder="Category"
+              id="category-input">
+              <option value="foo">foo</option>
+              <option value="bar">bar</option>
+            </select>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="two-thirds columns">
-          <select class="u-full-width" type="text" placeholder="Category" id="category-input">
-            <option value="foo">foo</option>
-            <option value="bar">bar</option>
-          </select>
+        <div class="row">
+          <div class="two-thirds columns">
+            <input class="u-full-width" type="text" placeholder="Description"
+              id="description-input">
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="two-thirds columns">
-          <input class="u-full-width" type="text" placeholder="Description" id="description-input" />
+        <div class="row">
+          <div class="two-thirds columns">
+            <button class="u-full-width" type="button"
+              id="attach-image-button">Attach an image (optional)</button>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="two-thirds columns">
-          <label for="attach-image-button">Attach an image (optional)</label>
-          <input type="file" id="attach-image" name="image" />
+        <div class="row">
+          <div class="two-thirds columns">
+            <button class="u-full-width"
+              id="submit-button">Submit</button>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="two-thirds columns">
-          <button class="u-full-width" id="submit-button" type="button">
-            Submit
-          </button>
-        </div>
-      </div>
-    </form>
-  </div>
-  <!-- Bottom dock -->
-  <div class="container u-full-width" id="dock"></div>
-  <img id="report-button" src="images/report.svg" alt="button to report a new
-        incident" />
-</body>
+      </form>
+    </div>
+    <!-- Bottom dock -->
+    <div class="container u-full-width" id="dock">
+    </div>
+    <img id="report-button" src="images/report.svg" alt="button to report a new
+      incident">
 
+  </body>
 </html>
