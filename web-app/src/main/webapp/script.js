@@ -63,8 +63,8 @@ window.onload = () => {
   const map = initMap();
   const categories = Array.from(document.getElementsByClassName('category'));
   const timeFrames = Array.from(document.getElementsByClassName('time-frame'));
-  categories.map(categoryElement => categoryElement.addEventListener('change', () => {loadPoliceReports(map)}));
-  timeFrames.map(timeFrameElement => timeFrameElement.addEventListener('change', () => {loadPoliceReports(map)}));
+  categories.map(categoryElement => categoryElement.addEventListener('change', () => { loadPoliceReports(map) }));
+  timeFrames.map(timeFrameElement => timeFrameElement.addEventListener('change', () => { loadPoliceReports(map) }));
   loadPoliceReports(map);
   displayUserLocation(map);
 };
@@ -84,18 +84,20 @@ async function loadPoliceReports(map) {
     }
     const data = await fetch('../data/' + file_name + '.json');
     const reports = await data.json();
-    for (report of reports) {
-      if (report.latitude == null || report.longitude == null
-        || displayCrimeType(uncheckedCategories, report.crimeType)) {
-        continue;
+    
+    const filteredReports = reports.filter(report => {
+      if (report.latitude == "" || report.longitude == "") {
+        return false;
       }
-      new google.maps.Marker({
-        position: {
-          lat: Number(report.latitude),
-          lng: Number(report.longitude)
-        }, map: map
-      });
-    };
+      return displayCrimeType(uncheckedCategories, report.crimeType);
+    });
+
+    const markers = filteredReports.map(report => new google.maps.Marker({
+      position: {
+        lat: Number(report.latitude),
+        lng: Number(report.longitude)
+      }, map: map
+    }));
   }
 }
 
@@ -107,12 +109,13 @@ function getCategoriesNotDisplayed() {
 }
 
 function displayCrimeType(uncheckedCategories, crimeType) {
+  // Don't display if category unchecked
   for (category of uncheckedCategories) {
     if (crimeType.toLowerCase().includes(category)) {
-      return true;
+      return false;
     }
   }
-  return false;
+  return true;
 }
 
 function withinTimeFrame(filename) {
