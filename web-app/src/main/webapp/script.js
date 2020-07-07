@@ -14,14 +14,14 @@
 
 window.onload = async () => {
   const geocoder = new google.maps.Geocoder();
-  document.getElementById('report-button').addEventListener('click', showReportForm);
+  const map = initMap();
+  document.getElementById('report-button').addEventListener('click', () => showReportForm(map, geocoder));
   document.getElementById('back-icon').addEventListener('click', hideReportForm);
   document.getElementById('submit-button').addEventListener('click', () => postUserReport(geocoder));
   document.getElementById('menu-button').addEventListener('click',
     () => { document.getElementById('menu').style.display = 'block' });
   document.getElementById('close-menu').addEventListener('click',
     () => document.getElementById('menu').style.display = 'none');
-  const map = initMap();
   fetchMarkers(map);
   loadPoliceReports(map);
   displayUserLocation(map);
@@ -93,12 +93,26 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
   infoWindow.open(map);
 }
 
-function showReportForm() {
+function showReportForm(map, geocoder) {
   document.getElementById('form-container').style.display = 'block';
   const homeElements = document.getElementsByClassName('home');
   for (const element of homeElements) {
     element.style.display = 'none';
   }
+
+  console.log(map.getCenter());
+  geocoder.geocode({ 'location': map.getCenter() }, (results, status) => {
+    if (status === 'OK') {
+      if (results[0]) {
+        console.log(results[0]);
+        document.getElementById('location-input').value = results[0].formatted_address;
+      } else {
+        console.error('No results found');
+      }
+    } else {
+      console.error('Geocoder failed due to: ' + status);
+    }
+  })
 }
 
 function hideReportForm() {
