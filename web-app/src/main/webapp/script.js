@@ -73,6 +73,9 @@ function showReportForm() {
 async function loadPoliceReports(map) {
   const FILE_NAMES = ['2019_12_london', '2020_01_london', '2020_02_london', '2020_03_london', '2020_04_london', '2020_05_london']
   for (const file_name of FILE_NAMES) {
+    if (!withinTimeFrame(file_name)) {
+      continue;
+    }
     const data = await fetch('../data/' + file_name + '.json');
     const reports = await data.json();
     for (report of reports) {
@@ -90,16 +93,20 @@ function filter() {
   const categories = Array.from(document.getElementsByClassName('category'));
   const uncheckedCategories = categories.filter(category => !category.checked);
   const time = document.querySelector("input.time-frame[checked]").value;
-  const month = Number(filename.substring(5, 7));
-  const year = Number(filename.substring(0, 4));
-  console.log(month);
-  const today = new Date();
-  const monthDiff = (today.getFullYear() - year) * 12 + ((today.getMonth() + 1) - month);
-
-
-  console.log(time);
   for (category of categories) {
     console.log(category);
   }
   console.log("Theft".includes("theft"));
+}
+
+function withinTimeFrame(filename) {
+  const userTimeFrame = Number(document.querySelector("input.time-frame[checked]").value);
+  
+  const month = Number(filename.substring(5, 7));
+  const year = Number(filename.substring(0, 4));
+
+  const today = new Date();
+  const monthDiff = (today.getFullYear() - year) * 12 + ((today.getMonth() + 1) - month);
+
+  return (monthDiff < userTimeFrame);
 }
