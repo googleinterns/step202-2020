@@ -28,7 +28,6 @@ async function fetchMarkers(map) {
   let openWindow = { window: null };
 
   markers.forEach((marker) => {
-    console.log(marker);
     createMarkerForDisplay(map, marker, openWindow);
   });
 
