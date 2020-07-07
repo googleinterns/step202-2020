@@ -164,6 +164,8 @@ input[type="checkbox"] {
 #submit-button {
   background: rgba(224, 224, 224, 0.8);
   color: rgba(0, 0, 23, 0.7);
+  font-size: 2em;
+  height: 2.4em;
 }
 
 /* Override Skeleton styles */

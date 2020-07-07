@@ -22,7 +22,7 @@ window.onload = async () => {
   document.getElementById('close-menu').addEventListener('click',
     () => document.getElementById('menu').style.display = 'none');
   const map = initMap();
-  fetchMarkers();
+  fetchMarkers(map);
   loadPoliceReports(map);
   displayUserLocation(map);
   await setLoginStatus();
@@ -37,15 +37,15 @@ function initMap() {
   return map;
 }
 
-async function fetchMarkers() {
+async function fetchMarkers(map) {
   const response = await fetch('/report');
   const markers = await response.json();
   markers.forEach((marker) => {
-    createMarkerForDisplay(marker);
+    createMarkerForDisplay(marker, map);
   });
 }
 
-function createMarkerForDisplay(data) {
+function createMarkerForDisplay(data, map) {
   const marker =
     new google.maps.Marker({ position: { lat: data.latitude, lng: data.longitude }, map: map });
 
@@ -171,7 +171,7 @@ async function loadPoliceReports(map) {
 async function setLoginStatus() {
   const response = await fetch('/login');
   const loginStatus = await response.json();
-  
+
   const loginLogout = document.getElementById('login-logout');
   if (loginStatus.loggedIn) {
     loginLogout.innerText = "Logout";
