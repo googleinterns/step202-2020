@@ -58,9 +58,10 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
 }
 
 window.onload = async () => {
+  const geocoder = new google.maps.Geocoder();
   document.getElementById('report-button').addEventListener('click', showReportForm);
   document.getElementById('back-icon').addEventListener('click', hideReportForm);
-  document.getElementById('submit-button').addEventListener('click', postUserReport);
+  document.getElementById('submit-button').addEventListener('click', () => postUserReport(geocoder));
   document.getElementById('menu-button').addEventListener('click',
     () => { document.getElementById('menu').style.display = 'block' });
   document.getElementById('close-menu').addEventListener('click',
@@ -87,7 +88,22 @@ function hideReportForm() {
   }
 }
 
-function reportFormToURLQuery() {
+// This currently gets the address from the report form's location field (no autopopulate, no map picker)
+async function postUserReport(geocoder) {
+  const address = document.getElementById('location-input').value;
+  geocoder.geocode({ 'address': address }, async (results, status) => {
+    if (status === 'OK') {
+      const coordinates = results[0].geometry.location;
+      const data = reportFormToURLQuery(coordinates.lat(), coordinates.lng());
+      const url = await fetchBlobstoreUrl();
+      fetch(url, { method: 'POST', body: data });
+    } else {
+      console.error('Geocode was not successful: ' + status);
+    }
+  })
+}
+
+function reportFormToURLQuery(latitude, longitude) {
   const PARAMS_FORM_MAP = new Map([
     ['title-input', 'title'],
     ['time-input', 'timestamp'],
@@ -101,16 +117,13 @@ function reportFormToURLQuery() {
     formData.append(paramName, value);
   }
 
-  formData.append('image', document.getElementById('attach-image').files[0])
+  formData.append('latitude', latitude);
+  formData.append('longitude', longitude);
+  formData.append('image', document.getElementById('attach-image').files[0]);
 
   return formData;
 }
 
-async function postUserReport() {
-  const urlQuery = reportFormToURLQuery();
-  const url = await fetchBlobstoreUrl();
-  fetch(url, { method: 'POST', body: urlQuery });
-}
 
 async function fetchBlobstoreUrl() {
   const response = await fetch('/blobstore-upload-url');
@@ -132,6 +145,7 @@ async function loadPoliceReports(map) {
       });
     };
   }
+}
 
 async function setLoginStatus() {
   const response = await fetch('/login');
