@@ -87,8 +87,19 @@ async function loadPoliceReports(map) {
 }
 
 function filter() {
-  const categories = document.getElementsByClassName('category');
+  const categories = Array.from(document.getElementsByClassName('category'));
+  const uncheckedCategories = categories.filter(category => !category.checked);
+  const time = document.querySelector("input.time-frame[checked]").value;
+  const month = Number(filename.substring(5, 7));
+  const year = Number(filename.substring(0, 4));
+  console.log(month);
+  const today = new Date();
+  const monthDiff = (today.getFullYear() - year) * 12 + ((today.getMonth() + 1) - month);
+
+
+  console.log(time);
   for (category of categories) {
-    console.log(category)
+    console.log(category);
   }
+  console.log("Theft".includes("theft"));
 }
