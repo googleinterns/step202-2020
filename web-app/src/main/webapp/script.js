@@ -16,7 +16,8 @@ window.onload = async () => {
   const geocoder = new google.maps.Geocoder();
   const map = initMap();
   document.getElementById('report-button').addEventListener('click', () => showReportForm(map, geocoder));
-  document.getElementById('back-icon').addEventListener('click', hideReportForm);
+  document.getElementById('back-icon').addEventListener('click', () => hideReportForm(true));
+  document.getElementById('map-icon').addEventListener('click', () => hideReportForm(false))
   document.getElementById('submit-button').addEventListener('click', () => postUserReport(geocoder));
   document.getElementById('menu-button').addEventListener('click',
     () => { document.getElementById('menu').style.display = 'block' });
@@ -100,11 +101,9 @@ function showReportForm(map, geocoder) {
     element.style.display = 'none';
   }
 
-  console.log(map.getCenter());
   geocoder.geocode({ 'location': map.getCenter() }, (results, status) => {
     if (status === 'OK') {
       if (results[0]) {
-        console.log(results[0]);
         document.getElementById('location-input').value = results[0].formatted_address;
       } else {
         console.error('No results found');
@@ -115,11 +114,15 @@ function showReportForm(map, geocoder) {
   })
 }
 
-function hideReportForm() {
+function hideReportForm(reset) {
   document.getElementById('form-container').style.display = 'none';
   const homeElements = document.getElementsByClassName('home');
   for (const element of homeElements) {
     element.style.display = 'block';
+  }
+
+  if (reset) {
+    document.getElementById('report-form').reset();
   }
 }
 
