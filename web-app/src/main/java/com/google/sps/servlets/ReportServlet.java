@@ -51,12 +51,15 @@ public class ReportServlet extends HttpServlet {
 
   private DateFormat timeStampFormatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
 
+  public String test = "Test";
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html;");
     response.getWriter().println("<h1>Hello world!</h1>");
   }
 
+  
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Entity reportEntity = new Entity("Report");
@@ -83,7 +86,7 @@ public class ReportServlet extends HttpServlet {
     }
 
     reportEntity.setProperty("imageUrl", getUploadedFileUrl(request, "image"));
-
+    
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(reportEntity);
   }
