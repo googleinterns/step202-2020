@@ -43,6 +43,8 @@ public class ReportServlet extends HttpServlet {
 
   private DateFormat timeStampFormatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
 
+  public String test = "Test";
+
   public Entity createReportEntity(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Entity reportEntity = new Entity("Report");
 

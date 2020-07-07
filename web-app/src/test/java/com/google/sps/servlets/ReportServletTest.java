@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.Assert;
 import org.mockito.Mockito;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -32,8 +32,17 @@ public class ReportServletTest extends Mockito {
     when(request.getParameter("description")).thenReturn("Sample request for testing");
 
     Entity testReport = createReportEntity(request, response);
-
     
+    Double latitude = 1.11;
+    Double longitude = 10.26;
+    Long epochTime = 1496273400;
+
+    Assert.assertEquals(testReport.getProperty("title"), "Test");
+    Assert.assertEquals(testReport.getProperty("latitude"), latitude);
+    Assert.assertEquals(testReport.getProperty("longitude"), longitude);
+    Assert.assertEquals(testReport.getProperty("incidentType"), "Theft");
+    Assert.assertEquals(testReport.getProperty("description"), "Sample request for testing");
+    Assert.assertEquals(testReport.getProperty("timestamp"), epochTime);
   }
 
 }
