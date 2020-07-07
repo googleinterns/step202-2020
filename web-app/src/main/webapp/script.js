@@ -68,15 +68,15 @@ window.onload = () => {
 function showReportForm() {
   document.getElementById('form-container').style.display = 'block';
   const homeElements = document.getElementsByClassName('home');
-  for (let i = 0; i < homeElements.length; i++) {
-    homeElements[i].style.display = 'none';
+  for (const element of homeElements) {
+    element.style.display = 'none';
   }
 }
 
 function hideReportForm() {
   document.getElementById('form-container').style.display = 'none';
   let homeElements = document.getElementsByClassName('home');
-  for (let i = 0; i < homeElements.length; i++) {
-    homeElements[i].style.display = 'block';
+  for (const element of homeElements) {
+    element.style.display = 'block';
   }
 }
