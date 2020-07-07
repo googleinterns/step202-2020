@@ -60,6 +60,7 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
 window.onload = async () => {
   document.getElementById('form-container').style.display = 'none';
   document.getElementById('report-button').addEventListener('click', showReportForm);
+  document.getElementById('submit-button').addEventListener('click', postUserReport);
   const map = initMap();
   loadPoliceReports(map);
   displayUserLocation(map);
@@ -68,6 +69,29 @@ window.onload = async () => {
 
 function showReportForm() {
   document.getElementById("form-container").style.display = "block";
+}
+
+
+function reportFormToURLQuery() {
+  const PARAMS_FORM_MAP = new Map([
+    ['title-input', 'title'],
+    ['time-input', 'timestamp'],
+    ['category-input', 'incidentType'],
+    ['description-input', 'description'],
+  ]);
+
+  const searchParams = new URLSearchParams();
+  for (const [formID, paramName] of PARAMS_FORM_MAP.entries()) {
+    const value = document.getElementById(formID).value;
+    searchParams.append(paramName, value);
+  }
+
+  return searchParams;
+}
+
+function postUserReport() {
+  const urlQuery = reportFormToURLQuery();
+  fetch('/report', {method: 'POST', body: urlQuery}); 
 }
 
 async function loadPoliceReports(map) {
