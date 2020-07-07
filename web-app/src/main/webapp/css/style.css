@@ -1,3 +1,8 @@
+.report,
+.menu {
+  display: none;
+}
+
 /* Home screen */
 #map {
   /* TODO(AshleyLTW) placeholder until we add a map */
@@ -5,7 +10,7 @@
   height: 100vh;
   position: absolute;
   width: 100%;
-  z-index: 1;
+  z-index: -1;
 }
 
 #address-form {
@@ -14,7 +19,6 @@
   margin-bottom: 0;
   position: absolute;
   width: 100%;
-  z-index: 2;
 }
 
 #search-location {
@@ -25,52 +29,224 @@
   height: 3em;
 }
 
-/* Report form */
-#report-form {
+/* Options menu */
+#menu {
+  background-color: rgba(0, 0, 23, 0.8);
+  border: 1px solid rgba(0, 0, 23, 0.8);
+  box-shadow: 10px 0 10px rgba(0, 0, 0, 0.4);
+  color: #e0e0e0;
+  height: 100vh;
   position: absolute;
-  top: 200px;
-  z-index: 3;
+  width: 600px;
+}
+
+#close-menu {
+  background-image: url(/images/back-arrow.svg);
+  background-repeat: no-repeat;
+  background-size: 70px 70px;
+  height: 70px;
+  margin-left: 20px;
+  margin-top: 20px;
+  width: 70px;
+}
+
+#auth-container {
+  font-size: 1.75em;
+  padding-right: 20px;
+  padding-top: 40px;
+}
+
+#auth-container a {
+  color: #e0e0e0;
+  text-decoration: none;
+}
+
+#menu-title {
+  font-size: 2.7em;
+  padding: 0 60px;
+  text-align: left;
+}
+
+.menu-subheading {
+  font-size: 2.3em;
+  padding-left: 40px;
+}
+
+.menu-subheading h2 {
+  margin-bottom: 10px;
+}
+
+.right {
+  text-align: right;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  height: 30px;
+  margin-top: 11px;
+  vertical-align: middle;
+  width: 30px;
+}
+
+#menu label {
+  font-weight: normal;
+  margin: -5px 0;
+}
+
+#custom-interval {
+  background-color: rgba(0, 0, 23, 0.3);
+  color: #e0e0e0;
+  font-size: 30px;
+  width: 130px;
+}
+
+.desc {
+  font-size: 30px;
+}
+
+.last-row {
+  margin-bottom: 30px;
+}
+
+.menu-button {
+  background-color: #c4c4c4;
+  color: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  font-size: 2.2em;
+  height: 1.7em;
+  text-align: center;
+  margin-bottom: 40px;
+  margin-left: 100px;
+  margin-top: 15px;
+  width: 240px;
+}
+
+/* Report form */
+#form-container {
+  background-color: rgba(0, 0, 23, 0.7);
+  color: #e0e0e0;
+  height: 100vh;
+  padding: 3% 5%;
+}
+
+#form-title {
+  font-size: 5em;
+}
+
+#back-icon {
+  background-image: url(/images/back-arrow.svg);
+  background-size: 50px 50px;
+  height: 50px;
+  margin-top: 70px;
+  width: 50px;
+}
+
+#map-icon {
+  background-image: url(/images/map.svg);
+  background-size: 60px 50px;
+  height: 50px;
+  margin-left: -20px;
+  margin-top: 100px;
+  width: 60px;
+}
+
+.button-container {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.big-button {
+  border: 2px solid #e0e0e0;
+  font-size: 2em;
+  height: 2.4em;
+}
+
+#submit-button {
+  background: rgba(224, 224, 224, 0.8);
+  color: rgba(0, 0, 23, 0.7);
+}
+
+/* Override Skeleton styles */
+input[type="text"],
+input[type="datetime-local"],
+textarea,
+select {
+  background: rgba(0, 0, 23, 0.3);
+  border: 2px solid #e0e0e0;
+  color: #e0e0e0;
+  border-radius: 10px;
+  font-size: 1.5em;
+  height: 3em;
+  padding-left: 20px;
+}
+
+label {
+  font-size: 2.5em;
+  margin-top: 3%;
 }
 
 /* Bottom dock */
+#dock {
+  bottom: 0;
+  height: 280px;
+  position: absolute;
+  width: 100%;
+}
+
+#dock-background {
+  background: rgba(0, 0, 23, 0.6);
+  bottom: 0;
+  height: 180px;
+  position: absolute;
+  width: 100%;
+}
+
+.icon-button {
+  border: none;
+}
+
 #report-button {
-  bottom: 200px;
+  background-image: url(/images/report.svg);
+  background-size: 200px 200px;
+  bottom: 100px;
   height: 200px;
-  position: absolute;
+  left: 50%;
+  margin-left: -100px;
+  position: relative;
+  top: 5px;
   width: 200px;
-  z-index: 3;
 }
 
-#dock {
-  background: rgba(0, 0, 23, 0.6);
-  bottom: 0;
-  height: 200px;
+.small-button {
+  background-size: 90px 90px;
+  bottom: 45px;
+  height: 90px;
   position: absolute;
-  width: 100%;
-  z-index: 2;
+  width: 90px;
 }
 
-/* Report form */
-#reportForm {
-  position: absolute;
-  top: 200px;
-  z-index: 3;
+#menu-button {
+  background-image: url(/images/options-menu.svg);
+  left: 50px;
 }
 
-/* Bottom dock */
-#reportButton {
-  bottom: 200px;
-  height: 200px;
-  position: absolute;
-  width: 200px;
-  z-index: 3;
+#toggle-button {
+  background-image: url(/images/toggle-view.svg);
+  right: 50px;
 }
 
-#dock {
-  background: rgba(0, 0, 23, 0.6);
-  bottom: 0;
-  height: 200px;
+/* Accessibility */
+.sr-only:not(:focus):not(:active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(100%);
+  height: 1px;
+  overflow: hidden;
   position: absolute;
-  width: 100%;
-  z-index: 2;
+  white-space: nowrap;
+  width: 1px;
+}
+
+/* Global styles */
+body {
+  font-family: 'Roboto', sans-serif;
 }
