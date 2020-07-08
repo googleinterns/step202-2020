@@ -91,7 +91,7 @@ async function loadPoliceReports(map) {
     const reports = await data.json();
 
     const filteredReports = reports.filter(report => {
-      if (report.latitude == "" || report.longitude == "") {
+      if (!report.latitude || !report.longitude) {
         return false;
       }
       return displayCrimeType(uncheckedCategories, report.crimeType);
