@@ -40,18 +40,46 @@ function initMap() {
 async function fetchMarkers(map) {
   const response = await fetch('/report');
   const markers = await response.json();
+  let uiState = { activeInfoWindow: null };
+
   markers.forEach((marker) => {
-    createMarkerForDisplay(marker, map);
+    createMarkerForDisplay(map, marker, uiState);
   });
+
+  map.addListener('click', () => {
+    if (uiState.activeInfoWindow) {
+      uiState.activeInfoWindow.close();
+      uiState.activeInfoWindow = null;
+    }
+  })
 }
 
-function createMarkerForDisplay(data, map) {
+function createMarkerForDisplay(map, data, uiState) {
   const marker =
     new google.maps.Marker({ position: { lat: data.latitude, lng: data.longitude }, map: map });
 
-  const infoWindow = new google.maps.InfoWindow({ content: marker.description });
+  const infoParagraph = document.createElement("div");
+  infoParagraph.setAttribute('id', 'info-window');
+  const timestamp = new Date(data.timestamp);
+  infoParagraph.innerHTML = `
+    <h1>${data.title}</h1>
+    <p>${timestamp.toLocaleDateString()}, ${timestamp.toLocaleTimeString()}</p>
+    <p>${data.description}</p>
+  `;
+
+  if (data.imageUrl) {
+    infoParagraph.insertAdjacentHTML('beforeend',
+      `<img src="${window.location.href}serve?blob-key=${data.imageUrl}"
+      id="info-image" alt="User-submitted image of incident">`)
+  }
+
+  const infoWindow = new google.maps.InfoWindow({ content: infoParagraph });
   marker.addListener('click', () => {
+    if (uiState.activeInfoWindow) {
+      uiState.activeInfoWindow.close();
+    }
     infoWindow.open(map, marker);
+    uiState.activeInfoWindow = infoWindow;
   });
 
 }
