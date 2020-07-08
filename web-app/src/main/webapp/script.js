@@ -25,21 +25,21 @@ function initMap() {
 async function fetchMarkers(map) {
   const response = await fetch('/report');
   const markers = await response.json();
-  let openWindow = { window: null };
+  let uiState = { activeInfoWindow: null };
 
   markers.forEach((marker) => {
-    createMarkerForDisplay(map, marker, openWindow);
+    createMarkerForDisplay(map, marker, uiState);
   });
 
   map.addListener('click', () => {
-    if (openWindow.window) {
-      openWindow.window.close();
-      openWindow.window = null;
+    if (uiState.activeInfoWindow) {
+      uiState.activeInfoWindow.close();
+      uiState.activeInfoWindow = null;
     }
   })
 }
 
-function createMarkerForDisplay(map, data, openWindow) {
+function createMarkerForDisplay(map, data, uiState) {
   const marker =
     new google.maps.Marker({ position: { lat: data.latitude, lng: data.longitude }, map: map });
 
@@ -59,11 +59,11 @@ function createMarkerForDisplay(map, data, openWindow) {
 
   const infoWindow = new google.maps.InfoWindow({ content: infoParagraph });
   marker.addListener('click', () => {
-    if (openWindow.window) {
-      openWindow.window.close();
+    if (uiState.activeInfoWindow) {
+      uiState.activeInfoWindow.close();
     }
     infoWindow.open(map, marker);
-    openWindow.window = infoWindow;
+    uiState.activeInfoWindow = infoWindow;
   });
 }
 
