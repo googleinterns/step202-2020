@@ -222,17 +222,17 @@
         </select>
       </div>
       <label for="description-input">Description</label>
-      <textarea placeholder="Tell us more about what happened" class="u-full-width"></textarea>
-      <div class="row button-container">
-        <button type="button" id="attach-image-button" class="big-button">Attach
-          an image (optional)</button>
-      </div>
+      <textarea placeholder="Tell us more about what happened" class="u-full-width" id="description-input"></textarea>
       <div class="row">
         <div class="two-thirds columns">
-          <button class="u-full-width" id="submit-button" type="button">
-            Submit
-          </button>
+          <label for="attach-image">Attach an image (optional)</label>
+          <input type="file" id="attach-image" name="image" />
         </div>
+      </div>
+      <div class="row button-container">
+        <button id="submit-button" type="button">
+          Submit
+        </button>
       </div>
     </form>
   </div>
