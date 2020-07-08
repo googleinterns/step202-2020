@@ -148,7 +148,7 @@ public class ReportServlet extends HttpServlet {
     if (blobKeys == null || blobKeys.isEmpty()) {
       return null;
     } else {
-      return "/serve?blob-key=" + blobKeys.get(0).getKeyString();
+      return blobKeys.get(0).getKeyString();
     }
   }
 }

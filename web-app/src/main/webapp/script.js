@@ -69,7 +69,8 @@ function createMarkerForDisplay(map, data, uiState) {
 
   if (data.imageUrl) {
     infoParagraph.insertAdjacentHTML('beforeend',
-      `<img src="${data.imageUrl}" alt="User-submitted image of incident">`)
+      `<img src="${window.location.href}serve?blob-key=${data.imageUrl}"
+      id="info-image" alt="User-submitted image of incident">`)
   }
 
   const infoWindow = new google.maps.InfoWindow({ content: infoParagraph });
