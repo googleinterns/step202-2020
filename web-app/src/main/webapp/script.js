@@ -149,6 +149,7 @@ function reportFormToURLQuery(latitude, longitude) {
 async function fetchBlobstoreUrl() {
   const response = await fetch('/blobstore-upload-url');
   const imageURL = await response.text();
+  console.log(imageURL);
   return imageURL;
 }
 
