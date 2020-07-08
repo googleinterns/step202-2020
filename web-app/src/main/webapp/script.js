@@ -16,8 +16,12 @@ window.onload = async () => {
   const geocoder = new google.maps.Geocoder();
   const map = initMap();
   document.getElementById('report-button').addEventListener('click', () => showReportForm(map, geocoder));
-  document.getElementById('back-icon').addEventListener('click', () => hideReportForm(true));
-  document.getElementById('map-icon').addEventListener('click', () => hideReportForm(false))
+  document.getElementById('back-icon').addEventListener('click', () => {
+    hideReportForm();
+    document.getElementById('report-form').reset();
+    }
+  );
+  document.getElementById('map-icon').addEventListener('click', () => hideReportForm)
   document.getElementById('submit-button').addEventListener('click', () => postUserReport(geocoder));
   document.getElementById('menu-button').addEventListener('click',
     () => { document.getElementById('menu').style.display = 'block' });
@@ -114,15 +118,11 @@ function showReportForm(map, geocoder) {
   })
 }
 
-function hideReportForm(reset) {
+function hideReportForm() {
   document.getElementById('form-container').style.display = 'none';
   const homeElements = document.getElementsByClassName('home');
   for (const element of homeElements) {
     element.style.display = 'block';
-  }
-
-  if (reset) {
-    document.getElementById('report-form').reset();
   }
 }
 
