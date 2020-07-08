@@ -43,7 +43,7 @@ import com.google.sps.data.Report;
 @WebServlet("/report")
 public class ReportServlet extends HttpServlet {
 
-  private Map<String, String> PARAM_DEFAULT_MAP = new HashMap<String, String>() {
+  private static Map<String, String> PARAM_DEFAULT_MAP = new HashMap<String, String>() {
     {
       put("title", "");
       put("latitude", "0.0");
@@ -54,9 +54,7 @@ public class ReportServlet extends HttpServlet {
     }
   };
 
-  private DateFormat timeStampFormatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
-
-  public String test = "Test";
+  private static DateFormat timeStampFormatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -75,7 +73,7 @@ public class ReportServlet extends HttpServlet {
     datastore.put(reportEntity);
   }
 
-  public Entity createReportEntity(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public static Entity createReportEntity(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Entity reportEntity = new Entity("Report");
 
     for (String paramName : PARAM_DEFAULT_MAP.keySet()) {
@@ -129,7 +127,7 @@ public class ReportServlet extends HttpServlet {
    * @return the request parameter, or the default value if the parameter was not
    *         specified by the client
    */
-  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+  private static String getParameter(HttpServletRequest request, String name, String defaultValue) {
     String value = request.getParameter(name);
     if (value == null) {
       return defaultValue;
@@ -141,7 +139,7 @@ public class ReportServlet extends HttpServlet {
    * Returns a URL that points to the uploaded file, or null if the user didn't
    * upload a file.
    */
-  private String getUploadedFileUrl(HttpServletRequest request, String formInputElementName) {
+  private static String getUploadedFileUrl(HttpServletRequest request, String formInputElementName) {
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
     List<BlobKey> blobKeys = blobs.get("image");
