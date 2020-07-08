@@ -22,7 +22,7 @@ window.onload = async () => {
   document.getElementById('close-menu').addEventListener('click',
     () => document.getElementById('menu').style.display = 'none');
   const map = initMap();
-  fetchMarkers();
+  fetchMarkers(map);
   loadPoliceReports(map);
   displayUserLocation(map);
   await setLoginStatus();
@@ -37,21 +37,48 @@ function initMap() {
   return map;
 }
 
-async function fetchMarkers() {
+async function fetchMarkers(map) {
   const response = await fetch('/report');
   const markers = await response.json();
+  let uiState = { activeInfoWindow: null };
+
   markers.forEach((marker) => {
-    createMarkerForDisplay(marker);
+    createMarkerForDisplay(map, marker, uiState);
   });
+
+  map.addListener('click', () => {
+    if (uiState.activeInfoWindow) {
+      uiState.activeInfoWindow.close();
+      uiState.activeInfoWindow = null;
+    }
+  })
 }
 
-function createMarkerForDisplay(data) {
+function createMarkerForDisplay(map, data, uiState) {
   const marker =
     new google.maps.Marker({ position: { lat: data.latitude, lng: data.longitude }, map: map });
 
-  const infoWindow = new google.maps.InfoWindow({ content: marker.description });
+  const infoParagraph = document.createElement("div");
+  infoParagraph.setAttribute('id', 'info-window');
+  const timestamp = new Date(data.timestamp);
+  infoParagraph.innerHTML = `
+    <h1>${data.title}</h1>
+    <p>${timestamp.toLocaleDateString()}, ${timestamp.toLocaleTimeString()}</p>
+    <p>${data.description}</p>
+  `;
+
+  if (data.imageUrl) {
+    infoParagraph.insertAdjacentHTML('beforeend',
+      `<img src="${data.imageUrl}" alt="User-submitted image of incident">`)
+  }
+
+  const infoWindow = new google.maps.InfoWindow({ content: infoParagraph });
   marker.addListener('click', () => {
+    if (uiState.activeInfoWindow) {
+      uiState.activeInfoWindow.close();
+    }
     infoWindow.open(map, marker);
+    uiState.activeInfoWindow = infoWindow;
   });
 
 }
