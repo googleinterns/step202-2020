@@ -12,38 +12,53 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+window.onload = async () => {
+  const geocoder = new google.maps.Geocoder();
+  document.getElementById('report-button').addEventListener('click', showReportForm);
+  document.getElementById('back-icon').addEventListener('click', hideReportForm);
+  document.getElementById('submit-button').addEventListener('click', () => postUserReport(geocoder));
+  document.getElementById('menu-button').addEventListener('click',
+    () => { document.getElementById('menu').style.display = 'block' });
+  document.getElementById('close-menu').addEventListener('click',
+    () => document.getElementById('menu').style.display = 'none');
+  const map = initMap();
+  fetchMarkers(map);
+  loadPoliceReports(map);
+  displayUserLocation(map);
+  await setLoginStatus();
+};
+
+
 function initMap() {
   const map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: -34.397, lng: 150.644 },
     zoom: 5,
   });
-  const infoWindow = new google.maps.InfoWindow();
-  displayUserLocation(map, infoWindow);
-  fetchMarkers(map);
+  return map;
 }
 
 async function fetchMarkers(map) {
   const response = await fetch('/report');
   const markers = await response.json();
-  let openWindow = { window: null };
+  let uiState = { activeInfoWindow: null };
 
   markers.forEach((marker) => {
-    createMarkerForDisplay(map, marker, openWindow);
+    createMarkerForDisplay(map, marker, uiState);
   });
 
   map.addListener('click', () => {
-    if (openWindow.window) {
-      openWindow.window.close();
-      openWindow.window = null;
+    if (uiState.activeInfoWindow) {
+      uiState.activeInfoWindow.close();
+      uiState.activeInfoWindow = null;
     }
   })
 }
 
-function createMarkerForDisplay(map, data, openWindow) {
+function createMarkerForDisplay(map, data, uiState) {
   const marker =
     new google.maps.Marker({ position: { lat: data.latitude, lng: data.longitude }, map: map });
 
-  let infoParagraph = document.createElement("div");
+  const infoParagraph = document.createElement("div");
   infoParagraph.setAttribute('id', 'info-window');
   const timestamp = new Date(data.timestamp);
   infoParagraph.innerHTML = `
@@ -60,15 +75,18 @@ function createMarkerForDisplay(map, data, openWindow) {
 
   const infoWindow = new google.maps.InfoWindow({ content: infoParagraph });
   marker.addListener('click', () => {
-    if (openWindow.window) {
-      openWindow.window.close();
+    if (uiState.activeInfoWindow) {
+      uiState.activeInfoWindow.close();
     }
     infoWindow.open(map, marker);
-    openWindow.window = infoWindow;
+    uiState.activeInfoWindow = infoWindow;
   });
+
 }
 
-function displayUserLocation(map, infoWindow) {
+function displayUserLocation(map) {
+  const infoWindow = new google.maps.InfoWindow();
+
   if (!navigator.geolocation) {
     showMessageOnInfoWindow(
       "Error: Your browser doesn't support geolocation.",
@@ -103,27 +121,33 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
   infoWindow.open(map);
 }
 
-window.onload = () => {
-  const geocoder = new google.maps.Geocoder();
-  document.getElementById('report-button').addEventListener('click', showReportForm);
-  document.getElementById('submit-button').addEventListener('click', (event) => postUserReport(geocoder));
-};
-
 function showReportForm() {
-  document.getElementById("report-form").style.display = "block";
+  document.getElementById('form-container').style.display = 'block';
+  const homeElements = document.getElementsByClassName('home');
+  for (const element of homeElements) {
+    element.style.display = 'none';
+  }
+}
+
+function hideReportForm() {
+  document.getElementById('form-container').style.display = 'none';
+  const homeElements = document.getElementsByClassName('home');
+  for (const element of homeElements) {
+    element.style.display = 'block';
+  }
 }
 
 // This currently gets the address from the report form's location field (no autopopulate, no map picker)
 async function postUserReport(geocoder) {
   const address = document.getElementById('location-input').value;
-  geocoder.geocode({ 'address': address }, async function (results, status) {
-    if (status == 'OK') {
+  geocoder.geocode({ 'address': address }, async (results, status) => {
+    if (status === 'OK') {
       const coordinates = results[0].geometry.location;
       const data = reportFormToURLQuery(coordinates.lat(), coordinates.lng());
       const url = await fetchBlobstoreUrl();
       fetch(url, { method: 'POST', body: data });
     } else {
-      alert('Geocode was not successful: ' + status);
+      console.error('Geocode was not successful: ' + status);
     }
   })
 }
@@ -154,4 +178,33 @@ async function fetchBlobstoreUrl() {
   const response = await fetch('/blobstore-upload-url');
   const imageURL = await response.text();
   return imageURL;
+}
+
+async function loadPoliceReports(map) {
+  const FILE_NAMES = ['2019_12_london', '2020_01_london', '2020_02_london', '2020_03_london', '2020_04_london', '2020_05_london']
+  for (const file_name of FILE_NAMES) {
+    const data = await fetch('../data/' + file_name + '.json');
+    const reports = await data.json();
+    for (report of reports) {
+      new google.maps.Marker({
+        position: {
+          lat: Number(report.latitude),
+          lng: Number(report.longitude)
+        }, map: map
+      });
+    };
+  }
+}
+
+async function setLoginStatus() {
+  const response = await fetch('/login');
+  const loginStatus = await response.json();
+  
+  const loginLogout = document.getElementById('login-logout');
+  if (loginStatus.loggedIn) {
+    loginLogout.innerText = "Logout";
+  } else {
+    loginLogout.innerText = "Login";
+  }
+  loginLogout.addEventListener('click', () => { location.replace(loginStatus.url) });
 }
