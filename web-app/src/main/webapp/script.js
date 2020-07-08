@@ -28,7 +28,6 @@ async function fetchMarkers(map) {
   let openWindow = { window: null };
 
   markers.forEach((marker) => {
-    console.log(marker);
     createMarkerForDisplay(map, marker, openWindow);
   });
 
@@ -44,7 +43,7 @@ function createMarkerForDisplay(map, data, openWindow) {
   const marker =
     new google.maps.Marker({ position: { lat: data.latitude, lng: data.longitude }, map: map });
 
-  let infoParagraph = document.createElement("div");
+  const infoParagraph = document.createElement("div");
   infoParagraph.setAttribute('id', 'info-window');
   const timestamp = new Date(data.timestamp);
   infoParagraph.innerHTML = `
