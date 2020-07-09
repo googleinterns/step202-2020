@@ -25,7 +25,7 @@ import com.google.appengine.api.datastore.Entity;
 public class ReportServletTest extends Mockito {
 
   private final LocalServiceTestHelper helper =
-    new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig(), new LocalBlobstoreServiceTestConfig());
+  new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig(), new LocalBlobstoreServiceTestConfig());
 
   @Before
   public void setUp() {
