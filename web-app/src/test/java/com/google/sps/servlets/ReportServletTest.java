@@ -38,8 +38,6 @@ public class ReportServletTest extends Mockito {
   public void testReportServlet() throws IOException {
     HttpServletRequest request = mock(HttpServletRequest.class);
     HttpServletResponse response = mock(HttpServletResponse.class);
-    // private static DateFormat timeStampFormatter = new
-    // SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
     String time = "2017-06-01T08:30";
 
     when(request.getParameter("title")).thenReturn("Test");
