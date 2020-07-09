@@ -24,8 +24,8 @@ import com.google.appengine.api.datastore.Entity;
 @RunWith(JUnit4.class)
 public class ReportServletTest extends Mockito {
 
-  private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig(),
-      new LocalBlobstoreServiceTestConfig());
+  private final LocalServiceTestHelper helper =
+    new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig(), new LocalBlobstoreServiceTestConfig());
 
   @Before
   public void setUp() {
@@ -34,24 +34,24 @@ public class ReportServletTest extends Mockito {
 
   @Test
   public void testReportServlet() throws IOException {
-    // HttpServletRequest request = mock(HttpServletRequest.class);
-    // HttpServletResponse response = mock(HttpServletResponse.class);
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    HttpServletResponse response = mock(HttpServletResponse.class);
 
-    // when(request.getParameter("title")).thenReturn("Test");
-    // when(request.getParameter("latitude")).thenReturn("1.11");
-    // when(request.getParameter("longitude")).thenReturn("10.26");
-    // when(request.getParameter("timestamp")).thenReturn("2017-06-01T08:30");
-    // when(request.getParameter("incidentType")).thenReturn("Theft");
-    // when(request.getParameter("description")).thenReturn("Sample request for testing");
+    when(request.getParameter("title")).thenReturn("Test");
+    when(request.getParameter("latitude")).thenReturn("1.11");
+    when(request.getParameter("longitude")).thenReturn("10.26");
+    when(request.getParameter("timestamp")).thenReturn("2017-06-01T08:30");
+    when(request.getParameter("incidentType")).thenReturn("Theft");
+    when(request.getParameter("description")).thenReturn("Sample request for testing");
 
-    // Entity testReport = ReportServlet.createReportEntity(request, response);
+    Entity testReport = ReportServlet.createReportEntity(request, response);
 
-    // Assert.assertEquals(testReport.getProperty("title"), "Test");
-    // Assert.assertEquals(testReport.getProperty("latitude"), 1.11);
-    // Assert.assertEquals(testReport.getProperty("longitude"), 10.26);
-    // Assert.assertEquals(testReport.getProperty("incidentType"), "Theft");
-    // Assert.assertEquals(testReport.getProperty("description"), "Sample request for testing");
-    // Assert.assertEquals(testReport.getProperty("timestamp"), 1496273400);
+    Assert.assertEquals(testReport.getProperty("title"), "Test");
+    Assert.assertEquals(testReport.getProperty("latitude"), 1.11);
+    Assert.assertEquals(testReport.getProperty("longitude"), 10.26);
+    Assert.assertEquals(testReport.getProperty("incidentType"), "Theft");
+    Assert.assertEquals(testReport.getProperty("description"), "Sample request for testing");
+    Assert.assertEquals(testReport.getProperty("timestamp"), 1496273400);
   }
 
   @After
