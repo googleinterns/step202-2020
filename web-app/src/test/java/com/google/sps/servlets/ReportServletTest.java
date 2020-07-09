@@ -50,7 +50,13 @@ public class ReportServletTest extends Mockito {
     when(request.getParameter("description")).thenReturn("Sample request for testing");
 
     Entity testReport = ReportServlet.createReportEntity(request, response);
-    Date timestamp = ReportServlet.timeStampFormatter.parse(time);
+    Date timestamp;
+    try {
+      timestamp = ReportServlet.timeStampFormatter.parse(time);
+    } catch (Exception e) {
+      System.out.println("Failed to parse time");
+      return;
+    }
     Long epochTime = timestamp.getTime();
 
     Assert.assertEquals(testReport.getProperty("title"), "Test");
