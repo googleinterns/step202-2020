@@ -19,7 +19,7 @@ window.onload = async () => {
   document.getElementById('back-icon').addEventListener('click', () => {
     hideReportForm();
     document.getElementById('report-form').reset();
-    }
+  }
   );
   document.getElementById('map-icon').addEventListener('click', () => hideReportForm)
   document.getElementById('submit-button').addEventListener('click', () => postUserReport(geocoder));
@@ -36,8 +36,8 @@ window.onload = async () => {
 
 function initMap() {
   const map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: -34.397, lng: 150.644 },
-    zoom: 5,
+    center: { lat: 51.5074, lng: -0.1278 },
+    zoom: 13,
   });
   return map;
 }
@@ -156,8 +156,6 @@ function hideReportForm() {
 
 // This currently gets the address from the report form's location field (no autopopulate, no map picker)
 async function postUserReport(geocoder) {
-  document.getElementById('report-form').reset();
-
   const address = document.getElementById('location-input').value;
   geocoder.geocode({ 'address': address }, async (results, status) => {
     if (status === 'OK') {
@@ -165,10 +163,13 @@ async function postUserReport(geocoder) {
       const data = reportFormToURLQuery(coordinates.lat(), coordinates.lng());
       const url = await fetchBlobstoreUrl();
       fetch(url, { method: 'POST', body: data });
+      document.getElementById('report-form').reset();
     } else {
       console.error('Geocode was not successful: ' + status);
     }
   })
+
+  hideReportForm();
 }
 
 function reportFormToURLQuery(latitude, longitude) {
