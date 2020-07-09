@@ -62,10 +62,10 @@ window.onload = () => {
   document.getElementById('form-container').style.display = 'none';
   document.getElementById('report-button').addEventListener('click', showReportForm);
   const map = initMap();
-  const categories = Array.from(document.getElementsByClassName('category'));
-  const timeFrames = Array.from(document.getElementsByClassName('time-frame'));
-  categories.map(categoryElement => categoryElement.addEventListener('change', () => { loadPoliceReports(map) }));
-  timeFrames.map(timeFrameElement => timeFrameElement.addEventListener('change', () => { loadPoliceReports(map) }));
+  const timeFrameOptions = document.getElementById("time-frame-options");
+  timeFrameOptions.addEventListener('change', () => {loadPoliceReports(map)});
+  const categoryOptions = document.getElementById("category-options");
+  categoryOptions.addEventListener('change', () => {loadPoliceReports(map)});
   loadPoliceReports(map);
   displayUserLocation(map);
 };
@@ -97,7 +97,6 @@ async function createPoliceReportMarkers(map, file_name, uncheckedCategories, nu
   
   if (reports.length != 0 && !isReportwithinTimeFrame(reports[0].month, numberofMonths)) {
     // Only check first report because all reports have same date if in same file
-    console.log("reach here");
     return;
   }
 

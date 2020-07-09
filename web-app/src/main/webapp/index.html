@@ -57,148 +57,152 @@
       <div class="row menu-subheading">
         <h2>Time Frame</h2>
       </div>
-      <div class="row">
-        <div class="two columns right">
-          <input type="radio" class="time-frame" id="four-weeks" name="time-frame"
-            value="1">
+      <div id="time-frame-options">
+        <div class="row">
+          <div class="two columns right">
+            <input type="radio" class="time-frame" id="four-weeks" name="time-frame"
+              value="1">
+          </div>
+          <div class="ten columns">
+            <label for="four-weeks">Last 4 weeks</label>
+          </div>
         </div>
-        <div class="ten columns">
-          <label for="four-weeks">Last 4 weeks</label>
+        <div class="row">
+          <div class="two columns right">
+            <input type="radio" class="time-frame" id="three-months" name="time-frame"
+              value="3">
+          </div>
+          <div class="ten columns">
+            <label for="three-months">Last 3 months</label>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="two columns right">
-          <input type="radio" class="time-frame" id="three-months" name="time-frame"
-            value="3">
+        <div class="row">
+          <div class="two columns right">
+            <input type="radio" class="time-frame" id="six-months" name="time-frame"
+              value="6" checked>
+          </div>
+          <div class="ten columns">
+            <label for="six-months">Last 6 months</label>
+          </div>
         </div>
-        <div class="ten columns">
-          <label for="three-months">Last 3 months</label>
+        <div class="row">
+          <div class="two columns right">
+            <input type="radio" class="time-frame" id="twelve-months" name="time-frame"
+              value="12">
+          </div>
+          <div class="ten columns">
+            <label for="twelve-months">Last 12 months</label>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="two columns right">
-          <input type="radio" class="time-frame" id="six-months" name="time-frame"
-            value="6" checked>
+        <div class="row">
+          <div class="two columns right">
+            <input type="radio" class="time-frame" id="custom-radio" name="time-frame"
+              value="custom">
+          </div>
+          <div class="ten columns">
+            <label for="custom-radio">Custom:</label>
+          </div>
         </div>
-        <div class="ten columns">
-          <label for="six-months">Last 6 months</label>
+        <div class="row last-row">
+          <div class="six columns right desc">
+            Last
+          </div>
+          <div class="three columns">
+            <input type="number" id="custom-interval" name="custom-interval">
+          </div>
+          <div class="three columns desc">
+            months
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="two columns right">
-          <input type="radio" class="time-frame" id="twelve-months" name="time-frame"
-            value="12">
-        </div>
-        <div class="ten columns">
-          <label for="twelve-months">Last 12 months</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="two columns right">
-          <input type="radio" class="time-frame" id="custom-radio" name="time-frame"
-            value="custom">
-        </div>
-        <div class="ten columns">
-          <label for="custom-radio">Custom:</label>
-        </div>
-      </div>
-      <div class="row last-row">
-        <div class="six columns right desc">
-          Last
-        </div>
-        <div class="three columns">
-          <input type="number" id="custom-interval" name="custom-interval">
-        </div>
-        <div class="three columns desc">
-          months
-        </div>
-      </div>
+      <div>
       <!-- Category -->
       <div class="row menu-subheading">
         <h2>Category</h2>
       </div>
-      <div class="row">
-        <div class="two columns right">
-          <input type="checkbox" class="category" id="p-one" name="category"
-            value="drugs" checked="checked">
+      <div id="category-options">
+        <div class="row">
+          <div class="two columns right">
+            <input type="checkbox" class="category" id="p-one" name="category"
+              value="drugs" checked="checked">
+          </div>
+          <div class="ten columns">
+            <label for="p-one">Drugs</label>
+          </div>
         </div>
-        <div class="ten columns">
-          <label for="p-one">Drugs</label>
+        <div class="row">
+          <div class="two columns right">
+            <input type="checkbox" class="category" id="p-two" name="category"
+              value="burglary" checked="checked">
+          </div>
+          <div class="ten columns">
+            <label for="p-two">Burglary</label>
+          </div>
         </div>
+        <div class="row">
+          <div class="two columns right">
+            <input type="checkbox" class="category" id="p-three" name="category"
+              value="arson" checked="checked">
+          </div>
+          <div class="ten columns">
+            <label for="p-three">Criminal damage and arson</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="two columns right">
+            <input type="checkbox" class="category" id="p-four" name="category"
+              value="theft">
+          </div>
+          <div class="ten columns">
+            <label for="p-four">Theft</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="two columns right">
+            <input type="checkbox" class="category" id="p-five" name="category"
+              value="weapons">
+          </div>
+          <div class="ten columns">
+            <label for="p-five">Possesion of weapons</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="two columns right">
+            <input type="checkbox" class="category" id="p-six" name="category"
+              value="violence">
+          </div>
+          <div class="ten columns">
+            <label for="p-six">Violence and sexual offences</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="two columns right">
+            <input type="checkbox" class="category" id="p-seven" name="category"
+              value="order">
+          </div>
+          <div class="ten columns">
+            <label for="p-seven">Public order</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="two columns right">
+            <input type="checkbox" class="category" id="p-eight" name="category"
+              value="anti-social">
+          </div>
+          <div class="ten columns">
+            <label for="p-eight">Anti-social behaviour</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="two columns right">
+            <input type="checkbox" class="category" id="p-nine" name="category"
+              value="other crime">
+          </div>
+          <div class="ten columns">
+            <label for="p-nine">Other crime</label>
+          </div>
+        </div>
+        <button id="select-all-cats" class="menu-button">Select all</button>
       </div>
-      <div class="row">
-        <div class="two columns right">
-          <input type="checkbox" class="category" id="p-two" name="category"
-            value="burglary" checked="checked">
-        </div>
-        <div class="ten columns">
-          <label for="p-two">Burglary</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="two columns right">
-          <input type="checkbox" class="category" id="p-three" name="category"
-            value="arson" checked="checked">
-        </div>
-        <div class="ten columns">
-          <label for="p-three">Criminal damage and arson</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="two columns right">
-          <input type="checkbox" class="category" id="p-four" name="category"
-            value="theft">
-        </div>
-        <div class="ten columns">
-          <label for="p-four">Theft</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="two columns right">
-          <input type="checkbox" class="category" id="p-five" name="category"
-            value="weapons">
-        </div>
-        <div class="ten columns">
-          <label for="p-five">Possesion of weapons</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="two columns right">
-          <input type="checkbox" class="category" id="p-six" name="category"
-            value="violence">
-        </div>
-        <div class="ten columns">
-          <label for="p-six">Violence and sexual offences</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="two columns right">
-          <input type="checkbox" class="category" id="p-seven" name="category"
-            value="order">
-        </div>
-        <div class="ten columns">
-          <label for="p-seven">Public order</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="two columns right">
-          <input type="checkbox" class="category" id="p-eight" name="category"
-            value="anti-social">
-        </div>
-        <div class="ten columns">
-          <label for="p-eight">Anti-social behaviour</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="two columns right">
-          <input type="checkbox" class="category" id="p-nine" name="category"
-            value="other crime">
-        </div>
-        <div class="ten columns">
-          <label for="p-nine">Other crime</label>
-        </div>
-      </div>
-      <button id="select-all-cats" class="menu-button">Select all</button>
       <!-- Time of day -->
       <div class="row menu-subheading">
         <h2>Time of Day</h2>
