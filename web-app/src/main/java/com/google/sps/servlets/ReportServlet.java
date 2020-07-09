@@ -54,7 +54,7 @@ public class ReportServlet extends HttpServlet {
     }
   };
 
-  private static DateFormat timeStampFormatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
+  public static DateFormat timeStampFormatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -97,7 +97,7 @@ public class ReportServlet extends HttpServlet {
       }
     }
 
-    if (request.getParameter("image")) {
+    if (request.getParameter("image") != null) {
       reportEntity.setProperty("imageUrl", getUploadedFileUrl(request, "image"));
     }
     return reportEntity;
