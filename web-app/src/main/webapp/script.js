@@ -76,7 +76,9 @@ function showReportForm() {
 
 async function loadPoliceReports(map) {
   // Clear all markers on the map
-  mapMarkers.map(marker => marker.setMap(null));
+  for (const marker of mapMarkers) {
+    marker.setMap(null);
+  }
   mapMarkers.length = 0;
 
   const FILE_NAMES = ['2019_12_london', '2020_01_london', '2020_02_london', '2020_03_london', '2020_04_london', '2020_05_london']
