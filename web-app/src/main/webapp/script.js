@@ -63,9 +63,9 @@ window.onload = () => {
   document.getElementById('report-button').addEventListener('click', showReportForm);
   const map = initMap();
   const timeFrameOptions = document.getElementById("time-frame-options");
-  timeFrameOptions.addEventListener('change', () => {loadPoliceReports(map)});
+  timeFrameOptions.addEventListener('change', () => { loadPoliceReports(map) });
   const categoryOptions = document.getElementById("category-options");
-  categoryOptions.addEventListener('change', () => {loadPoliceReports(map)});
+  categoryOptions.addEventListener('change', () => { loadPoliceReports(map) });
   loadPoliceReports(map);
   displayUserLocation(map);
 };
@@ -79,35 +79,35 @@ async function loadPoliceReports(map) {
   for (const marker of mapMarkers) {
     marker.setMap(null);
   }
-  mapMarkers.length = 0;
+  mapMarkers = [];
 
   const FILE_NAMES = ['2019_12_london', '2020_01_london', '2020_02_london', '2020_03_london', '2020_04_london', '2020_05_london']
   const uncheckedCategoriesElement = Array.from(document.querySelectorAll("input.category:not(:checked)"));
   const uncheckedCategories = uncheckedCategoriesElement.map(element => element.value);
-  const numberofMonths = Number(document.querySelector("input.time-frame:checked").value);
+  const numberOfMonths = Number(document.querySelector("input.time-frame:checked").value);
 
   for (const file_name of FILE_NAMES) {
-    createPoliceReportMarkers(map, file_name, uncheckedCategories, numberofMonths);
+    createPoliceReportMarkers(map, file_name, uncheckedCategories, numberOfMonths);
   }
 }
 
-async function createPoliceReportMarkers(map, file_name, uncheckedCategories, numberofMonths) {
+async function createPoliceReportMarkers(map, file_name, uncheckedCategories, numberOfMonths) {
   const data = await fetch('../data/' + file_name + '.json');
   const reports = await data.json();
-  
-  if (reports.length != 0 && !isReportwithinTimeFrame(reports[0].month, numberofMonths)) {
+
+  if (reports.length !== 0 && !isReportwithinTimeFrame(reports[0].month, numberOfMonths)) {
     // Only check first report because all reports have same date if in same file
     return;
   }
 
-  const filteredReports = reports.filter(report => {
+  const filteredReports = reports.filter((report) => {
     if (!report.latitude || !report.longitude) {
       return false;
     }
     return displayCrimeType(uncheckedCategories, report.crimeType);
   });
 
-  const markers = filteredReports.map(report => new google.maps.Marker({
+  const markers = filteredReports.map((report) => new google.maps.Marker({
     position: {
       lat: Number(report.latitude),
       lng: Number(report.longitude)
@@ -127,12 +127,12 @@ function displayCrimeType(uncheckedCategories, crimeType) {
   return true;
 }
 
-function isReportwithinTimeFrame(reportDate, numberofMonths) {
+function isReportwithinTimeFrame(reportDate, numberOfMonths) {
   const month = Number(reportDate.substring(5, 7));
   const year = Number(reportDate.substring(0, 4));
 
   const today = new Date();
   const monthDiff = (today.getFullYear() - year) * 12 + today.getMonth() + 1 - month;
 
-  return (monthDiff < numberofMonths);
+  return (monthDiff < numberOfMonths);
 }
