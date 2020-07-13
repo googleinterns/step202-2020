@@ -1,5 +1,11 @@
 let mapMarkers = [];
 
+async function fetchAndParseJson(url) {
+  const response = await fetch(url);
+  const json = await response.json();
+  return json;
+}
+
 async function loadPoliceReports(map) {
   // Clear all markers on the map
   for (const marker of mapMarkers) {
