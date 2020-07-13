@@ -54,7 +54,7 @@ public class ReportServlet extends HttpServlet {
     }
   };
 
-  public static DateFormat timeStampFormatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
+  private static DateFormat timeStampFormatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

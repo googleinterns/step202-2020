@@ -38,31 +38,22 @@ public class ReportServletTest extends Mockito {
   public void testReportServlet() throws IOException {
     HttpServletRequest request = mock(HttpServletRequest.class);
     HttpServletResponse response = mock(HttpServletResponse.class);
-    String time = "2017-06-01T08:30";
 
     when(request.getParameter("title")).thenReturn("Test");
     when(request.getParameter("latitude")).thenReturn("1.11");
     when(request.getParameter("longitude")).thenReturn("10.26");
-    when(request.getParameter("timestamp")).thenReturn(time);
+    when(request.getParameter("timestamp")).thenReturn("2017-06-01T08:30");
     when(request.getParameter("incidentType")).thenReturn("Theft");
     when(request.getParameter("description")).thenReturn("Sample request for testing");
 
     Entity testReport = ReportServlet.createReportEntity(request, response);
-    Date timestamp;
-    try {
-      timestamp = ReportServlet.timeStampFormatter.parse(time);
-    } catch (Exception e) {
-      System.out.println("Failed to parse time");
-      return;
-    }
-    Long epochTime = timestamp.getTime();
 
     Assert.assertEquals(testReport.getProperty("title"), "Test");
     Assert.assertEquals(testReport.getProperty("latitude"), 1.11);
     Assert.assertEquals(testReport.getProperty("longitude"), 10.26);
     Assert.assertEquals(testReport.getProperty("incidentType"), "Theft");
     Assert.assertEquals(testReport.getProperty("description"), "Sample request for testing");
-    Assert.assertEquals(testReport.getProperty("timestamp"), epochTime);
+    Assert.assertEquals(testReport.getProperty("timestamp"), 1496305800000L);
   }
 
   @After
