@@ -71,6 +71,7 @@ public class ReportServlet extends HttpServlet {
     Entity reportEntity = createReportEntity(request, response);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(reportEntity);
+
   }
 
   public static Entity createReportEntity(HttpServletRequest request, HttpServletResponse response) throws IOException {

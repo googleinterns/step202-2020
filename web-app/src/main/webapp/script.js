@@ -164,12 +164,11 @@ async function postUserReport(geocoder) {
       const url = await fetchBlobstoreUrl();
       fetch(url, { method: 'POST', body: data });
       document.getElementById('report-form').reset();
+      hideReportForm();
     } else {
       console.error('Geocode was not successful: ' + status);
     }
   })
-
-  hideReportForm();
 }
 
 function reportFormToURLQuery(latitude, longitude) {
