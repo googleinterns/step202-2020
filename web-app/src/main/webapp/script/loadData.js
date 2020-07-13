@@ -27,7 +27,6 @@ async function loadPoliceReports(map) {
     )
   );
   mapMarkers = markersArrayForEachReports.flat();
-  console.log(mapMarkers);
 }
 
 async function createPoliceReportMarkers(map, file_name, uncheckedCategories, numberOfMonths) {
