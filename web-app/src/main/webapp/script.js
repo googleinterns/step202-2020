@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+let mapMarkers = [];
 
 window.onload = async () => {
   const geocoder = new google.maps.Geocoder();
@@ -28,6 +29,10 @@ window.onload = async () => {
   document.getElementById('close-menu').addEventListener('click',
     () => document.getElementById('menu').style.display = 'none');
   fetchMarkers(map);
+	const timeFrameOptions = document.getElementById("time-frame-options");
+  timeFrameOptions.addEventListener('change', () => { loadPoliceReports(map) });
+  const categoryOptions = document.getElementById("category-options");
+  categoryOptions.addEventListener('change', () => { loadPoliceReports(map) });
   loadPoliceReports(map);
   displayUserLocation(map);
   await setLoginStatus();
@@ -148,6 +153,7 @@ function showReportForm(map, geocoder) {
 
 function hideReportForm() {
   document.getElementById('form-container').style.display = 'none';
+
   const homeElements = document.getElementsByClassName('home');
   for (const element of homeElements) {
     element.style.display = 'block';
@@ -192,7 +198,6 @@ function reportFormToURLQuery(latitude, longitude) {
   return formData;
 }
 
-
 async function fetchBlobstoreUrl() {
   const response = await fetch('/blobstore-upload-url');
   const imageURL = await response.text();
@@ -200,19 +205,67 @@ async function fetchBlobstoreUrl() {
 }
 
 async function loadPoliceReports(map) {
-  const FILE_NAMES = ['2019_12_london', '2020_01_london', '2020_02_london', '2020_03_london', '2020_04_london', '2020_05_london']
-  for (const file_name of FILE_NAMES) {
-    const data = await fetch('../data/' + file_name + '.json');
-    const reports = await data.json();
-    for (report of reports) {
-      new google.maps.Marker({
-        position: {
-          lat: Number(report.latitude),
-          lng: Number(report.longitude)
-        }, map: map
-      });
-    };
+  // Clear all markers on the map
+  for (const marker of mapMarkers) {
+    marker.setMap(null);
   }
+  mapMarkers = [];
+
+  const FILE_NAMES = ['2019_12_london', '2020_01_london', '2020_02_london', '2020_03_london', '2020_04_london', '2020_05_london']
+  const uncheckedCategoriesElement = Array.from(document.querySelectorAll("input.category:not(:checked)"));
+  const uncheckedCategories = uncheckedCategoriesElement.map(element => element.value);
+  const numberOfMonths = Number(document.querySelector("input.time-frame:checked").value);
+
+  const markersArrayForEachReports = await Promise.all(FILE_NAMES.map((file_name) =>
+    createPoliceReportMarkers(map, file_name, uncheckedCategories, numberOfMonths)));
+  mapMarkers = markersArrayForEachReports.flat();
+}
+
+async function createPoliceReportMarkers(map, file_name, uncheckedCategories, numberOfMonths) {
+  const data = await fetch('../data/' + file_name + '.json');
+  const reports = await data.json();
+
+  const reportsDate = new Date();
+  // Only check first report because all reports have same date if in same file
+  reportsDate.setMonth(Number(reports[0].yearMonth.substring(5, 7)));
+  reportsDate.setYear(Number(reports[0].yearMonth.substring(0, 4)));
+
+  if (reports.length !== 0 && !isReportwithinTimeFrame(reportsDate, numberOfMonths)) {
+    return [];
+  }
+
+  const filteredReports = reports.filter((report) => {
+    if (!report.latitude || !report.longitude) {
+      return false;
+    }
+    return displayCrimeType(uncheckedCategories, report.crimeType);
+  });
+
+  const markers = filteredReports.map((report) => new google.maps.Marker({
+    position: {
+      lat: Number(report.latitude),
+      lng: Number(report.longitude)
+    }, map: map
+  }));
+
+  return markers;
+}
+
+function displayCrimeType(uncheckedCategories, crimeType) {
+  // Don't display if category unchecked
+  for (category of uncheckedCategories) {
+    if (crimeType.toLowerCase().includes(category)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function isReportwithinTimeFrame(reportsDate, numberOfMonths) {
+  const today = new Date();
+  const monthDiff = (today.getFullYear() - reportsDate.getFullYear()) * 12 + today.getMonth() + 1 - reportsDate.getMonth();
+
+  return monthDiff < numberOfMonths;
 }
 
 async function setLoginStatus() {

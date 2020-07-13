@@ -17,7 +17,7 @@ def csvToJson(filename):
         csvReader = csv.DictReader(csvFile)
         for rows in csvReader:
             entry = {
-                'month': rows['Month'],
+                'yearMonth': rows['Month'],
                 'longitude': rows['Longitude'],
                 'latitude': rows['Latitude'],
                 'crimeType': rows['Crime type']
