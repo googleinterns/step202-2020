@@ -160,7 +160,15 @@ async function postUserReport(geocoder) {
   geocoder.geocode({ 'address': address }, async (results, status) => {
     if (status === 'OK') {
       const coordinates = results[0].geometry.location;
-      const data = reportFormToURLQuery(coordinates.lat(), coordinates.lng());
+
+      let data;
+      try {
+        data = reportFormToURLQuery(coordinates.lat(), coordinates.lng());
+      } catch (error) {
+        console.log(error);
+        return;
+      }
+
       const url = await fetchBlobstoreUrl();
       fetch(url, { method: 'POST', body: data });
       document.getElementById('report-form').reset();
@@ -182,6 +190,9 @@ function reportFormToURLQuery(latitude, longitude) {
   const formData = new FormData();
   for (const [formID, paramName] of PARAMS_FORM_MAP.entries()) {
     const value = document.getElementById(formID).value;
+    if (!value) {
+      throw new Error(paramName + ' not filled in');
+    }
     formData.append(paramName, value);
   }
 
