@@ -95,7 +95,7 @@ async function createPoliceReportMarkers(map, file_name, uncheckedCategories, nu
   const data = await fetch('../data/' + file_name + '.json');
   const reports = await data.json();
 
-  if (reports.length !== 0 && !isReportwithinTimeFrame(reports[0].month, numberOfMonths)) {
+  if (reports.length !== 0 && !isReportwithinTimeFrame(reports[0].yearMonth, numberOfMonths)) {
     // Only check first report because all reports have same date if in same file
     return [];
   }
