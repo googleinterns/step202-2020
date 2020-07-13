@@ -13,12 +13,85 @@
 // limitations under the License.
 let mapMarkers = [];
 
+window.onload = async () => {
+  const geocoder = new google.maps.Geocoder();
+  const map = initMap();
+  document.getElementById('report-button').addEventListener('click', () => showReportForm(map, geocoder));
+  document.getElementById('back-icon').addEventListener('click', () => {
+    hideReportForm();
+    document.getElementById('report-form').reset();
+    }
+  );
+  document.getElementById('map-icon').addEventListener('click', () => hideReportForm)
+  document.getElementById('submit-button').addEventListener('click', () => postUserReport(geocoder));
+  document.getElementById('menu-button').addEventListener('click',
+    () => { document.getElementById('menu').style.display = 'block' });
+  document.getElementById('close-menu').addEventListener('click',
+    () => document.getElementById('menu').style.display = 'none');
+  fetchMarkers(map);
+	const timeFrameOptions = document.getElementById("time-frame-options");
+  timeFrameOptions.addEventListener('change', () => { loadPoliceReports(map) });
+  const categoryOptions = document.getElementById("category-options");
+  categoryOptions.addEventListener('change', () => { loadPoliceReports(map) });
+  loadPoliceReports(map);
+  displayUserLocation(map);
+  await setLoginStatus();
+};
+
+
 function initMap() {
   const map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: -34.397, lng: 150.644 },
     zoom: 5,
   });
   return map;
+}
+
+async function fetchMarkers(map) {
+  const response = await fetch('/report');
+  const markers = await response.json();
+  let uiState = { activeInfoWindow: null };
+
+  markers.forEach((marker) => {
+    createMarkerForDisplay(map, marker, uiState);
+  });
+
+  map.addListener('click', () => {
+    if (uiState.activeInfoWindow) {
+      uiState.activeInfoWindow.close();
+      uiState.activeInfoWindow = null;
+    }
+  })
+}
+
+function createMarkerForDisplay(map, data, uiState) {
+  const marker =
+    new google.maps.Marker({ position: { lat: data.latitude, lng: data.longitude }, map: map });
+
+  const infoParagraph = document.createElement("div");
+  infoParagraph.setAttribute('id', 'info-window');
+  const timestamp = new Date(data.timestamp);
+  infoParagraph.innerHTML = `
+    <h1>${data.title}</h1>
+    <p>${timestamp.toLocaleDateString()}, ${timestamp.toLocaleTimeString()}</p>
+    <p>${data.description}</p>
+  `;
+
+  if (data.imageUrl) {
+    infoParagraph.insertAdjacentHTML('beforeend',
+      `<img src="${window.location.href}serve?blob-key=${data.imageUrl}"
+      id="info-image" alt="User-submitted image of incident">`)
+  }
+
+  const infoWindow = new google.maps.InfoWindow({ content: infoParagraph });
+  marker.addListener('click', () => {
+    if (uiState.activeInfoWindow) {
+      uiState.activeInfoWindow.close();
+    }
+    infoWindow.open(map, marker);
+    uiState.activeInfoWindow = infoWindow;
+  });
+
 }
 
 function displayUserLocation(map) {
@@ -58,20 +131,77 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
   infoWindow.open(map);
 }
 
-window.onload = () => {
-  document.getElementById('form-container').style.display = 'none';
-  document.getElementById('report-button').addEventListener('click', showReportForm);
-  const map = initMap();
-  const timeFrameOptions = document.getElementById("time-frame-options");
-  timeFrameOptions.addEventListener('change', () => { loadPoliceReports(map) });
-  const categoryOptions = document.getElementById("category-options");
-  categoryOptions.addEventListener('change', () => { loadPoliceReports(map) });
-  loadPoliceReports(map);
-  displayUserLocation(map);
-};
+function showReportForm(map, geocoder) {
+  document.getElementById('form-container').style.display = 'block';
+  const homeElements = document.getElementsByClassName('home');
+  for (const element of homeElements) {
+    element.style.display = 'none';
+  }
 
-function showReportForm() {
-  document.getElementById("form-container").style.display = "block";
+  geocoder.geocode({ 'location': map.getCenter() }, (results, status) => {
+    if (status === 'OK') {
+      if (results[0]) {
+        document.getElementById('location-input').value = results[0].formatted_address;
+      } else {
+        console.error('No results found');
+      }
+    } else {
+      console.error('Geocoder failed due to: ' + status);
+    }
+  })
+}
+
+function hideReportForm() {
+  document.getElementById('form-container').style.display = 'none';
+
+  const homeElements = document.getElementsByClassName('home');
+  for (const element of homeElements) {
+    element.style.display = 'block';
+  }
+}
+
+// This currently gets the address from the report form's location field (no autopopulate, no map picker)
+async function postUserReport(geocoder) {
+  document.getElementById('report-form').reset();
+
+  const address = document.getElementById('location-input').value;
+  geocoder.geocode({ 'address': address }, async (results, status) => {
+    if (status === 'OK') {
+      const coordinates = results[0].geometry.location;
+      const data = reportFormToURLQuery(coordinates.lat(), coordinates.lng());
+      const url = await fetchBlobstoreUrl();
+      fetch(url, { method: 'POST', body: data });
+    } else {
+      console.error('Geocode was not successful: ' + status);
+    }
+  })
+}
+
+function reportFormToURLQuery(latitude, longitude) {
+  const PARAMS_FORM_MAP = new Map([
+    ['title-input', 'title'],
+    ['time-input', 'timestamp'],
+    ['category-input', 'incidentType'],
+    ['description-input', 'description'],
+  ]);
+
+  const formData = new FormData();
+  for (const [formID, paramName] of PARAMS_FORM_MAP.entries()) {
+    const value = document.getElementById(formID).value;
+    formData.append(paramName, value);
+  }
+
+  formData.append('latitude', latitude);
+  formData.append('longitude', longitude);
+  formData.append('image', document.getElementById('attach-image').files[0]);
+
+  return formData;
+}
+
+async function fetchBlobstoreUrl() {
+  const response = await fetch('/blobstore-upload-url');
+  const imageURL = await response.text();
+  return imageURL;
 }
 
 async function loadPoliceReports(map) {
@@ -136,4 +266,17 @@ function isReportwithinTimeFrame(reportsDate, numberOfMonths) {
   const monthDiff = (today.getFullYear() - reportsDate.getFullYear()) * 12 + today.getMonth() + 1 - reportsDate.getMonth();
 
   return monthDiff < numberOfMonths;
+}
+
+async function setLoginStatus() {
+  const response = await fetch('/login');
+  const loginStatus = await response.json();
+
+  const loginLogout = document.getElementById('login-logout');
+  if (loginStatus.loggedIn) {
+    loginLogout.innerText = "Logout";
+  } else {
+    loginLogout.innerText = "Login";
+  }
+  loginLogout.addEventListener('click', () => { location.replace(loginStatus.url) });
 }

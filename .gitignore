@@ -2,6 +2,7 @@
 .classpath
 .project
 .settings/
+web-app/.factorypath
  
 # Intellij
 .idea/
@@ -11,6 +12,9 @@
 # Maven
 log/
 web-app/target/
+
+# VSCode
+.vscode/
 
 # Compiled class file
 *.class
