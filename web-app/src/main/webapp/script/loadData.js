@@ -1,3 +1,5 @@
+let mapMarkers = [];
+
 async function loadPoliceReports(map) {
   // Clear all markers on the map
   for (const marker of mapMarkers) {
@@ -25,6 +27,7 @@ async function loadPoliceReports(map) {
     )
   );
   mapMarkers = markersArrayForEachReports.flat();
+  console.log(mapMarkers);
 }
 
 async function createPoliceReportMarkers(map, file_name, uncheckedCategories, numberOfMonths) {
