@@ -29,7 +29,7 @@ async function loadPoliceReports(map) {
 
   const markersArrayForEachReports = await Promise.all(
     FILE_NAMES.map((file_name) => {
-      const reports = fetchAndParseJson("../data/" + file_name + ".json");
+      const reports = await fetchAndParseJson("../data/" + file_name + ".json");
       createPoliceReportMarkers(map, reports, uncheckedCategories, numberOfMonths)
     })
   );
@@ -81,9 +81,7 @@ function isReportwithinTimeFrame(reportsDate, numberOfMonths) {
   const today = new Date();
   const monthDiff =
     (today.getFullYear() - reportsDate.getFullYear()) * 12 +
-    today.getMonth() +
-    1 -
-    reportsDate.getMonth();
+    today.getMonth() + 1 - reportsDate.getMonth();
 
   return monthDiff < numberOfMonths;
 }
