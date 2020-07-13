@@ -96,11 +96,11 @@ async function createPoliceReportMarkers(map, file_name, uncheckedCategories, nu
   const reports = await data.json();
 
   const reportsDate = new Date();
+  // Only check first report because all reports have same date if in same file
   reportsDate.setMonth(Number(reports[0].yearMonth.substring(5, 7)));
   reportsDate.setYear(Number(reports[0].yearMonth.substring(0, 4)));
 
   if (reports.length !== 0 && !isReportwithinTimeFrame(reportsDate, numberOfMonths)) {
-    // Only check first report because all reports have same date if in same file
     return [];
   }
 
