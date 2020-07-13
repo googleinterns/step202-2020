@@ -188,10 +188,7 @@ function reportFormToURLQuery(latitude, longitude) {
 
   formData.append('latitude', latitude);
   formData.append('longitude', longitude);
-  const image = document.getElementById('attach-image').files[0];
-  if (image) {
-    formData.append('image', image);
-  }
+  formData.append('image', document.getElementById('attach-image').files[0]);
 
   return formData;
 }

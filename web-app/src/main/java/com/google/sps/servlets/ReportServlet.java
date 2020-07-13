@@ -97,9 +97,7 @@ public class ReportServlet extends HttpServlet {
       }
     }
 
-    if (request.getParameter("image") != null) {
-      reportEntity.setProperty("imageUrl", getUploadedFileUrl(request, "image"));
-    }
+    reportEntity.setProperty("imageUrl", getUploadedFileUrl(request, "image"));
     return reportEntity;
   }
 
