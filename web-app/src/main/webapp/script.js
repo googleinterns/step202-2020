@@ -86,9 +86,9 @@ async function loadPoliceReports(map) {
   const uncheckedCategories = uncheckedCategoriesElement.map(element => element.value);
   const numberOfMonths = Number(document.querySelector("input.time-frame:checked").value);
 
-  for (const file_name of FILE_NAMES) {
-    createPoliceReportMarkers(map, file_name, uncheckedCategories, numberOfMonths);
-  }
+  mapMarkers = await Promise.all(FILE_NAMES.map((file_name) =>
+    createPoliceReportMarkers(map, file_name, uncheckedCategories, numberOfMonths)));
+  mapMarkers = mapMarkers.flat(); 
 }
 
 async function createPoliceReportMarkers(map, file_name, uncheckedCategories, numberOfMonths) {
@@ -97,7 +97,7 @@ async function createPoliceReportMarkers(map, file_name, uncheckedCategories, nu
 
   if (reports.length !== 0 && !isReportwithinTimeFrame(reports[0].month, numberOfMonths)) {
     // Only check first report because all reports have same date if in same file
-    return;
+    return [];
   }
 
   const filteredReports = reports.filter((report) => {
@@ -114,7 +114,7 @@ async function createPoliceReportMarkers(map, file_name, uncheckedCategories, nu
     }, map: map
   }));
 
-  mapMarkers = mapMarkers.concat(markers);
+  return markers;
 }
 
 function displayCrimeType(uncheckedCategories, crimeType) {
