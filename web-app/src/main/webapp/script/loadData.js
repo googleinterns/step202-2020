@@ -90,9 +90,12 @@ function isReportwithinTimeFrame(reportsDate, numberOfMonths) {
   return monthDiff < numberOfMonths;
 }
 
+function fetchMarkerJson() {
+  return fetchAndParseJson("/report");
+}
+
 async function fetchMarkers(map) {
-  const response = await fetch("/report");
-  const markers = await response.json();
+  const markers = fetchMarkerJson();
   let uiState = { activeInfoWindow: null };
 
   markers.forEach((marker) => {
