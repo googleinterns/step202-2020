@@ -39,7 +39,8 @@ window.onload = async () => {
   categoryOptions.addEventListener('change', () => { loadPoliceReports(map) });
   loadPoliceReports(map);
   displayUserLocation(map);
-  await setLoginStatus();
+  const loginStatus = await fetchAndParseJson("/login");
+  setLoginStatus(loginStatus);
 };
 
 function initMap() {
@@ -121,10 +122,7 @@ function hideReportForm() {
   }
 }
 
-async function setLoginStatus() {
-  const response = await fetch("/login");
-  const loginStatus = await response.json();
-
+function setLoginStatus(loginStatus) {
   const loginLogout = document.getElementById("login-logout");
   if (loginStatus.loggedIn) {
     loginLogout.innerText = "Logout";

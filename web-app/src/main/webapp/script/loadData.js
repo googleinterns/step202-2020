@@ -28,17 +28,15 @@ async function loadPoliceReports(map) {
   const numberOfMonths = Number(document.querySelector("input.time-frame:checked").value);
 
   const markersArrayForEachReports = await Promise.all(
-    FILE_NAMES.map((file_name) =>
-      createPoliceReportMarkers(map, file_name, uncheckedCategories, numberOfMonths)
-    )
+    FILE_NAMES.map((file_name) => {
+      const reports = fetchAndParseJson("../data/" + file_name + ".json");
+      createPoliceReportMarkers(map, reports, uncheckedCategories, numberOfMonths)
+    })
   );
   mapMarkers = markersArrayForEachReports.flat();
 }
 
-async function createPoliceReportMarkers(map, file_name, uncheckedCategories, numberOfMonths) {
-  const data = await fetch("../data/" + file_name + ".json");
-  const reports = await data.json();
-
+async function createPoliceReportMarkers(map, reports, uncheckedCategories, numberOfMonths) {
   const reportsDate = new Date();
   // Only check first report because all reports have same date if in same file
   reportsDate.setMonth(Number(reports[0].yearMonth.substring(5, 7)));
