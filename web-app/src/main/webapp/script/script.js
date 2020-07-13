@@ -22,9 +22,7 @@ window.onload = async () => {
     hideReportForm();
     document.getElementById("report-form").reset();
   });
-  document
-    .getElementById("map-icon")
-    .addEventListener("click", () => hideReportForm);
+  document.getElementById("map-icon").addEventListener("click", () => hideReportForm);
   document
     .getElementById("submit-button")
     .addEventListener("click", () => postUserReport(geocoder));
@@ -33,10 +31,7 @@ window.onload = async () => {
   });
   document
     .getElementById("close-menu")
-    .addEventListener(
-      "click",
-      () => (document.getElementById("menu").style.display = "none")
-    );
+    .addEventListener("click", () => (document.getElementById("menu").style.display = "none"));
   fetchMarkers(map);
   loadPoliceReports(map);
   displayUserLocation(map);
@@ -104,8 +99,7 @@ function showReportForm(map, geocoder) {
   geocoder.geocode({ location: map.getCenter() }, (results, status) => {
     if (status === "OK") {
       if (results[0]) {
-        document.getElementById("location-input").value =
-          results[0].formatted_address;
+        document.getElementById("location-input").value = results[0].formatted_address;
       } else {
         console.error("No results found");
       }
