@@ -86,9 +86,9 @@ async function loadPoliceReports(map) {
   const uncheckedCategories = uncheckedCategoriesElement.map(element => element.value);
   const numberOfMonths = Number(document.querySelector("input.time-frame:checked").value);
 
-  mapMarkers = await Promise.all(FILE_NAMES.map((file_name) =>
+  const markersArrayForEachReports = await Promise.all(FILE_NAMES.map((file_name) =>
     createPoliceReportMarkers(map, file_name, uncheckedCategories, numberOfMonths)));
-  mapMarkers = mapMarkers.flat();
+  mapMarkers = markersArrayForEachReports.flat();
 }
 
 async function createPoliceReportMarkers(map, file_name, uncheckedCategories, numberOfMonths) {
@@ -135,5 +135,5 @@ function isReportwithinTimeFrame(reportsDate, numberOfMonths) {
   const today = new Date();
   const monthDiff = (today.getFullYear() - reportsDate.getFullYear()) * 12 + today.getMonth() + 1 - reportsDate.getMonth();
 
-  return (monthDiff < numberOfMonths);
+  return monthDiff < numberOfMonths;
 }
