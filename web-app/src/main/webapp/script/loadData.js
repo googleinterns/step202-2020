@@ -28,15 +28,15 @@ async function loadPoliceReports(map) {
   const numberOfMonths = Number(document.querySelector("input.time-frame:checked").value);
 
   const markersArrayForEachReports = await Promise.all(
-    FILE_NAMES.map((file_name) => {
+    FILE_NAMES.map(async (file_name) => {
       const reports = await fetchAndParseJson("../data/" + file_name + ".json");
-      createPoliceReportMarkers(map, reports, uncheckedCategories, numberOfMonths)
+      return createPoliceReportMarkers(map, reports, uncheckedCategories, numberOfMonths);
     })
   );
   mapMarkers = markersArrayForEachReports.flat();
 }
 
-async function createPoliceReportMarkers(map, reports, uncheckedCategories, numberOfMonths) {
+function createPoliceReportMarkers(map, reports, uncheckedCategories, numberOfMonths) {
   const reportsDate = new Date();
   // Only check first report because all reports have same date if in same file
   reportsDate.setMonth(Number(reports[0].yearMonth.substring(5, 7)));
@@ -86,16 +86,11 @@ function isReportwithinTimeFrame(reportsDate, numberOfMonths) {
   return monthDiff < numberOfMonths;
 }
 
-function fetchMarkerJson() {
-  return fetchAndParseJson("/report");
-}
-
-async function fetchMarkers(map) {
-  const markers = fetchMarkerJson();
+async function fetchMarkers(map, userReports) {
   let uiState = { activeInfoWindow: null };
 
-  markers.forEach((marker) => {
-    createMarkerForDisplay(map, marker, uiState);
+  userReports.forEach((userReport) => {
+    createMarkerForDisplay(map, userReport, uiState);
   });
 
   map.addListener("click", () => {

@@ -32,7 +32,10 @@ window.onload = async () => {
   document
     .getElementById("close-menu")
     .addEventListener("click", () => (document.getElementById("menu").style.display = "none"));
-  fetchMarkers(map);
+  
+  const userReports = await fetchAndParseJson("/report");
+  fetchMarkers(map, userReports);
+
   const timeFrameOptions = document.getElementById("time-frame-options");
   timeFrameOptions.addEventListener('change', () => { loadPoliceReports(map) });
   const categoryOptions = document.getElementById("category-options");
