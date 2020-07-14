@@ -1,12 +1,12 @@
 let mapMarkers = [];
 
-async function fetchAndParseJson(url) {
+export async function fetchAndParseJson(url) {
   const response = await fetch(url);
   const json = await response.json();
   return json;
 }
 
-async function loadPoliceReports(map) {
+export async function loadPoliceReports(map) {
   // Clear all markers on the map
   for (const marker of mapMarkers) {
     marker.setMap(null);
@@ -58,7 +58,7 @@ function filterReports(reports, uncheckedCategories, numberOfMonths) {
 }
 
 function createMarkers(map, reports) {
-  const markers = filteredReports.map(
+  const markers = reports.map(
     (report) =>
       new google.maps.Marker({
         position: {
@@ -74,7 +74,7 @@ function createMarkers(map, reports) {
 
 function displayCrimeType(uncheckedCategories, crimeType) {
   // Don't display if category unchecked
-  for (category of uncheckedCategories) {
+  for (const category of uncheckedCategories) {
     if (crimeType.toLowerCase().includes(category)) {
       return false;
     }
@@ -93,7 +93,7 @@ function isReportwithinTimeFrame(reportsDate, numberOfMonths) {
   return monthDiff < numberOfMonths;
 }
 
-async function fetchMarkers(map, userReports) {
+export async function fetchMarkers(map, userReports) {
   let uiState = { activeInfoWindow: null };
 
   userReports.forEach((userReport) => {

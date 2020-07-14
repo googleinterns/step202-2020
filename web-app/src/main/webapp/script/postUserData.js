@@ -1,4 +1,4 @@
-async function postUserReport(geocoder) {
+export async function postUserReport(geocoder) {
   document.getElementById("report-form").reset();
 
   const address = document.getElementById("location-input").value;

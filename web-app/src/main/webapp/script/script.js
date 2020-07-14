@@ -11,6 +11,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+import { fetchAndParseJson, loadPoliceReports, fetchMarkers } from "/script/loadData.js";
+import { postUserReport } from "/script/postUserData.js"
 
 window.onload = async () => {
   const geocoder = new google.maps.Geocoder();
@@ -32,7 +34,7 @@ window.onload = async () => {
   document
     .getElementById("close-menu")
     .addEventListener("click", () => (document.getElementById("menu").style.display = "none"));
-  
+
   const userReports = await fetchAndParseJson("/report");
   fetchMarkers(map, userReports);
 
