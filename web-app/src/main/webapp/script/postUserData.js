@@ -1,4 +1,3 @@
-// This currently gets the address from the report form's location field (no autopopulate, no map picker)
 async function postUserReport(geocoder) {
   document.getElementById("report-form").reset();
 
