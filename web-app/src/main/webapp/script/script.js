@@ -131,7 +131,7 @@ function displayUserLocation(map) {
   }
 
   const userPosition = getUserLocation();
-  if (userPosition !== null) {
+  if (userPosition == null) {
     showMessageOnInfoWindow(
       "Please enable location services.",
       map.getCenter(), map, infoWindow);
