@@ -11,6 +11,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+import { setDirections } from 'script/directions.js'
+
 let mapMarkers = [];
 
 window.onload = async () => {
@@ -23,15 +25,14 @@ window.onload = async () => {
   document.getElementById('search-location').addEventListener('keydown', (e) => {
     if (e.code === "Enter") {
       e.preventDefault();
-      getDirections(directionsService, directionsRenderer, getUserLocation(), document.getElementById('search-location').value);
+      setDirections(directionsService, directionsRenderer, getUserLocation(), document.getElementById('search-location').value);
     }
-  })
+  });
   document.getElementById('report-button').addEventListener('click', () => showReportForm(map, geocoder));
   document.getElementById('back-icon').addEventListener('click', () => {
     hideReportForm();
     document.getElementById('report-form').reset();
-  }
-  );
+  });
   document.getElementById('map-icon').addEventListener('click', () => hideReportForm)
   document.getElementById('submit-button').addEventListener('click', () => postUserReport(geocoder));
   document.getElementById('menu-button').addEventListener('click',
@@ -131,7 +132,7 @@ function displayUserLocation(map) {
   }
 
   const userPosition = getUserLocation();
-  if (userPosition == null) {
+  if (userPosition === null) {
     showMessageOnInfoWindow(
       "Please enable location services.",
       map.getCenter(), map, infoWindow);
