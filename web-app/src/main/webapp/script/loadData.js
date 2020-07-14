@@ -30,13 +30,14 @@ async function loadPoliceReports(map) {
   const markersArrayForEachReports = await Promise.all(
     FILE_NAMES.map(async (file_name) => {
       const reports = await fetchAndParseJson("../data/" + file_name + ".json");
-      return createPoliceReportMarkers(map, reports, uncheckedCategories, numberOfMonths);
+      const filteredReports = filterReports(reports, uncheckedCategories, numberOfMonths);
+      return createMarkers(map, filteredReports);
     })
   );
   mapMarkers = markersArrayForEachReports.flat();
 }
 
-function createPoliceReportMarkers(map, reports, uncheckedCategories, numberOfMonths) {
+function filterReports(reports, uncheckedCategories, numberOfMonths) {
   const reportsDate = new Date();
   // Only check first report because all reports have same date if in same file
   reportsDate.setMonth(Number(reports[0].yearMonth.substring(5, 7)));
@@ -53,6 +54,10 @@ function createPoliceReportMarkers(map, reports, uncheckedCategories, numberOfMo
     return displayCrimeType(uncheckedCategories, report.crimeType);
   });
 
+  return filteredReports;
+}
+
+function createMarkers(map, reports) {
   const markers = filteredReports.map(
     (report) =>
       new google.maps.Marker({
@@ -81,7 +86,9 @@ function isReportwithinTimeFrame(reportsDate, numberOfMonths) {
   const today = new Date();
   const monthDiff =
     (today.getFullYear() - reportsDate.getFullYear()) * 12 +
-    today.getMonth() + 1 - reportsDate.getMonth();
+    today.getMonth() +
+    1 -
+    reportsDate.getMonth();
 
   return monthDiff < numberOfMonths;
 }
