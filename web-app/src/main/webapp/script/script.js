@@ -22,7 +22,8 @@ window.onload = async () => {
   document.getElementById('search-location').addEventListener('keydown', (e) => {
     if (e.code === "Enter") {
       e.preventDefault();
-      console.log(e.code);
+      console.log(document.getElementById('search-location').value);
+      getDirections(document.getElementById('search-location').value);
     }
   })
   document.getElementById('report-button').addEventListener('click', () => showReportForm(map, geocoder));
