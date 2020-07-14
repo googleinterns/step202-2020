@@ -8,6 +8,8 @@ function getDirections(directionsService, directionsRenderer, origin, destinatio
   directionsService.route(request, (result, status) => {
     if (status == 'OK') {
       directionsRenderer.setDirections(result);
+    } else if (status == 'NOT_FOUND') {
+      console.log('location could not be geocoded.');
     }
   });
 }
