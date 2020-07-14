@@ -15,12 +15,21 @@ let mapMarkers = [];
 
 window.onload = async () => {
   const geocoder = new google.maps.Geocoder();
+  const directionsService = new google.maps.DirectionsService();
+  const directionsRenderer = new google.maps.DirectionsRenderer();
   const map = initMap();
+  // Search bar
+  document.getElementById('search-location').addEventListener('keydown', (e) => {
+    if (e.code === "Enter") {
+      e.preventDefault();
+      console.log(e.code);
+    }
+  })
   document.getElementById('report-button').addEventListener('click', () => showReportForm(map, geocoder));
   document.getElementById('back-icon').addEventListener('click', () => {
     hideReportForm();
     document.getElementById('report-form').reset();
-    }
+  }
   );
   document.getElementById('map-icon').addEventListener('click', () => hideReportForm)
   document.getElementById('submit-button').addEventListener('click', () => postUserReport(geocoder));
@@ -29,7 +38,7 @@ window.onload = async () => {
   document.getElementById('close-menu').addEventListener('click',
     () => document.getElementById('menu').style.display = 'none');
   fetchMarkers(map);
-	const timeFrameOptions = document.getElementById("time-frame-options");
+  const timeFrameOptions = document.getElementById("time-frame-options");
   timeFrameOptions.addEventListener('change', () => { loadPoliceReports(map) });
   const categoryOptions = document.getElementById("category-options");
   categoryOptions.addEventListener('change', () => { loadPoliceReports(map) });
