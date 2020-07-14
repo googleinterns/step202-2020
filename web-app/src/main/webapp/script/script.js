@@ -104,6 +104,22 @@ function createMarkerForDisplay(map, data, uiState) {
 
 }
 
+function getUserLocation() {
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const userPosition = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      };
+
+      return userPosition;
+    },
+    () => {
+      return null;
+    }
+  )
+}
+
 function displayUserLocation(map) {
   const infoWindow = new google.maps.InfoWindow();
 
@@ -114,25 +130,19 @@ function displayUserLocation(map) {
     return;
   }
 
-  navigator.geolocation.getCurrentPosition(
-    (position) => {
-      const userPosition = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-      };
+  const userPosition = getUserLocation();
+  if (userPosition !== null) {
+    showMessageOnInfoWindow(
+      "Please enable location services.",
+      map.getCenter(), map, infoWindow);
+    return;
+  }
 
-      const marker = new google.maps.Marker({
-        position: userPosition,
-        map: map,
-      });
-      map.setCenter(userPosition);
-    },
-    () => {
-      showMessageOnInfoWindow(
-        "Error: The Geolocation service failed.",
-        map.getCenter(), map, infoWindow);
-    }
-  );
+  const marker = new google.maps.Marker({
+    position: userPosition,
+    map: map,
+  });
+  map.setCenter(userPosition);
 }
 
 function showMessageOnInfoWindow(message, position, map, infoWindow) {
