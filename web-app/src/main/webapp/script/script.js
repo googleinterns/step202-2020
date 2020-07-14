@@ -19,11 +19,11 @@ window.onload = async () => {
   const directionsRenderer = new google.maps.DirectionsRenderer();
   const map = initMap();
   // Search bar
+  directionsRenderer.setMap(map);
   document.getElementById('search-location').addEventListener('keydown', (e) => {
     if (e.code === "Enter") {
       e.preventDefault();
-      console.log(document.getElementById('search-location').value);
-      getDirections(document.getElementById('search-location').value);
+      getDirections(directionsService, directionsRenderer, getUserLocation(), document.getElementById('search-location').value);
     }
   })
   document.getElementById('report-button').addEventListener('click', () => showReportForm(map, geocoder));
