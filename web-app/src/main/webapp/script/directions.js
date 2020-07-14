@@ -1,9 +1,9 @@
 function getDirections(directionsService, directionsRenderer, origin, destination) {
-  // TODO(ltwashley): Parse destination through geocoder?
   const request = {
+    // Currently hardcoded because I can't enable geolocation on CRD
     origin: { lat: -33.865143, lng: 151.209900 },
     destination: destination,
-    travelMode: 'DRIVING'
+    travelMode: 'DRIVING',
   };
   directionsService.route(request, (result, status) => {
     if (status == 'OK') {
