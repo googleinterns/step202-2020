@@ -66,8 +66,8 @@ window.onload = async () => {
 
 function initMap() {
   const map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: -34.397, lng: 150.644 },
-    zoom: 5,
+    center: { lat: 51.5074, lng: -0.1278 },
+    zoom: 13,
   });
   return map;
 }
@@ -198,18 +198,24 @@ function hideReportForm() {
     element.style.display = "block";
   }
 }
-
-// This currently gets the address from the report form's location field (no autopopulate, no map picker)
 async function postUserReport(geocoder) {
-  document.getElementById("report-form").reset();
-
   const address = document.getElementById("location-input").value;
   geocoder.geocode({ address: address }, async (results, status) => {
     if (status === "OK") {
       const coordinates = results[0].geometry.location;
-      const data = reportFormToURLQuery(coordinates.lat(), coordinates.lng());
+
+      let data;
+      try {
+        data = reportFormToURLQuery(coordinates.lat(), coordinates.lng());
+      } catch (error) {
+        console.log(error);
+        return;
+      }
+
       const url = await fetchBlobstoreUrl();
       fetch(url, { method: "POST", body: data });
+      document.getElementById("report-form").reset();
+      hideReportForm();
     } else {
       console.error("Geocode was not successful: " + status);
     }
@@ -227,12 +233,18 @@ function reportFormToURLQuery(latitude, longitude) {
   const formData = new FormData();
   for (const [formID, paramName] of PARAMS_FORM_MAP.entries()) {
     const value = document.getElementById(formID).value;
+    if (!value) {
+      throw new Error(paramName + " not filled in");
+    }
     formData.append(paramName, value);
   }
 
   formData.append("latitude", latitude);
   formData.append("longitude", longitude);
-  formData.append("image", document.getElementById("attach-image").files[0]);
+  const image = document.getElementById("attach-image").files[0];
+  if (image) {
+    formData.append("image", image);
+  }
 
   return formData;
 }
