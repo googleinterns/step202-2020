@@ -73,6 +73,8 @@ function createMarkers(map, reports) {
           lng: Number(report.longitude),
         },
         map: map,
+        date: report.yearMonth,
+        crimeType: report.crimeType,
       })
   );
 
