@@ -95,7 +95,7 @@ function displayUserLocation(map) {
 
 function showMessageOnInfoWindow(message, position, map, infoWindow) {
   infoWindow.setPosition(position);
-  infoWindow.setContent(message);
+  infoWindow.setContent(`<h3>${message}</h3>`);
   infoWindow.open(map);
 }
 
