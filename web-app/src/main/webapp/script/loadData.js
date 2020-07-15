@@ -1,4 +1,10 @@
-let mapMarkers = [];
+class MapComponents {
+  constructor() {
+    this.mapMarkers = [];
+  }
+}
+
+let mapComponents = new MapComponents();
 
 export async function fetchAndParseJson(url) {
   const response = await fetch(url);
@@ -8,10 +14,10 @@ export async function fetchAndParseJson(url) {
 
 export async function loadPoliceReports(map) {
   // Clear all markers on the map
-  for (const marker of mapMarkers) {
+  for (const marker of mapComponents.mapMarkers) {
     marker.setMap(null);
   }
-  mapMarkers = [];
+  mapComponents.mapMarkers = [];
 
   const FILE_NAMES = [
     "2019_12_london",
@@ -34,7 +40,7 @@ export async function loadPoliceReports(map) {
       return createMarkers(map, filteredReports);
     })
   );
-  mapMarkers = markersArrayForEachReports.flat();
+  mapComponents.mapMarkers = markersArrayForEachReports.flat();
 }
 
 function filterReports(reports, uncheckedCategories, numberOfMonths) {
