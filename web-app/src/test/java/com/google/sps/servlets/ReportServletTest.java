@@ -15,6 +15,9 @@ import org.mockito.Mockito;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,8 +27,7 @@ import com.google.appengine.api.datastore.Entity;
 @RunWith(JUnit4.class)
 public class ReportServletTest extends Mockito {
 
-  private final LocalServiceTestHelper helper =
-  new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig(), new LocalBlobstoreServiceTestConfig());
+  private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
   @Before
   public void setUp() {
@@ -51,7 +53,7 @@ public class ReportServletTest extends Mockito {
     Assert.assertEquals(testReport.getProperty("longitude"), 10.26);
     Assert.assertEquals(testReport.getProperty("incidentType"), "Theft");
     Assert.assertEquals(testReport.getProperty("description"), "Sample request for testing");
-    Assert.assertEquals(testReport.getProperty("timestamp"), 1496273400);
+    Assert.assertEquals(testReport.getProperty("timestamp"), 1496305800000L);
   }
 
   @After
