@@ -41,8 +41,8 @@ export async function loadPoliceReports(map) {
       const markers = createMarkers(map, filteredReports);
       for (const marker of markers) {
         google.maps.event.addListener(marker, "click", () => {
-          console.log("clicked");
-          mapComponents.infoWindow.setContent(marker.crimeType);
+          const contentString = `<h2>${marker.crimeType}</h2><p>${marker.yearMonth}</p>`;
+          mapComponents.infoWindow.setContent(contentString);
           mapComponents.infoWindow.open(map, marker);
         });
       }
