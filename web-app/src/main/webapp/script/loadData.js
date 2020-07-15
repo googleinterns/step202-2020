@@ -1,6 +1,7 @@
 class MapComponents {
   constructor() {
     this.mapMarkers = [];
+    this.infoWindow = new google.maps.InfoWindow();
   }
 }
 
