@@ -38,7 +38,14 @@ export async function loadPoliceReports(map) {
     FILE_NAMES.map(async (file_name) => {
       const reports = await fetchAndParseJson("../data/" + file_name + ".json");
       const filteredReports = filterReports(reports, uncheckedCategories, numberOfMonths);
-      return createMarkers(map, filteredReports);
+      const markers = createMarkers(map, filteredReports);
+      for (const marker of markers) {
+        google.maps.event.addListener(marker, "click", () => {
+          mapComponents.infoWindow.setContent(marker.crimeType);
+          mapComponents.infoWindow.open(map, this);
+        });
+      }
+      return markers;
     })
   );
   mapComponents.mapMarkers = markersArrayForEachReports.flat();
