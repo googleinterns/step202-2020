@@ -11,12 +11,32 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 import { fetchAndParseJson, loadPoliceReports, fetchMarkers } from "/script/loadData.js";
 import { postUserReport } from "/script/postUserData.js"
+import { setDirections } from "script/directions.js";
+
+let mapMarkers = [];
 
 window.onload = async () => {
   const geocoder = new google.maps.Geocoder();
+  const directionsService = new google.maps.DirectionsService();
+  const directionsRenderer = new google.maps.DirectionsRenderer();
   const map = initMap();
+  // Search bar
+  directionsRenderer.setMap(map);
+  document.getElementById("search-location").addEventListener("keydown", (e) => {
+    if (e.code === "Enter") {
+      e.preventDefault();
+      setDirections(
+        directionsService,
+        directionsRenderer,
+        getUserLocation(),
+        document.getElementById("search-location").value
+      );
+    }
+  });
+  
   document
     .getElementById("report-button")
     .addEventListener("click", () => showReportForm(map, geocoder));
@@ -37,12 +57,13 @@ window.onload = async () => {
 
   const userReports = await fetchAndParseJson("/report");
   fetchMarkers(map, userReports);
-
+  
   const timeFrameOptions = document.getElementById("time-frame-options");
   timeFrameOptions.addEventListener('change', () => { loadPoliceReports(map) });
   const categoryOptions = document.getElementById("category-options");
   categoryOptions.addEventListener('change', () => { loadPoliceReports(map) });
   loadPoliceReports(map);
+  
   displayUserLocation(map);
   const loginStatus = await fetchAndParseJson("/login");
   setLoginStatus(loginStatus);
@@ -50,10 +71,26 @@ window.onload = async () => {
 
 function initMap() {
   const map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: -34.397, lng: 150.644 },
-    zoom: 5,
+    center: { lat: 51.5074, lng: -0.1278 },
+    zoom: 13,
   });
   return map;
+}
+
+
+function getUserLocation() {
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const userPosition = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      };
+      return userPosition;
+    },
+    () => {
+      return null;
+    }
+  );
 }
 
 function displayUserLocation(map) {
@@ -69,28 +106,17 @@ function displayUserLocation(map) {
     return;
   }
 
-  navigator.geolocation.getCurrentPosition(
-    (position) => {
-      const userPosition = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-      };
+  const userPosition = getUserLocation();
+  if (userPosition === null) {
+    showMessageOnInfoWindow("Please enable location services.", map.getCenter(), map, infoWindow);
+    return;
+  }
 
-      const marker = new google.maps.Marker({
-        position: userPosition,
-        map: map,
-      });
-      map.setCenter(userPosition);
-    },
-    () => {
-      showMessageOnInfoWindow(
-        "Error: The Geolocation service failed.",
-        map.getCenter(),
-        map,
-        infoWindow
-      );
-    }
-  );
+  const marker = new google.maps.Marker({
+    position: userPosition,
+    map: map,
+  });
+  map.setCenter(userPosition);
 }
 
 function showMessageOnInfoWindow(message, position, map, infoWindow) {
