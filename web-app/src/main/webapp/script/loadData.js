@@ -41,7 +41,8 @@ export async function loadPoliceReports(map) {
       const markers = createMarkers(map, filteredReports);
       for (const marker of markers) {
         google.maps.event.addListener(marker, "click", () => {
-          const contentString = `<h2>${marker.crimeType}</h2><p>${marker.yearMonth}</p>`;
+          const contentString =
+            `<div id="info-window"><p>${marker.crimeType}</p><p>${marker.date}</p></div>`;
           mapComponents.infoWindow.setContent(contentString);
           mapComponents.infoWindow.open(map, marker);
         });
