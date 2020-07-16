@@ -8,8 +8,10 @@
   <link rel="stylesheet" href="css/normalize.css" />
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
+  
   <script type="module" src="script/loadData.js"></script>
   <script type="module" src="script/postUserData.js"></script>
+  <script type="module" src="script/directions.js"></script>
   <script type="module" src="script/script.js"></script>
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtnOIOa1q7Mwn8OeRkeXdNPxpbaWT2ZFw"
@@ -35,7 +37,7 @@
   <div id="dock" class="home">
     <div id="dock-background"></div>
     <button id="menu-button" class="small-button icon-button"><span class="sr-only">options menu</span></button>
-    <a href="#">
+    <a>
       <div id="report-button"><span class="sr-only">report new
           incident</span></div>
     </a>
@@ -49,7 +51,7 @@
             options menu</span></button>
       </div>
       <div class="five columns" id="auth-container">
-        <a id="login-logout" href="#"></a>
+        <a id="login-logout"></a>
       </div>
     </div>
     <div class="row" id="menu-title">
@@ -116,7 +118,7 @@
         months
       </div>
     </div>
-  <div>
+  </div>
 	<!-- Category -->
 	<div class="row menu-subheading">
 		<h2>Category</h2>
@@ -242,7 +244,7 @@
       </div>
     </div>
     <button id="select-all-times" class="menu-button">Select all</button>
-  </div>				
+  </div>
   <!-- Submit report -->
   <div id="form-container" class="report">
     <div class="row">

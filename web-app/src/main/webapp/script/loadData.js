@@ -1,4 +1,10 @@
-let mapMarkers = [];
+class MapComponents {
+  constructor() {
+    this.mapMarkers = [];
+  }
+}
+
+let mapComponents = new MapComponents();
 
 export async function fetchAndParseJson(url) {
   const response = await fetch(url);
@@ -8,10 +14,10 @@ export async function fetchAndParseJson(url) {
 
 export async function loadPoliceReports(map) {
   // Clear all markers on the map
-  for (const marker of mapMarkers) {
+  for (const marker of mapComponents.mapMarkers) {
     marker.setMap(null);
   }
-  mapMarkers = [];
+  mapComponents.mapMarkers = [];
 
   const FILE_NAMES = [
     "2019_12_london",
@@ -34,7 +40,7 @@ export async function loadPoliceReports(map) {
       return createMarkers(map, filteredReports);
     })
   );
-  mapMarkers = markersArrayForEachReports.flat();
+  mapComponents.mapMarkers = markersArrayForEachReports.flat();
 }
 
 function filterReports(reports, uncheckedCategories, numberOfMonths) {
@@ -58,7 +64,7 @@ function filterReports(reports, uncheckedCategories, numberOfMonths) {
 }
 
 function createMarkers(map, reports) {
-  const markers = reports.map(
+  return reports.map(
     (report) =>
       new google.maps.Marker({
         position: {
@@ -68,8 +74,6 @@ function createMarkers(map, reports) {
         map: map,
       })
   );
-
-  return markers;
 }
 
 function displayCrimeType(uncheckedCategories, crimeType) {
@@ -86,9 +90,7 @@ function isReportwithinTimeFrame(reportsDate, numberOfMonths) {
   const today = new Date();
   const monthDiff =
     (today.getFullYear() - reportsDate.getFullYear()) * 12 +
-    today.getMonth() +
-    1 -
-    reportsDate.getMonth();
+    today.getMonth() + 1 - reportsDate.getMonth();
 
   return monthDiff < numberOfMonths;
 }
