@@ -6,6 +6,10 @@ class MapComponents {
 
 let mapComponents = new MapComponents();
 
+export function testFunc() {
+  return true;
+}
+
 export async function fetchAndParseJson(url) {
   const response = await fetch(url);
   const json = await response.json();
