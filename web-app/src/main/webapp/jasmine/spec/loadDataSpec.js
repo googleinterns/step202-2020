@@ -51,4 +51,14 @@ describe("Filtering ", () => {
       crimeType: "Anti-social behaviour",
     },
   ];
+
+  const filteredNewReports = filterReports(sampleDataNew, [], 3);
+  it("should not filter out new data", () => {
+    expect(filteredNewReports.length).toEqual(3);
+  });
+
+  const categoriesFiltered = filterReports(sampleDataNew, ["theft"], 3);
+  it("should filter out reports with unchecked categories", () => {
+    expect(categoriesFiltered.length).toEqual(1);
+  });
 });
