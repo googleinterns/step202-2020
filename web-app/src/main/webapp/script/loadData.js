@@ -74,7 +74,7 @@ function filterReports(reports, uncheckedCategories, numberOfMonths) {
 }
 
 function createMarkers(map, reports) {
-  const markers = reports.map(
+  return reports.map(
     (report) =>
       new google.maps.Marker({
         position: {
@@ -86,8 +86,6 @@ function createMarkers(map, reports) {
         crimeType: report.crimeType,
       })
   );
-
-  return markers;
 }
 
 function displayCrimeType(uncheckedCategories, crimeType) {
@@ -104,9 +102,7 @@ function isReportwithinTimeFrame(reportsDate, numberOfMonths) {
   const today = new Date();
   const monthDiff =
     (today.getFullYear() - reportsDate.getFullYear()) * 12 +
-    today.getMonth() +
-    1 -
-    reportsDate.getMonth();
+    today.getMonth() + 1 - reportsDate.getMonth();
 
   return monthDiff < numberOfMonths;
 }
