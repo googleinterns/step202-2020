@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Queue;
+import java.util.Deque;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
@@ -31,8 +31,7 @@ public class AnalyticsServlet extends HttpServlet {
       this.topLeftLng = topLeftLng;
       this.bottomRightLat = bottomRightLat;
       this.bottomRightLng = bottomRightLng;
-      this.depth = depth;
-      this.numReports = reports.size();
+      this.depth = depth;1
       this.reports = reports;
     }
   }
@@ -43,7 +42,7 @@ public class AnalyticsServlet extends HttpServlet {
 
   public void printTree(Node root) {
     int currentLevel = root.depth;
-    Queue<Node> nodesToPrint = new ArrayDeque<Node>();
+    Deque<Node> nodesToPrint = new ArrayDeque<Node>();
     nodesToPrint.add(root);
 
     while (!nodesToPrint.isEmpty()) {
