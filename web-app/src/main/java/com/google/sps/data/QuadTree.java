@@ -59,4 +59,12 @@ public class QuadTree {
     }
     System.out.printf("%n");
   }
+
+  public ArrayList<PoliceReport> query(Rectangle range) {
+    return findIntersectingRectangle(range, root);
+  }
+
+  private ArrayList<PoliceReport> findIntersectingRectangle(Rectangle range, Node node) {
+  
+  } 
 }
