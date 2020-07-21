@@ -38,7 +38,7 @@ public class QuadTree {
   public void printTree() {
     int currentLevel = root.depth;
     Deque<Node> nodesToPrint = new ArrayDeque<Node>();
-    nodesToPrint.add(root);
+    nodesToPrint.push(root);
 
     while (!nodesToPrint.isEmpty()) {
       Node node = nodesToPrint.pollFirst();
