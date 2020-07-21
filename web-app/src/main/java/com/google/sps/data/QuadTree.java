@@ -5,24 +5,21 @@ import java.util.ArrayList;
 import java.util.Deque;
 import com.google.gson.Gson;
 import com.google.sps.data.PoliceReport;
+import com.google.sps.data.Rectangle;
 
 public class QuadTree {
   private Node root;
 
   private class Node {
-    Double topLeftLat, topLeftLng, bottomRightLat, bottomRightLng;
+    Rectangle coordinates;
     Node NW, NE, SE, SW;
     Boolean leaf = true;
     int depth;
     int numReports;
     ArrayList<PoliceReport> reports;
 
-    Node(Double topLeftLat, Double topLeftLng, Double bottomRightLat, Double bottomRightLng,
-        ArrayList<PoliceReport> reports, int depth) {
-      this.topLeftLat = topLeftLat;
-      this.topLeftLng = topLeftLng;
-      this.bottomRightLat = bottomRightLat;
-      this.bottomRightLng = bottomRightLng;
+    Node(Rectangle coordinates, ArrayList<PoliceReport> reports, int depth) {
+      this.coordinates = coordinates;
       this.depth = depth;
       this.reports = reports;
       this.numReports = reports.size();
@@ -30,7 +27,8 @@ public class QuadTree {
   }
 
   public void createTree() {
-    root = new Node(90.0, -180.0, -90.0, 180.0, new ArrayList<PoliceReport>(), 0);
+    Rectangle coordinates = new Rectangle(90.0, -180.0, -90.0, 180.0);
+    root = new Node(coordinates, new ArrayList<PoliceReport>(), 0);
   }
 
   public void printTree() {
@@ -44,8 +42,8 @@ public class QuadTree {
         System.out.printf("%n");
         currentLevel = node.depth;
       }
-      System.out.printf("(%f, %f), (%f, %f) ", node.topLeftLat, node.topLeftLng, node.bottomRightLat,
-          node.bottomRightLng);
+      System.out.printf("(%f, %f), (%f, %f) ", node.coordinates.getTopLeftLat(), node.coordinates.getTopLeftLng(),
+          node.coordinates.getBottomRightLat(), node.coordinates.getBottomRightLng());
       if (node.leaf) {
         System.out.printf("%d", node.numReports);
       } else {
