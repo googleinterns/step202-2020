@@ -29,10 +29,8 @@ public class QuadTree {
     }
   }
 
-  public Node createTree() {
-    System.out.println("Creating called");
+  public void createTree() {
     root = new Node(90.0, -180.0, -90.0, 180.0, new ArrayList<PoliceReport>(), 0);
-    return root;
   }
 
   public Node getRoot() {
@@ -40,21 +38,17 @@ public class QuadTree {
   }
 
   public void printTree(Node root) {
-    System.out.println("Printing called");
     int currentLevel = root.depth;
     Deque<Node> nodesToPrint = new ArrayDeque<Node>();
-    nodesToPrint.push(root);
-    System.out.println(nodesToPrint);
+    nodesToPrint.add(root);
 
     while (!nodesToPrint.isEmpty()) {
       Node node = nodesToPrint.pollFirst();
-      System.out.println(node);
       if (currentLevel != node.depth) {
         System.out.printf("%n");
         currentLevel = node.depth;
       }
-      System.out.printf("(%f, %f), (%f, %f) ", node.topLeftLat, node.topLeftLng, node.bottomRightLat,
-          node.bottomRightLng);
+      System.out.printf("(%f, %f), (%f, %f) ", node.topLeftLat, node.topLeftLng, node.bottomRightLat, node.bottomRightLng);
       if (node.leaf) {
         System.out.printf("%d", node.numReports);
       } else {
@@ -65,6 +59,7 @@ public class QuadTree {
       }
       System.out.printf(" | ");
     }
+    System.out.printf("%n");
   }
 
 }
