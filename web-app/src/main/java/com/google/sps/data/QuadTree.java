@@ -61,10 +61,10 @@ public class QuadTree {
   }
 
   public ArrayList<PoliceReport> query(Rectangle range) {
-    return findIntersectingRectangle(range, root);
+    return findAllReports(range, root);
   }
 
-  private ArrayList<PoliceReport> findIntersectingRectangle(Rectangle range, Node node) {
+  private ArrayList<PoliceReport> findAllReports(Rectangle range, Node node) {
   
   } 
 }
