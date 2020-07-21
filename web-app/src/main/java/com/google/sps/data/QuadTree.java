@@ -33,11 +33,7 @@ public class QuadTree {
     root = new Node(90.0, -180.0, -90.0, 180.0, new ArrayList<PoliceReport>(), 0);
   }
 
-  public Node getRoot() {
-    return root;
-  }
-
-  public void printTree(Node root) {
+  public void printTree() {
     int currentLevel = root.depth;
     Deque<Node> nodesToPrint = new ArrayDeque<Node>();
     nodesToPrint.add(root);
@@ -48,7 +44,8 @@ public class QuadTree {
         System.out.printf("%n");
         currentLevel = node.depth;
       }
-      System.out.printf("(%f, %f), (%f, %f) ", node.topLeftLat, node.topLeftLng, node.bottomRightLat, node.bottomRightLng);
+      System.out.printf("(%f, %f), (%f, %f) ", node.topLeftLat, node.topLeftLng, node.bottomRightLat,
+          node.bottomRightLng);
       if (node.leaf) {
         System.out.printf("%d", node.numReports);
       } else {

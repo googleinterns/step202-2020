@@ -18,6 +18,6 @@ public class TestQuadTreeServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     QuadTree tree = new QuadTree();
     tree.createTree();
-    tree.printTree(tree.getRoot());
+    tree.printTree();
   }
 }
