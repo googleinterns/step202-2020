@@ -1,20 +1,12 @@
-package com.google.sps.servlets;
+package com.google.sps.data;
 
-import java.io.IOException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import com.google.sps.data.PoliceReport;
 
-@WebServlet("/analytics")
-public class AnalyticsServlet extends HttpServlet {
+public class QuadTree {
   private Node root;
 
   private class Node {
@@ -31,8 +23,9 @@ public class AnalyticsServlet extends HttpServlet {
       this.topLeftLng = topLeftLng;
       this.bottomRightLat = bottomRightLat;
       this.bottomRightLng = bottomRightLng;
-      this.depth = depth;1
+      this.depth = depth;
       this.reports = reports;
+      this.numReports = reports.size();
     }
   }
 
@@ -47,6 +40,20 @@ public class AnalyticsServlet extends HttpServlet {
 
     while (!nodesToPrint.isEmpty()) {
       Node node = nodesToPrint.pollFirst();
+      if (currentLevel != node.depth) {
+        System.out.printf("%n");
+        currentLevel = node.depth;
+      }
+      System.out.printf("(%f, %f), (%f, %f) ", node.topLeftLat, node.topLeftLng, node.bottomRightLat, node.bottomRightLng);
+      if (node.leaf) {
+        System.out.printf("%d", node.numReports);
+      } else {
+        nodesToPrint.push(node.NW);
+        nodesToPrint.push(node.NE);
+        nodesToPrint.push(node.SE);
+        nodesToPrint.push(node.SW);
+      }
+      System.out.printf(" | ");
     }
   }
 
