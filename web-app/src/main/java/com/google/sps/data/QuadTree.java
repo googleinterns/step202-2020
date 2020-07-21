@@ -30,21 +30,31 @@ public class QuadTree {
   }
 
   public Node createTree() {
-    return new Node(90.0, -180.0, -90.0, 180.0, new ArrayList<PoliceReport>(), 0);
+    System.out.println("Creating called");
+    root = new Node(90.0, -180.0, -90.0, 180.0, new ArrayList<PoliceReport>(), 0);
+    return root;
+  }
+
+  public Node getRoot() {
+    return root;
   }
 
   public void printTree(Node root) {
+    System.out.println("Printing called");
     int currentLevel = root.depth;
     Deque<Node> nodesToPrint = new ArrayDeque<Node>();
-    nodesToPrint.add(root);
+    nodesToPrint.push(root);
+    System.out.println(nodesToPrint);
 
     while (!nodesToPrint.isEmpty()) {
       Node node = nodesToPrint.pollFirst();
+      System.out.println(node);
       if (currentLevel != node.depth) {
         System.out.printf("%n");
         currentLevel = node.depth;
       }
-      System.out.printf("(%f, %f), (%f, %f) ", node.topLeftLat, node.topLeftLng, node.bottomRightLat, node.bottomRightLng);
+      System.out.printf("(%f, %f), (%f, %f) ", node.topLeftLat, node.topLeftLng, node.bottomRightLat,
+          node.bottomRightLng);
       if (node.leaf) {
         System.out.printf("%d", node.numReports);
       } else {

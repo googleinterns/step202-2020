@@ -13,9 +13,11 @@ import com.google.sps.data.QuadTree;
 @WebServlet("/quadtree")
 
 public class TestQuadTreeServlet extends HttpServlet {
-  
-  @Override 
+
+  @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    QuadTree.printTree(QuadTree.createTree());
+    QuadTree tree = new QuadTree();
+    tree.createTree();
+    tree.printTree(tree.getRoot());
   }
 }
