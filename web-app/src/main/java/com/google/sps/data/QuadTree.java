@@ -10,10 +10,14 @@ import com.google.sps.data.Rectangle;
 public class QuadTree {
   private Node root;
 
+  enum Direction {
+    NW, NE, SE, SW
+  }
+
   private class Node {
     Rectangle coordinates;
-    Node NW, NE, SE, SW;
-    Boolean leaf = true;
+    Node[] children;
+    boolean leaf = true;
     int depth;
     int numReports;
     ArrayList<PoliceReport> reports;
@@ -47,10 +51,9 @@ public class QuadTree {
       if (node.leaf) {
         System.out.printf("%d", node.numReports);
       } else {
-        nodesToPrint.push(node.NW);
-        nodesToPrint.push(node.NE);
-        nodesToPrint.push(node.SE);
-        nodesToPrint.push(node.SW);
+        for (Direction direction : Direction.values()) {
+          nodesToPrint.push(node.children[direction.ordinal()]);
+        }
       }
       System.out.printf(" | ");
     }
