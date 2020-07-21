@@ -20,9 +20,9 @@ public class QuadTree {
     boolean leaf = true;
     int depth;
     int numReports;
-    ArrayList<PoliceReport> reports;
+    List<PoliceReport> reports;
 
-    Node(Rectangle coordinates, ArrayList<PoliceReport> reports, int depth) {
+    Node(Rectangle coordinates, List<PoliceReport> reports, int depth) {
       this.coordinates = coordinates;
       this.depth = depth;
       this.reports = reports;
@@ -60,11 +60,20 @@ public class QuadTree {
     System.out.printf("%n");
   }
 
-  public ArrayList<PoliceReport> query(Rectangle range) {
+  public List<PoliceReport> query(Rectangle range) {
     return findAllReports(range, root);
   }
 
-  private ArrayList<PoliceReport> findAllReports(Rectangle range, Node node) {
-  
+  private List<PoliceReport> findAllReports(Rectangle range, Node node) {
+    if (!node.coordinates.overlaps(range)) {
+      // Don't traverse further down the tree
+      return new ArrayList<PoliceReport>();
+    }
+    if (node.leaf) {
+      return node.reports;
+    }
+    return node.children.stream()
+      .flatMap(childNode -> findAllReports(range, childNode))
+      .collect(Collectors.toList());
   } 
 }
