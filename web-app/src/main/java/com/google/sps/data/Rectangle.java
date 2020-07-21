@@ -28,4 +28,18 @@ public class Rectangle {
   double getBottomRightLng() {
     return bottomRightLng;
   }
+
+  boolean overlaps(Rectangle rect) {
+    // No overlap in latitude
+    if (topLeftLat >= rect.bottomRightLat || rect.topLeftLat >= bottomRightLat) {
+      return false;
+    }
+  
+    // No overlap in longitue  
+    if (topLeftLng <= rect.bottomRightLng || rect.topLeftLng <= bottomRightLng) { 
+      return false; 
+    }
+
+    return true;
+  }
 }
