@@ -72,15 +72,21 @@ public class QuadTree {
   }
 
   private List<PoliceReport> findAllReports(Rectangle range, Node node) {
+    List<PoliceReport> reports = new ArrayList<PoliceReport>();
+
     if (!node.coordinates.overlaps(range)) {
       // Don't traverse further down the tree
-      return new ArrayList<PoliceReport>();
+      return reports;
     }
     if (node.leaf) {
-      return node.reports;
+      for (PoliceReport report : node.reports) {
+        if (range.inRectangle(report.getLat(), report.getLng())) {
+          reports.add(report);
+        }
+      }
+      return reports;
     }
 
-    List<PoliceReport> reports = new ArrayList<PoliceReport>();
     for (Node child : node.children) {
       reports.addAll(findAllReports(range, child));
     }
