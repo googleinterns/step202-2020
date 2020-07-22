@@ -9,6 +9,7 @@ import com.google.sps.data.Rectangle;
 public class QuadTree {
   private Node root;
   private final int reportCapacity = 4;
+  private final int maxDepth = 8;
 
   enum Direction {
     NW, NE, SE, SW
@@ -82,7 +83,7 @@ public class QuadTree {
     currentNode.numReports += 1;
     currentNode.reports.add(report);
     // If max capacity has been exceeded, create child nodes
-    if (currentNode.numReports > reportCapacity) {
+    if (currentNode.numReports > reportCapacity && currentNode.depth < maxDepth) {
       currentNode.children = reallocateReports(currentNode.reports, currentNode.coordinates, currentNode.depth);
       currentNode.leaf = false;
       currentNode.reports = null;
