@@ -36,10 +36,14 @@ window.onload = async () => {
       );
     }
   });
-  
+  // Bottom dock
   document
     .getElementById("report-button")
     .addEventListener("click", () => showReportForm(map, geocoder));
+  document.getElementById("menu-button").addEventListener("click", () => {
+    document.getElementById("menu").style.display = "block";
+  });
+  // Report
   document.getElementById("back-icon").addEventListener("click", () => {
     hideReportForm();
     document.getElementById("report-form").reset();
@@ -48,22 +52,21 @@ window.onload = async () => {
   document
     .getElementById("submit-button")
     .addEventListener("click", () => postUserReport(geocoder));
-  document.getElementById("menu-button").addEventListener("click", () => {
-    document.getElementById("menu").style.display = "block";
-  });
+  document.getElementById("map-icon").addEventListener("click", () => hideReportForm);
+  // Menu
   document
     .getElementById("close-menu")
     .addEventListener("click", () => (document.getElementById("menu").style.display = "none"));
-
+  // Load user reports
   const userReports = await fetchAndParseJson("/report");
   fetchMarkers(map, userReports);
-  
+  // Load police reports
   const timeFrameOptions = document.getElementById("time-frame-options");
   timeFrameOptions.addEventListener('change', () => { loadPoliceReports(map) });
   const categoryOptions = document.getElementById("category-options");
   categoryOptions.addEventListener('change', () => { loadPoliceReports(map) });
   loadPoliceReports(map);
-  
+  // User location and log in
   displayUserLocation(map);
   const loginStatus = await fetchAndParseJson("/login");
   setLoginStatus(loginStatus);
@@ -77,7 +80,6 @@ function initMap() {
   });
   return map;
 }
-
 
 function getUserLocation() {
   navigator.geolocation.getCurrentPosition(
