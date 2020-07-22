@@ -3,9 +3,6 @@ package com.google.sps.data;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
-import java.util.spi.CurrencyNameProvider;
-
-import com.google.gson.Gson;
 import com.google.sps.data.PoliceReport;
 import com.google.sps.data.Rectangle;
 
