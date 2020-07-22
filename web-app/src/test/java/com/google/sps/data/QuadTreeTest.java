@@ -33,7 +33,7 @@ public class QuadTreeTest extends Mockito {
   }
 
   @Test
-  public void createChildren() throws IOException {
+  public void reallocateReportsCorrectly() throws IOException {
     QuadTree.Node[] children = tree.reallocateReports(reportList, new Rectangle(90.0, -180.0, -90.0, 180.0), 0);
     // NW
     Assert.assertEquals(report3.getLat(), children[0].reports.get(0).getLat(), 0.0001);
