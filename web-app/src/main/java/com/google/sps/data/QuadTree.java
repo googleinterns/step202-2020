@@ -7,9 +7,9 @@ import com.google.sps.data.PoliceReport;
 import com.google.sps.data.Rectangle;
 
 public class QuadTree {
-  private Node root;
+  public Node root;
   private final int reportCapacity = 4;
-  private final int maxDepth = 8;
+  public final int maxDepth = 8;
 
   enum Direction {
     NW, NE, SE, SW
@@ -36,6 +36,12 @@ public class QuadTree {
   public void createTree() {
     Rectangle coordinates = new Rectangle(90.0, -180.0, -90.0, 180.0);
     root = new Node(coordinates, new ArrayList<PoliceReport>(), 0);
+  }
+
+  // For testing purposes
+  public void customDepthTree(int depth) {
+    Rectangle coordinates = new Rectangle(90.0, -180.0, -90.0, 180.0);
+    root = new Node(coordinates, new ArrayList<PoliceReport>(), depth);
   }
 
   public void printTree() {
@@ -101,35 +107,15 @@ public class QuadTree {
       switch (direction) {
         case NW:
           newCoordinates = coordinates.getNW();
-          System.out.println("NW");
-          System.out.println(newCoordinates.getTopLeftLat());
-          System.out.println(newCoordinates.getTopLeftLng());
-          System.out.println(newCoordinates.getBottomRightLat());
-          System.out.println(newCoordinates.getBottomRightLng());
           break;
         case NE:
           newCoordinates = coordinates.getNE();
-          System.out.println("NE");
-          System.out.println(newCoordinates.getTopLeftLat());
-          System.out.println(newCoordinates.getTopLeftLng());
-          System.out.println(newCoordinates.getBottomRightLat());
-          System.out.println(newCoordinates.getBottomRightLng());
           break;
         case SE:
           newCoordinates = coordinates.getSE();
-          System.out.println("SE");
-          System.out.println(newCoordinates.getTopLeftLat());
-          System.out.println(newCoordinates.getTopLeftLng());
-          System.out.println(newCoordinates.getBottomRightLat());
-          System.out.println(newCoordinates.getBottomRightLng());
           break;
         case SW:
           newCoordinates = coordinates.getSW();
-          System.out.println("SW");
-          System.out.println(newCoordinates.getTopLeftLat());
-          System.out.println(newCoordinates.getTopLeftLng());
-          System.out.println(newCoordinates.getBottomRightLat());
-          System.out.println(newCoordinates.getBottomRightLng());
           break;
         default:
           System.out.println("Unexpected case in switch statement");
@@ -144,7 +130,7 @@ public class QuadTree {
 
       Node childNode = new Node(newCoordinates, newReports, newDepth);
       // Check if number of reports exceeds maximum
-      if (childNode.numReports > reportCapacity) {
+      if (childNode.numReports > reportCapacity && newDepth < maxDepth) {
         childNode.children = reallocateReports(newReports, newCoordinates, newDepth);
         childNode.leaf = false;
         childNode.reports = null;
