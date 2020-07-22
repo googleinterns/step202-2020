@@ -3,8 +3,6 @@ package com.google.sps.data;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
-import com.google.sps.data.PoliceReport;
-import com.google.sps.data.Rectangle;
 
 public class QuadTree {
   public Node root;
@@ -28,7 +26,6 @@ public class QuadTree {
       this.depth = depth;
       this.reports = reports;
       this.numReports = reports.size();
-      // Size to accomodate space for one ext
       this.children = new Node[4];
     }
   }
