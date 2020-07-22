@@ -1,4 +1,4 @@
-async function postUserReport(geocoder) {
+export async function postUserReport(geocoder) {
   const address = document.getElementById("location-input").value;
   geocoder.geocode({ address: address }, async (results, status) => {
     if (status === "OK") {
