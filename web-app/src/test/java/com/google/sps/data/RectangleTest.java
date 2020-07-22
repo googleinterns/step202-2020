@@ -18,4 +18,22 @@ public class RectangleTest {
     Assert.assertTrue(inner.overlaps(outer));
   }
 
+  @Test
+  public void overlapRectangle() {
+    Rectangle r1 = new Rectangle(30.0, -10.0, -10.0, 30.0);
+    Rectangle r2 = new Rectangle(15.0, 20.0, -40.0, 50.0);
+
+    Assert.assertTrue(r1.overlaps(r2));
+    Assert.assertTrue(r2.overlaps(r1));
+  }
+
+  @Test
+  public void disjointRectangles() {
+    Rectangle r1 = new Rectangle(80.0, -20.0, 30.0, -10.0);
+    Rectangle r2 = new Rectangle(80.0, 30.0, 30.0, 50.0);
+
+    Assert.assertFalse(r1.overlaps(r2));
+    Assert.assertFalse(r2.overlaps(r1));
+  }
+
 }
