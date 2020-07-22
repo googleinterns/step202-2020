@@ -8,15 +8,16 @@ import org.junit.Before;
 import org.mockito.Mockito;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 @RunWith(JUnit4.class)
 public class QuadTreeTest extends Mockito {
 
-  private PoliceReport report1 = new PoliceReport(30.0, 15.0, "test", 1234567); // NE
-  private PoliceReport report2 = new PoliceReport(-30.0, 15.0, "test", 1234567); // SE
-  private PoliceReport report3 = new PoliceReport(30.0, -15.0, "test", 1234567); // NW
-  private PoliceReport report4 = new PoliceReport(-30.0, -15.0, "test", 1234567); // SW
-  private PoliceReport report5 = new PoliceReport(80.0, 45.0, "test", 1234567); // NE
+  private PoliceReport report1 = new PoliceReport(30.0, 15.0, "test1", 1234567); // NE
+  private PoliceReport report2 = new PoliceReport(-30.0, 15.0, "test2", 1234567); // SE
+  private PoliceReport report3 = new PoliceReport(30.0, -15.0, "test3", 1234567); // NW
+  private PoliceReport report4 = new PoliceReport(-30.0, -15.0, "test4", 1234567); // SW
+  private PoliceReport report5 = new PoliceReport(80.0, 45.0, "test5", 1234567); // NE
 
   ArrayList<PoliceReport> reportList = new ArrayList<PoliceReport>();
   QuadTree tree;
@@ -73,6 +74,34 @@ public class QuadTreeTest extends Mockito {
     for (QuadTree.Node element : tree.root.children) {
       Assert.assertNull(element);
     }
+  }
+
+  // Query Tests
+  QuadTree simpleTree;
+
+  @Before
+  public void simpleTree() {
+    simpleTree = new QuadTree();
+    simpleTree.createTree();
+    for (PoliceReport report : reportList) {
+      simpleTree.insert(report);
+    }
+  }
+
+  @Test
+  public void simpleQuery() throws IOException {
+    Rectangle queryRange = new Rectangle(25.0, 15.0, 80.0, 50.0);
+    List<PoliceReport> reportsInQueryRange = simpleTree.query(queryRange);
+    Assert.assertEquals(2, reportsInQueryRange.size());
+    Assert.assertEquals("test1", reportsInQueryRange.get(0).getCrimeType());
+    Assert.assertEquals("test5", reportsInQueryRange.get(1).getCrimeType());
+  }
+
+  @Test
+  public void overlapTwoChildrenQuery() throws IOException {
+    Rectangle queryRange = new Rectangle(40.0, -30.0, -40.0, -10.0);
+    List<PoliceReport> reportsInQueryRange = simpleTree.query(queryRange);
+    Assert.assertEquals(2, reportsInQueryRange.size());
   }
 
 }
