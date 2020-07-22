@@ -16,6 +16,9 @@ public class AnalyticsServlet extends HttpServlet {
 
   @Override
   public void init() {
-    Quadt
+    reportsTree = new QuadTree();
+    reportsTree.createTree();
+
+    
   }
 }
