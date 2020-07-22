@@ -15,7 +15,7 @@ public class QuadTree {
     NW, NE, SE, SW
   }
 
-  private class Node {
+  public class Node {
     Rectangle coordinates;
     Node[] children;
     boolean leaf = true;
@@ -90,7 +90,7 @@ public class QuadTree {
     }
   }
 
-  private Node[] reallocateReports(ArrayList<PoliceReport> reports, Rectangle coordinates, int depth) {
+  public Node[] reallocateReports(ArrayList<PoliceReport> reports, Rectangle coordinates, int depth) {
     Node[] children = new Node[4];
 
     for (Direction direction : Direction.values()) {
@@ -133,6 +133,7 @@ public class QuadTree {
       children[direction.ordinal()] = childNode;
     }
 
+    System.out.println(children);
     return children;
   }
 }
