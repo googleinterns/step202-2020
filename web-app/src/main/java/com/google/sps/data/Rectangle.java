@@ -35,12 +35,12 @@ public class Rectangle {
 
   public boolean overlaps(Rectangle rect) {
     // No overlap in latitude
-    if (topLeftLat >= rect.bottomRightLat || rect.topLeftLat >= bottomRightLat) {
+    if (topLeftLat <= rect.bottomRightLat || rect.topLeftLat <= bottomRightLat) {
       return false;
     }
   
     // No overlap in longitue  
-    if (topLeftLng <= rect.bottomRightLng || rect.topLeftLng <= bottomRightLng) { 
+    if (topLeftLng >= rect.bottomRightLng || rect.topLeftLng >= bottomRightLng) { 
       return false; 
     }
 
