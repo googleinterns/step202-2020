@@ -13,11 +13,11 @@ public class QuadTreeTest extends Mockito {
 
     @Test
     public void insertFiveReports() throws IOException {
-        PoliceReport report1 = new PoliceReport(30.0, 15.0, "test", 1234567);
-        PoliceReport report2 = new PoliceReport(-30.0, 15.0, "test", 1234567);
-        PoliceReport report3 = new PoliceReport(30.0, -15.0, "test", 1234567);
-        PoliceReport report4 = new PoliceReport(-30.0, -15.0, "test", 1234567);
-        PoliceReport report5 = new PoliceReport(80.0, 45.0, "test", 1234567);
+        PoliceReport report1 = new PoliceReport(30.0, 15.0, "test", 1234567); // NE
+        PoliceReport report2 = new PoliceReport(-30.0, 15.0, "test", 1234567); // SE
+        PoliceReport report3 = new PoliceReport(30.0, -15.0, "test", 1234567); // NW
+        PoliceReport report4 = new PoliceReport(-30.0, -15.0, "test", 1234567); // SW
+        PoliceReport report5 = new PoliceReport(80.0, 45.0, "test", 1234567); // NE
 
         ArrayList<PoliceReport> reportList = new ArrayList<PoliceReport>();
         reportList.add(report1);
@@ -28,11 +28,20 @@ public class QuadTreeTest extends Mockito {
 
         QuadTree tree = new QuadTree();
         QuadTree.Node[] children = tree.reallocateReports(reportList, new Rectangle(90.0, -180.0, -90.0, 180.0), 0);
-
-        Assert.assertEquals(1, children[0].numReports);
-        Assert.assertEquals(2, children[1].numReports);
-        Assert.assertEquals(1, children[2].numReports);
-        Assert.assertEquals(1, children[3].numReports);
+        // NW
+        Assert.assertEquals(report3.getLat(), children[0].reports.get(0).getLat(), 0.0001);
+        Assert.assertEquals(report3.getLng(), children[0].reports.get(0).getLng(), 0.0001);
+        // NE
+        Assert.assertEquals(report1.getLat(), children[1].reports.get(0).getLat(), 0.0001);
+        Assert.assertEquals(report1.getLng(), children[1].reports.get(0).getLng(), 0.0001);
+        Assert.assertEquals(report5.getLat(), children[1].reports.get(1).getLat(), 0.0001);
+        Assert.assertEquals(report5.getLng(), children[1].reports.get(1).getLng(), 0.0001);
+        // SW
+        Assert.assertEquals(report2.getLat(), children[2].reports.get(0).getLat(), 0.0001);
+        Assert.assertEquals(report2.getLng(), children[2].reports.get(0).getLng(), 0.0001);
+        // SE
+        Assert.assertEquals(report4.getLat(), children[3].reports.get(0).getLat(), 0.0001);
+        Assert.assertEquals(report4.getLng(), children[3].reports.get(0).getLng(), 0.0001);
     }
 
 }

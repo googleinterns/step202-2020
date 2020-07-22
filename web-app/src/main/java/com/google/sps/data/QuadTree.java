@@ -101,15 +101,35 @@ public class QuadTree {
       switch (direction) {
         case NW:
           newCoordinates = coordinates.getNW();
+          System.out.println("NW");
+          System.out.println(newCoordinates.getTopLeftLat());
+          System.out.println(newCoordinates.getTopLeftLng());
+          System.out.println(newCoordinates.getBottomRightLat());
+          System.out.println(newCoordinates.getBottomRightLng());
           break;
         case NE:
           newCoordinates = coordinates.getNE();
+          System.out.println("NE");
+          System.out.println(newCoordinates.getTopLeftLat());
+          System.out.println(newCoordinates.getTopLeftLng());
+          System.out.println(newCoordinates.getBottomRightLat());
+          System.out.println(newCoordinates.getBottomRightLng());
           break;
         case SE:
           newCoordinates = coordinates.getSE();
+          System.out.println("SE");
+          System.out.println(newCoordinates.getTopLeftLat());
+          System.out.println(newCoordinates.getTopLeftLng());
+          System.out.println(newCoordinates.getBottomRightLat());
+          System.out.println(newCoordinates.getBottomRightLng());
           break;
         case SW:
           newCoordinates = coordinates.getSW();
+          System.out.println("SW");
+          System.out.println(newCoordinates.getTopLeftLat());
+          System.out.println(newCoordinates.getTopLeftLng());
+          System.out.println(newCoordinates.getBottomRightLat());
+          System.out.println(newCoordinates.getBottomRightLng());
           break;
         default:
           System.out.println("Unexpected case in switch statement");
@@ -133,7 +153,6 @@ public class QuadTree {
       children[direction.ordinal()] = childNode;
     }
 
-    System.out.println(children);
     return children;
   }
 }
