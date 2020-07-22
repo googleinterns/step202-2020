@@ -5,13 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 import java.util.Deque;
-import com.google.sps.data.PoliceReport;
-import com.google.sps.data.Rectangle;
 
 public class QuadTree {
-  private Node root;
+  public Node root;
   private final int reportCapacity = 4;
-  private final int maxDepth = 8;
+  public final int maxDepth = 8;
 
   enum Direction {
     NW, NE, SE, SW
@@ -30,7 +28,6 @@ public class QuadTree {
       this.depth = depth;
       this.reports = reports;
       this.numReports = reports.size();
-      // Size to accomodate space for one ext
       this.children = new Node[4];
     }
   }
@@ -38,6 +35,12 @@ public class QuadTree {
   public void createTree() {
     Rectangle coordinates = new Rectangle(90.0, -180.0, -90.0, 180.0);
     root = new Node(coordinates, new ArrayList<PoliceReport>(), 0);
+  }
+
+  // For testing purposes
+  public void customDepthTree(int depth) {
+    Rectangle coordinates = new Rectangle(90.0, -180.0, -90.0, 180.0);
+    root = new Node(coordinates, new ArrayList<PoliceReport>(), depth);
   }
 
   public void printTree() {
@@ -146,7 +149,7 @@ public class QuadTree {
 
       Node childNode = new Node(newCoordinates, newReports, newDepth);
       // Check if number of reports exceeds maximum
-      if (childNode.numReports > reportCapacity) {
+      if (childNode.numReports > reportCapacity && newDepth < maxDepth) {
         childNode.children = reallocateReports(newReports, newCoordinates, newDepth);
         childNode.leaf = false;
         childNode.reports = null;
@@ -155,7 +158,6 @@ public class QuadTree {
       children[direction.ordinal()] = childNode;
     }
 
-    System.out.println(children);
     return children;
   }
 }
