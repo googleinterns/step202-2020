@@ -3,7 +3,7 @@ package com.google.sps.data;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Arrays;
 import java.util.Deque;
 import com.google.sps.data.PoliceReport;
 import com.google.sps.data.Rectangle;
@@ -76,9 +76,12 @@ public class QuadTree {
     if (node.leaf) {
       return node.reports;
     }
-    return node.children.stream()
-      .flatMap(childNode -> findAllReports(range, childNode))
-      .collect(Collectors.toList());
+
+    List<PoliceReport> reports = new ArrayList<PoliceReport>();
+    for (Node child : node.children) {
+      reports.addAll(findAllReports(range, child));
+    }
+    return reports;
   } 
 
   public void insert(PoliceReport report) {
@@ -109,7 +112,7 @@ public class QuadTree {
     }
   }
 
-  public Node[] reallocateReports(ArrayList<PoliceReport> reports, Rectangle coordinates, int depth) {
+  public Node[] reallocateReports(List<PoliceReport> reports, Rectangle coordinates, int depth) {
     Node[] children = new Node[4];
 
     for (Direction direction : Direction.values()) {
