@@ -1,35 +1,39 @@
 package com.google.sps.data;
 
 public class Rectangle {
-  double topLeftLat;
-  double topLeftLng;
-  double bottomRightLat;
-  double bottomRightLng;
+  private double topLeftLat;
+  private double topLeftLng;
+  private double bottomRightLat;
+  private double bottomRightLng;
+  private double centerLat;
+  private double centerLng;
 
   Rectangle(double topLeftLat, double topLeftLng, double bottomRightLat, double bottomRightLng) {
     this.topLeftLat = topLeftLat;
     this.topLeftLng = topLeftLng;
     this.bottomRightLat = bottomRightLat;
     this.bottomRightLng = bottomRightLng;
+    this.centerLat = (topLeftLat + bottomRightLat) / 2;
+    this.centerLng = (topLeftLng + bottomRightLng) / 2;
   }
 
-  double getTopLeftLat() {
+  public double getTopLeftLat() {
     return topLeftLat;
   }
 
-  double getTopLeftLng() {
+  public double getTopLeftLng() {
     return topLeftLng;
   }
 
-  double getBottomRightLat() {
+  public double getBottomRightLat() {
     return bottomRightLat;
   }
 
-  double getBottomRightLng() {
+  public double getBottomRightLng() {
     return bottomRightLng;
   }
 
-  boolean overlaps(Rectangle rect) {
+  public boolean overlaps(Rectangle rect) {
     // No overlap in latitude
     if (topLeftLat >= rect.bottomRightLat || rect.topLeftLat >= bottomRightLat) {
       return false;
@@ -41,5 +45,25 @@ public class Rectangle {
     }
 
     return true;
+  }
+
+  public boolean inRectangle(double lat, double lng) {
+    return (lat <= topLeftLat && lat >= bottomRightLat && lng >= topLeftLng && lng <= bottomRightLng);
+  }
+
+  public Rectangle getNW() {
+    return new Rectangle(topLeftLat, topLeftLng, centerLat, centerLng);
+  }
+
+  public Rectangle getNE() {
+    return new Rectangle(topLeftLat, centerLng, centerLat, bottomRightLng);
+  }
+
+  public Rectangle getSE() {
+    return new Rectangle(centerLat, centerLng, bottomRightLat, bottomRightLng);
+  }
+
+  public Rectangle getSW() {
+    return new Rectangle(centerLat, topLeftLng, bottomRightLat, centerLng);
   }
 }
