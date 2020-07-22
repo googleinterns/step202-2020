@@ -121,4 +121,11 @@ public class QuadTreeTest extends Mockito {
     Assert.assertEquals("test4", reportsCrimeType.get(1));
   }
 
+  @Test
+  public void noReportsInRange() throws IOException {
+    Rectangle queryRange = new Rectangle(10.0, -10.0, -10.0, 10.0);
+    List<PoliceReport> reportsInQueryRange = simpleTree.query(queryRange);
+    Assert.assertEquals(0, reportsInQueryRange.size());
+  }
+
 }
