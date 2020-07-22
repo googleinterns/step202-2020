@@ -14,7 +14,7 @@
 
 import { fetchAndParseJson, loadPoliceReports, fetchMarkers } from "/script/loadData.js";
 import { postUserReport } from "/script/postUserData.js"
-import { setDirections } from "script/directions.js";
+import { setDirections } from "/script/directions.js";
 
 let mapMarkers = [];
 
