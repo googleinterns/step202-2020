@@ -5,9 +5,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-import com.google.gson.Gson;
 import com.google.sps.data.QuadTree;
 import com.google.sps.data.PoliceReport;
 
@@ -18,11 +15,17 @@ public class TestQuadTreeServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     QuadTree tree = new QuadTree();
-    PoliceReport report = new PoliceReport(30.0, 15.0, "test", 1234567);
+    PoliceReport report0 = new PoliceReport(30.0, 15.0, "test", 1234567);
+    PoliceReport report1 = new PoliceReport(35.0, 30.0, "test", 1234567);
+    PoliceReport report2 = new PoliceReport(34.0, 31.0, "test", 1234567);
+    PoliceReport report3 = new PoliceReport(85.0, 31.0, "test", 1234567);
+    PoliceReport report4 = new PoliceReport(-85.0, 31.0, "test", 1234567);
     tree.createTree();
-    tree.printTree();
-    System.out.println("\n");
-    tree.insert(report);
+    tree.insert(report0);
+    tree.insert(report1);
+    tree.insert(report2);
+    tree.insert(report3);
+    tree.insert(report4);
     tree.printTree();
   }
 }

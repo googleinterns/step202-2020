@@ -34,7 +34,7 @@ public class Rectangle {
   }
 
   public boolean inRectangle(double lat, double lng) {
-    return (lat <= topLeftLat && lat >= bottomRightLat && lng >= topLeftLng && lng <= bottomRightLng)
+    return (lat <= topLeftLat && lat >= bottomRightLat && lng >= topLeftLng && lng <= bottomRightLng);
   }
 
   public Rectangle getNW() {

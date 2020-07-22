@@ -50,9 +50,8 @@ public class QuadTree {
       }
       System.out.printf("(%f, %f), (%f, %f) ", node.coordinates.getTopLeftLat(), node.coordinates.getTopLeftLng(),
           node.coordinates.getBottomRightLat(), node.coordinates.getBottomRightLng());
-      if (node.leaf) {
-        System.out.printf("%d", node.numReports);
-      } else {
+      System.out.printf("%d", node.numReports);
+      if (!node.leaf) {
         for (Direction direction : Direction.values()) {
           nodesToPrint.push(node.children[direction.ordinal()]);
         }
