@@ -3,9 +3,6 @@ package com.google.sps.data;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
-import com.google.gson.Gson;
-import com.google.sps.data.PoliceReport;
-import com.google.sps.data.Rectangle;
 
 public class QuadTree {
   private Node root;
@@ -48,9 +45,8 @@ public class QuadTree {
       }
       System.out.printf("(%f, %f), (%f, %f) ", node.coordinates.getTopLeftLat(), node.coordinates.getTopLeftLng(),
           node.coordinates.getBottomRightLat(), node.coordinates.getBottomRightLng());
-      if (node.leaf) {
-        System.out.printf("%d", node.numReports);
-      } else {
+      System.out.printf("%d", node.numReports);
+      if (!node.leaf) {
         for (Direction direction : Direction.values()) {
           nodesToPrint.push(node.children[direction.ordinal()]);
         }
@@ -59,4 +55,5 @@ public class QuadTree {
     }
     System.out.printf("%n");
   }
+
 }
