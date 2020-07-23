@@ -30,7 +30,7 @@ public class QuadTree {
     }
   }
 
-  public void createTree() {
+  QuadTree() {
     Rectangle coordinates = new Rectangle(90.0, -180.0, -90.0, 180.0);
     root = new Node(coordinates, new ArrayList<PoliceReport>(), 0);
   }
