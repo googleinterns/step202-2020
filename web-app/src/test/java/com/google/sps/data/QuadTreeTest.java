@@ -35,59 +35,6 @@ public class QuadTreeTest extends Mockito {
     reportList.add(report5);
   }
 
-  public class TestInsert {
-    QuadTree tree;
-
-    private void customDepthTree(QuadTree tree, int depth) {
-      Rectangle coordinates = new Rectangle(90.0, -180.0, -90.0, 180.0);
-      tree.root = new QuadTree.Node(coordinates, new ArrayList<PoliceReport>(), depth);
-    }
-
-    @Before
-    public void setUp() {
-      tree = new QuadTree();
-    }
-
-    @Test
-    public void reallocateReportsCorrectly() throws IOException {
-      QuadTree.Node[] children = tree.reallocateReports(reportList, new Rectangle(90.0, -180.0, -90.0, 180.0), 0);
-      // NW
-      Assert.assertEquals("test3", children[0].reports.get(0).getCrimeType());
-      // NE
-      Assert.assertEquals("test1", children[1].reports.get(0).getCrimeType());
-      Assert.assertEquals("test5", children[1].reports.get(1).getCrimeType());
-      // SW
-      Assert.assertEquals("test2", children[2].reports.get(0).getCrimeType());
-      // SE
-      Assert.assertEquals("test4", children[3].reports.get(0).getCrimeType());
-    }
-
-    @Test
-    public void recursivelyCreateChildren() throws IOException {
-      customDepthTree(tree, 5);
-      for (int i = 0; i < 5; i++) {
-        tree.insert(report3);
-      }
-
-      Assert.assertEquals(5, tree.root.children[0].children[2].children[1].numReports);
-    }
-
-    @Test
-    public void stopAtMaxDepth() throws IOException {
-      System.out.println("Start of function");
-      customDepthTree(tree, QuadTree.maxDepth);
-      System.out.println("custom depth tree");
-      for (PoliceReport report : reportList) {
-        tree.insert(report);
-      }
-      System.out.println("reports");
-      // No new children should have been created
-      Assert.assertTrue(tree.root.leaf);
-      Assert.assertNull(tree.root.children);
-    }
-  }
-
-  // Query Tests
   public class TestQuery {
     QuadTree simpleTree;
 

@@ -7,15 +7,15 @@ import java.util.Arrays;
 import java.util.Deque;
 
 public class QuadTree {
-  public Node root;
-  private final int reportCapacity = 4;
-  public final static int maxDepth = 8;
+  private Node root;
+  private final static int reportCapacity = 4;
+  private final static int maxDepth = 8;
 
   enum Direction {
     NW, NE, SE, SW
   }
 
-  public static class Node {
+  private class Node {
     Rectangle coordinates;
     Node[] children;
     boolean leaf = true;
@@ -32,7 +32,7 @@ public class QuadTree {
 
   }
 
-  public void createTree() {
+  QuadTree() {
     Rectangle coordinates = new Rectangle(90.0, -180.0, -90.0, 180.0);
     root = new Node(coordinates, new ArrayList<PoliceReport>(), 0);
   }
@@ -112,7 +112,8 @@ public class QuadTree {
     }
   }
 
-  public Node[] reallocateReports(List<PoliceReport> reports, Rectangle coordinates, int depth) {
+
+  private Node[] reallocateReports(ArrayList<PoliceReport> reports, Rectangle coordinates, int depth) {
     Node[] children = new Node[4];
 
     for (Direction direction : Direction.values()) {
