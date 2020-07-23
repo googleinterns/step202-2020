@@ -23,7 +23,7 @@ public class QuadTreeTest extends Mockito {
 
   private void customDepthTree(QuadTree tree, int depth) {
     Rectangle coordinates = new Rectangle(90.0, -180.0, -90.0, 180.0);
-    tree.root = tree.new Node(coordinates, new ArrayList<PoliceReport>(), depth);
+    tree.root = new QuadTree.Node(coordinates, new ArrayList<PoliceReport>(), depth);
   }
 
   @Before

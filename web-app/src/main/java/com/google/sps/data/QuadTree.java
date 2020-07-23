@@ -13,7 +13,7 @@ public class QuadTree {
     NW, NE, SE, SW
   }
 
-  public class Node {
+  public static class Node {
     Rectangle coordinates;
     Node[] children;
     boolean leaf = true;
@@ -27,6 +27,7 @@ public class QuadTree {
       this.reports = reports;
       this.numReports = reports.size();
     }
+
   }
 
   public void createTree() {
