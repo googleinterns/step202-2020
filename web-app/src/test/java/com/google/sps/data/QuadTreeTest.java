@@ -12,11 +12,11 @@ import java.util.ArrayList;
 @RunWith(JUnit4.class)
 public class QuadTreeTest extends Mockito {
 
-  private PoliceReport report1 = new PoliceReport(30.0, 15.0, "test", 1234567); // NE
-  private PoliceReport report2 = new PoliceReport(-30.0, 15.0, "test", 1234567); // SE
-  private PoliceReport report3 = new PoliceReport(30.0, -15.0, "test", 1234567); // NW
-  private PoliceReport report4 = new PoliceReport(-30.0, -15.0, "test", 1234567); // SW
-  private PoliceReport report5 = new PoliceReport(80.0, 45.0, "test", 1234567); // NE
+  private PoliceReport report1 = new PoliceReport(30.0, 15.0, "test1", 1234567); // NE
+  private PoliceReport report2 = new PoliceReport(-30.0, 15.0, "test2", 1234567); // SE
+  private PoliceReport report3 = new PoliceReport(30.0, -15.0, "test3", 1234567); // NW
+  private PoliceReport report4 = new PoliceReport(-30.0, -15.0, "test4", 1234567); // SW
+  private PoliceReport report5 = new PoliceReport(80.0, 45.0, "test5", 1234567); // NE
 
   ArrayList<PoliceReport> reportList = new ArrayList<PoliceReport>();
   QuadTree tree;
@@ -41,19 +41,14 @@ public class QuadTreeTest extends Mockito {
   public void reallocateReportsCorrectly() throws IOException {
     QuadTree.Node[] children = tree.reallocateReports(reportList, new Rectangle(90.0, -180.0, -90.0, 180.0), 0);
     // NW
-    Assert.assertEquals(report3.getLat(), children[0].reports.get(0).getLat(), 0.0001);
-    Assert.assertEquals(report3.getLng(), children[0].reports.get(0).getLng(), 0.0001);
+    Assert.assertEquals("test3", children[0].reports.get(0).getCrimeType());
     // NE
-    Assert.assertEquals(report1.getLat(), children[1].reports.get(0).getLat(), 0.0001);
-    Assert.assertEquals(report1.getLng(), children[1].reports.get(0).getLng(), 0.0001);
-    Assert.assertEquals(report5.getLat(), children[1].reports.get(1).getLat(), 0.0001);
-    Assert.assertEquals(report5.getLng(), children[1].reports.get(1).getLng(), 0.0001);
+    Assert.assertEquals("test1", children[1].reports.get(0).getCrimeType());
+    Assert.assertEquals("test5", children[1].reports.get(1).getCrimeType());
     // SW
-    Assert.assertEquals(report2.getLat(), children[2].reports.get(0).getLat(), 0.0001);
-    Assert.assertEquals(report2.getLng(), children[2].reports.get(0).getLng(), 0.0001);
+    Assert.assertEquals("test2", children[2].reports.get(0).getCrimeType());
     // SE
-    Assert.assertEquals(report4.getLat(), children[3].reports.get(0).getLat(), 0.0001);
-    Assert.assertEquals(report4.getLng(), children[3].reports.get(0).getLng(), 0.0001);
+    Assert.assertEquals("test4", children[3].reports.get(0).getCrimeType());
   }
 
   @Test
@@ -68,16 +63,15 @@ public class QuadTreeTest extends Mockito {
 
   @Test
   public void stopAtMaxDepth() throws IOException {
+    System.out.println("Start of function");
     customDepthTree(tree, QuadTree.maxDepth);
-
+    System.out.println("custom depth tree");
     for (PoliceReport report : reportList) {
       tree.insert(report);
     }
+    System.out.println("reports");
     // No new children should have been created
     Assert.assertTrue(tree.root.leaf);
-    for (QuadTree.Node element : tree.root.children) {
-      Assert.assertNull(element);
-    }
+    Assert.assertNull(tree.root.children);
   }
-
 }

@@ -20,4 +20,8 @@ public class PoliceReport {
   public double getLng() {
     return longitude;
   }
+
+  public String getCrimeType() {
+    return crimeType;
+  }
 }
