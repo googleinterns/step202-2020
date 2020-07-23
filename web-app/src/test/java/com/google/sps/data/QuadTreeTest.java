@@ -26,60 +26,14 @@ public class QuadTreeTest extends Mockito {
 
   List<PoliceReport> reportList = new ArrayList<PoliceReport>();
 
-  @Before
-  public void setUp() {
-    reportList.add(report1);
-    reportList.add(report2);
-    reportList.add(report3);
-    reportList.add(report4);
-    reportList.add(report5);
-  }
-
-  public class TestInsert {
-    QuadTree tree;
-
-    @Before
-    public void setUp() {
-      tree = new QuadTree();
+  private List<String> reportsToCrimeType(List<PoliceReport> reports) {
+    List<String> reportsCrimeType = new ArrayList<String>();
+    for (PoliceReport report : reports) {
+      reportsCrimeType.add(report.getCrimeType());
     }
+    Collections.sort(reportsCrimeType);
 
-    @Test
-    public void correctlyAddMoreChildren() throws IOException {
-      for (PoliceReport report : reportList) {
-        tree.insert(report);
-      }
-      // NW
-      Assert.assertEquals("test3", tree.root.children[0].reports.get(0).getCrimeType());
-      // NE
-      Assert.assertEquals("test1", tree.root.children[1].reports.get(0).getCrimeType());
-      Assert.assertEquals("test5", tree.root.children[1].reports.get(1).getCrimeType());
-      // SW
-      Assert.assertEquals("test2", tree.root.children[2].reports.get(0).getCrimeType());
-      // SE
-      Assert.assertEquals("test4", tree.root.children[3].reports.get(0).getCrimeType());
-    }
-
-    @Test
-    public void recursivelyCreateChildren() throws IOException {
-      int customDepth = QuadTree.maxDepth - 3;
-      customDepthTree(tree, customDepth);
-      for (int i = 0; i < QuadTree.reportCapacity + 1; i++) {
-        tree.insert(report3);
-      }
-
-      Assert.assertEquals(customDepth, tree.root.children[0].children[2].children[1].numReports);
-    }
-
-    @Test
-    public void stopAtMaxDepth() throws IOException {
-      customDepthTree(tree, QuadTree.maxDepth);
-      for (PoliceReport report : reportList) {
-        tree.insert(report);
-      }
-      // No new children should have been created
-      Assert.assertTrue(tree.root.leaf);
-      Assert.assertNull(tree.root.children);
-    }
+    return reportsCrimeType;
   }
 
   public class TestQuery {
@@ -87,20 +41,16 @@ public class QuadTreeTest extends Mockito {
 
     @Before
     public void simpleTree() {
+      reportList.add(report1);
+      reportList.add(report2);
+      reportList.add(report3);
+      reportList.add(report4);
+      reportList.add(report5);
+
       simpleTree = new QuadTree();
       for (PoliceReport report : reportList) {
         simpleTree.insert(report);
       }
-    }
-
-    private List<String> reportsToCrimeType(List<PoliceReport> reports) {
-      List<String> reportsCrimeType = new ArrayList<String>();
-      for (PoliceReport report : reports) {
-        reportsCrimeType.add(report.getCrimeType());
-      }
-      Collections.sort(reportsCrimeType);
-
-      return reportsCrimeType;
     }
 
     @Test
@@ -130,6 +80,16 @@ public class QuadTreeTest extends Mockito {
       Rectangle queryRange = new Rectangle(10.0, -10.0, -10.0, 10.0);
       List<PoliceReport> reportsInQueryRange = simpleTree.query(queryRange);
       Assert.assertEquals(0, reportsInQueryRange.size());
+    }
+
+    @Test
+    public void duplicateLocations() throws IOException {
+      Rectangle queryRange = new Rectangle(-20.0, -20.0, -40.0, -10.0);
+      for (int i = 0; i < 4; i++) {
+        simpleTree.insert(report4);
+      }
+      List<PoliceReport> reportsInQueryRange = simpleTree.query(queryRange);
+      Assert.assertEquals(5, reportsInQueryRange.size());
     }
   }
 
