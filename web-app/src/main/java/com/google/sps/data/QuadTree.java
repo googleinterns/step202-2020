@@ -7,7 +7,7 @@ import java.util.Deque;
 public class QuadTree {
   public Node root;
   private final int reportCapacity = 4;
-  public final int maxDepth = 8;
+  public final static int maxDepth = 8;
 
   enum Direction {
     NW, NE, SE, SW
@@ -26,19 +26,12 @@ public class QuadTree {
       this.depth = depth;
       this.reports = reports;
       this.numReports = reports.size();
-      this.children = new Node[4];
     }
   }
 
   public void createTree() {
     Rectangle coordinates = new Rectangle(90.0, -180.0, -90.0, 180.0);
     root = new Node(coordinates, new ArrayList<PoliceReport>(), 0);
-  }
-
-  // For testing purposes
-  public void customDepthTree(int depth) {
-    Rectangle coordinates = new Rectangle(90.0, -180.0, -90.0, 180.0);
-    root = new Node(coordinates, new ArrayList<PoliceReport>(), depth);
   }
 
   public void printTree() {
@@ -73,11 +66,9 @@ public class QuadTree {
     // Find a leaf to insert the report in
     while (!currentNode.leaf) {
       currentNode.numReports += 1;
-      // Check which child the report belongs to
-      for (Direction direction : Direction.values()) {
-        Node childNode = currentNode.children[direction.ordinal()];
-        if (childNode.coordinates.inRectangle(reportLat, reportLng)) {
-          currentNode = childNode;
+      for (Node child : currentNode.children) {
+        if (child.coordinates.inRectangle(reportLat, reportLng)) {
+          currentNode = child;
           break;
         }
       }

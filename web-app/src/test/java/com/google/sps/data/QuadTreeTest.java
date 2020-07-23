@@ -21,6 +21,11 @@ public class QuadTreeTest extends Mockito {
   ArrayList<PoliceReport> reportList = new ArrayList<PoliceReport>();
   QuadTree tree;
 
+  private void customDepthTree(QuadTree tree, int depth) {
+    Rectangle coordinates = new Rectangle(90.0, -180.0, -90.0, 180.0);
+    tree.root = tree.new Node(coordinates, new ArrayList<PoliceReport>(), depth);
+  }
+
   @Before
   public void setUp() {
     reportList.add(report1);
@@ -53,7 +58,7 @@ public class QuadTreeTest extends Mockito {
 
   @Test
   public void recursivelyCreateChildren() throws IOException {
-    tree.customDepthTree(5);
+    customDepthTree(tree, 5);
     for (int i = 0; i < 5; i++) {
       tree.insert(report3);
     }
@@ -63,7 +68,7 @@ public class QuadTreeTest extends Mockito {
 
   @Test
   public void stopAtMaxDepth() throws IOException {
-    tree.customDepthTree(tree.maxDepth);
+    customDepthTree(tree, QuadTree.maxDepth);
 
     for (PoliceReport report : reportList) {
       tree.insert(report);
