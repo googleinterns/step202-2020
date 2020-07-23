@@ -5,15 +5,15 @@ import java.util.ArrayList;
 import java.util.Deque;
 
 public class QuadTree {
-  public Node root;
-  public final static int reportCapacity = 4;
-  public final static int maxDepth = 8;
+  private Node root;
+  private final static int reportCapacity = 4;
+  private final static int maxDepth = 8;
 
   enum Direction {
     NW, NE, SE, SW
   }
 
-  public static class Node {
+  private class Node {
     Rectangle coordinates;
     Node[] children;
     boolean leaf = true;
@@ -85,7 +85,7 @@ public class QuadTree {
     }
   }
 
-  public Node[] reallocateReports(ArrayList<PoliceReport> reports, Rectangle coordinates, int depth) {
+  private Node[] reallocateReports(ArrayList<PoliceReport> reports, Rectangle coordinates, int depth) {
     Node[] children = new Node[4];
 
     for (Direction direction : Direction.values()) {
