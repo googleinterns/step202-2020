@@ -41,7 +41,6 @@ public class QuadTreeTest extends Mockito {
     @Before
     public void simpleTree() {
       simpleTree = new QuadTree();
-      simpleTree.createTree();
       for (PoliceReport report : reportList) {
         simpleTree.insert(report);
       }
