@@ -3,7 +3,11 @@
 .project
 .settings/
 web-app/.factorypath
- 
+
+# Nodejs
+node_modules/
+web-app/src/main/webapp/jasmine/node_modules/
+
 # Intellij
 .idea/
 *.iml
