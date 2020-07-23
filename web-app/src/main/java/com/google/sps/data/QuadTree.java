@@ -113,7 +113,7 @@ public class QuadTree {
   }
 
 
-  private Node[] reallocateReports(ArrayList<PoliceReport> reports, Rectangle coordinates, int depth) {
+  private Node[] reallocateReports(List<PoliceReport> reports, Rectangle coordinates, int depth) {
     Node[] children = new Node[4];
 
     for (Direction direction : Direction.values()) {

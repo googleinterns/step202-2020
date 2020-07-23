@@ -24,7 +24,7 @@ public class QuadTreeTest extends Mockito {
   private PoliceReport report4 = new PoliceReport(-30.0, -15.0, "test4", 1234567); // SW
   private PoliceReport report5 = new PoliceReport(80.0, 45.0, "test5", 1234567); // NE
 
-  ArrayList<PoliceReport> reportList = new ArrayList<PoliceReport>();
+  List<PoliceReport> reportList = new ArrayList<PoliceReport>();
 
   @Before
   public void setUp() {
