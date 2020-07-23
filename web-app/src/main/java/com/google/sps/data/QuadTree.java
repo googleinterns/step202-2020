@@ -6,7 +6,7 @@ import java.util.Deque;
 
 public class QuadTree {
   public Node root;
-  private final int reportCapacity = 4;
+  public final static int reportCapacity = 4;
   public final static int maxDepth = 8;
 
   enum Direction {
