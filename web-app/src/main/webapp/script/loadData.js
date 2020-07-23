@@ -1,6 +1,7 @@
 class MapComponents {
   constructor() {
     this.mapMarkers = [];
+    this.infoWindow = new google.maps.InfoWindow();
   }
 }
 
@@ -37,7 +38,16 @@ export async function loadPoliceReports(map) {
     FILE_NAMES.map(async (file_name) => {
       const reports = await fetchAndParseJson("../data/" + file_name + ".json");
       const filteredReports = filterReports(reports, uncheckedCategories, numberOfMonths);
-      return createMarkers(map, filteredReports);
+      const markers = createMarkers(map, filteredReports);
+      for (const marker of markers) {
+        google.maps.event.addListener(marker, "click", () => {
+          const contentString =
+            `<div id="info-window"><p>${marker.crimeType}</p><p>${marker.date}</p></div>`;
+          mapComponents.infoWindow.setContent(contentString);
+          mapComponents.infoWindow.open(map, marker);
+        });
+      }
+      return markers;
     })
   );
   mapComponents.mapMarkers = markersArrayForEachReports.flat();
@@ -72,6 +82,8 @@ function createMarkers(map, reports) {
           lng: Number(report.longitude),
         },
         map: map,
+        date: report.yearMonth,
+        crimeType: report.crimeType,
       })
   );
 }
