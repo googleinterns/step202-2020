@@ -13,19 +13,19 @@ public class Rectangle {
     this.bottomRightLng = bottomRightLng;
   }
 
-  double getTopLeftLat() {
+  public double getTopLeftLat() {
     return topLeftLat;
   }
 
-  double getTopLeftLng() {
+  public double getTopLeftLng() {
     return topLeftLng;
   }
 
-  double getBottomRightLat() {
+  public double getBottomRightLat() {
     return bottomRightLat;
   }
 
-  double getBottomRightLng() {
+  public double getBottomRightLng() {
     return bottomRightLng;
   }
 }
