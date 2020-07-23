@@ -75,7 +75,6 @@ public class QuadTree {
     List<PoliceReport> reports = new ArrayList<PoliceReport>();
 
     if (!node.coordinates.overlaps(range)) {
-      // Don't traverse further down the tree
       return reports;
     }
     if (node.leaf) {

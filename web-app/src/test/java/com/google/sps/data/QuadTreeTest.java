@@ -5,6 +5,8 @@ import org.junit.runners.JUnit4;
 import org.junit.Test;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -78,54 +80,57 @@ public class QuadTreeTest extends Mockito {
   }
 
   // Query Tests
-  QuadTree simpleTree;
+  @Nested
+  class TestQuery {
+    QuadTree simpleTree;
 
-  @Before
-  public void simpleTree() {
-    simpleTree = new QuadTree();
-    simpleTree.createTree();
-    for (PoliceReport report : reportList) {
-      simpleTree.insert(report);
+    @BeforeEach
+    public void simpleTree() {
+      simpleTree = new QuadTree();
+      simpleTree.createTree();
+      for (PoliceReport report : reportList) {
+        simpleTree.insert(report);
+      }
     }
-  }
 
-  private List<String> reportsToCrimeType(List<PoliceReport> reports) {
-    List<String> reportsCrimeType = new ArrayList<String>();
-    for (PoliceReport report : reports) {
-      reportsCrimeType.add(report.getCrimeType());
+    private List<String> reportsToCrimeType(List<PoliceReport> reports) {
+      List<String> reportsCrimeType = new ArrayList<String>();
+      for (PoliceReport report : reports) {
+        reportsCrimeType.add(report.getCrimeType());
+      }
+      Collections.sort(reportsCrimeType);
+
+      return reportsCrimeType;
     }
-    Collections.sort(reportsCrimeType);
 
-    return reportsCrimeType;
-  }
+    @Test
+    public void simpleQuery() throws IOException {
+      Rectangle queryRange = new Rectangle(85.0, 15.0, 25.0, 50.0);
+      List<PoliceReport> reportsInQueryRange = simpleTree.query(queryRange);
+      Assert.assertEquals(2, reportsInQueryRange.size());
+      
+      List<String> reportsCrimeType = reportsToCrimeType(reportsInQueryRange);
+      Assert.assertEquals("test1", reportsCrimeType.get(0));
+      Assert.assertEquals("test5", reportsCrimeType.get(1));
+    }
 
-  @Test
-  public void simpleQuery() throws IOException {
-    Rectangle queryRange = new Rectangle(85.0, 15.0, 25.0, 50.0);
-    List<PoliceReport> reportsInQueryRange = simpleTree.query(queryRange);
-    Assert.assertEquals(2, reportsInQueryRange.size());
-    
-    List<String> reportsCrimeType = reportsToCrimeType(reportsInQueryRange);
-    Assert.assertEquals("test1", reportsCrimeType.get(0));
-    Assert.assertEquals("test5", reportsCrimeType.get(1));
-  }
+    @Test
+    public void overlapTwoChildrenQuery() throws IOException {
+      Rectangle queryRange = new Rectangle(40.0, -30.0, -40.0, -10.0);
+      List<PoliceReport> reportsInQueryRange = simpleTree.query(queryRange);
+      Assert.assertEquals(2, reportsInQueryRange.size());
 
-  @Test
-  public void overlapTwoChildrenQuery() throws IOException {
-    Rectangle queryRange = new Rectangle(40.0, -30.0, -40.0, -10.0);
-    List<PoliceReport> reportsInQueryRange = simpleTree.query(queryRange);
-    Assert.assertEquals(2, reportsInQueryRange.size());
+      List<String> reportsCrimeType = reportsToCrimeType(reportsInQueryRange);
+      Assert.assertEquals("test3", reportsCrimeType.get(0));
+      Assert.assertEquals("test4", reportsCrimeType.get(1));
+    }
 
-    List<String> reportsCrimeType = reportsToCrimeType(reportsInQueryRange);
-    Assert.assertEquals("test3", reportsCrimeType.get(0));
-    Assert.assertEquals("test4", reportsCrimeType.get(1));
-  }
-
-  @Test
-  public void noReportsInRange() throws IOException {
-    Rectangle queryRange = new Rectangle(10.0, -10.0, -10.0, 10.0);
-    List<PoliceReport> reportsInQueryRange = simpleTree.query(queryRange);
-    Assert.assertEquals(0, reportsInQueryRange.size());
+    @Test
+    public void noReportsInRange() throws IOException {
+      Rectangle queryRange = new Rectangle(10.0, -10.0, -10.0, 10.0);
+      List<PoliceReport> reportsInQueryRange = simpleTree.query(queryRange);
+      Assert.assertEquals(0, reportsInQueryRange.size());
+    }
   }
 
 }

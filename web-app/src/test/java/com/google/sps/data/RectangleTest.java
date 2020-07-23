@@ -35,5 +35,4 @@ public class RectangleTest {
     Assert.assertFalse(r1.overlaps(r2));
     Assert.assertFalse(r2.overlaps(r1));
   }
-
 }
