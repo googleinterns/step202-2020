@@ -35,10 +35,10 @@
 
     <!-- Test Dependencies -->
     <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.12</version>
-        <scope>test</scope>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
@@ -68,6 +68,12 @@
       <groupId>com.google.api-client</groupId>
       <artifactId>google-api-client-appengine</artifactId>
       <version>1.23.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>de.bechte.junit</groupId>
+      <artifactId>junit-hierarchicalcontextrunner</artifactId>
+      <version>4.12.1</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
