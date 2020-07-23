@@ -35,6 +35,53 @@ public class QuadTreeTest extends Mockito {
     reportList.add(report5);
   }
 
+  public class TestInsert {
+    QuadTree tree;
+
+    @Before
+    public void setUp() {
+      tree = new QuadTree();
+    }
+
+    @Test
+    public void correctlyAddMoreChildren() throws IOException {
+      for (PoliceReport report : reportList) {
+        tree.insert(report);
+      }
+      // NW
+      Assert.assertEquals("test3", tree.root.children[0].reports.get(0).getCrimeType());
+      // NE
+      Assert.assertEquals("test1", tree.root.children[1].reports.get(0).getCrimeType());
+      Assert.assertEquals("test5", tree.root.children[1].reports.get(1).getCrimeType());
+      // SW
+      Assert.assertEquals("test2", tree.root.children[2].reports.get(0).getCrimeType());
+      // SE
+      Assert.assertEquals("test4", tree.root.children[3].reports.get(0).getCrimeType());
+    }
+
+    @Test
+    public void recursivelyCreateChildren() throws IOException {
+      int customDepth = QuadTree.maxDepth - 3;
+      customDepthTree(tree, customDepth);
+      for (int i = 0; i < QuadTree.reportCapacity + 1; i++) {
+        tree.insert(report3);
+      }
+
+      Assert.assertEquals(customDepth, tree.root.children[0].children[2].children[1].numReports);
+    }
+
+    @Test
+    public void stopAtMaxDepth() throws IOException {
+      customDepthTree(tree, QuadTree.maxDepth);
+      for (PoliceReport report : reportList) {
+        tree.insert(report);
+      }
+      // No new children should have been created
+      Assert.assertTrue(tree.root.leaf);
+      Assert.assertNull(tree.root.children);
+    }
+  }
+
   public class TestQuery {
     QuadTree simpleTree;
 
@@ -61,7 +108,7 @@ public class QuadTreeTest extends Mockito {
       Rectangle queryRange = new Rectangle(85.0, 15.0, 25.0, 50.0);
       List<PoliceReport> reportsInQueryRange = simpleTree.query(queryRange);
       Assert.assertEquals(2, reportsInQueryRange.size());
-      
+
       List<String> reportsCrimeType = reportsToCrimeType(reportsInQueryRange);
       Assert.assertEquals("test1", reportsCrimeType.get(0));
       Assert.assertEquals("test5", reportsCrimeType.get(1));
