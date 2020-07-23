@@ -33,7 +33,13 @@ public class Rectangle {
     return bottomRightLng;
   }
 
-  public boolean overlaps(Rectangle rect) {
+  /**
+  * Intersects: Return true if current rectangle intersects with the input, 
+  * by checking whether there is intersection in either longitude or latitude.
+  * Two rectangles just sharing a single edge or point is not considered as
+  * intersection. 
+  */
+  public boolean intersects(Rectangle rect) {
     // No overlap in latitude
     if (topLeftLat <= rect.bottomRightLat || rect.topLeftLat <= bottomRightLat) {
       return false;
@@ -47,7 +53,7 @@ public class Rectangle {
     return true;
   }
 
-  public boolean inRectangle(double lat, double lng) {
+  public boolean contains(double lat, double lng) {
     return (lat <= topLeftLat && lat >= bottomRightLat && lng >= topLeftLng && lng <= bottomRightLng);
   }
 

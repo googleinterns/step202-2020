@@ -8,11 +8,14 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.mockito.Mockito;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
+import org.junit.rules.ErrorCollector;
+import org.hamcrest.core.IsEqual;
 
 @RunWith(HierarchicalContextRunner.class)
 @Category(JUnit4.class)
@@ -34,6 +37,9 @@ public class QuadTreeTest extends Mockito {
     reportList.add(report4);
     reportList.add(report5);
   }
+
+  @Rule
+  public ErrorCollector collector = new ErrorCollector();
 
   public class TestQuery {
     QuadTree simpleTree;
@@ -63,8 +69,8 @@ public class QuadTreeTest extends Mockito {
       Assert.assertEquals(2, reportsInQueryRange.size());
       
       List<String> reportsCrimeType = reportsToCrimeType(reportsInQueryRange);
-      Assert.assertEquals("test1", reportsCrimeType.get(0));
-      Assert.assertEquals("test5", reportsCrimeType.get(1));
+      collector.checkThat("test1", IsEqual.equalTo(reportsCrimeType.get(0)));
+      collector.checkThat("test5", IsEqual.equalTo(reportsCrimeType.get(1)));
     }
 
     @Test
@@ -74,8 +80,8 @@ public class QuadTreeTest extends Mockito {
       Assert.assertEquals(2, reportsInQueryRange.size());
 
       List<String> reportsCrimeType = reportsToCrimeType(reportsInQueryRange);
-      Assert.assertEquals("test3", reportsCrimeType.get(0));
-      Assert.assertEquals("test4", reportsCrimeType.get(1));
+      collector.checkThat("test3", IsEqual.equalTo(reportsCrimeType.get(0)));
+      collector.checkThat("test4", IsEqual.equalTo(reportsCrimeType.get(1)));
     }
 
     @Test
