@@ -88,11 +88,10 @@ public class QuadTreeTest extends Mockito {
   }
 
   // Query Tests
-  @Nested
-  class TestQuery {
+  public class TestQuery {
     QuadTree simpleTree;
 
-    @BeforeEach
+    @Before
     public void simpleTree() {
       simpleTree = new QuadTree();
       simpleTree.createTree();
