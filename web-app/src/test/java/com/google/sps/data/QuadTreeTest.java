@@ -3,7 +3,6 @@ package com.google.sps.data;
 import de.bechte.junit.runners.context.HierarchicalContextRunner;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.junit.runners.Suite.SuiteClasses;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.Assert;
@@ -12,9 +11,6 @@ import org.mockito.Mockito;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.plaf.basic.BasicComboPopup.ListDataHandler;
-
 import java.util.Collections;
 
 @RunWith(HierarchicalContextRunner.class)
