@@ -12,6 +12,9 @@ import org.mockito.Mockito;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.plaf.basic.BasicComboPopup.ListDataHandler;
+
 import java.util.Collections;
 
 @RunWith(HierarchicalContextRunner.class)
@@ -36,7 +39,7 @@ public class QuadTreeTest extends Mockito {
     return reportsCrimeType;
   }
 
-  public class TestQuery {
+  public class simpleTreeTests {
     QuadTree simpleTree;
 
     @Before
@@ -81,16 +84,32 @@ public class QuadTreeTest extends Mockito {
       List<PoliceReport> reportsInQueryRange = simpleTree.query(queryRange);
       Assert.assertEquals(0, reportsInQueryRange.size());
     }
+  }
 
-    @Test
-    public void duplicateLocations() throws IOException {
-      Rectangle queryRange = new Rectangle(-20.0, -20.0, -40.0, -10.0);
-      for (int i = 0; i < 4; i++) {
-        simpleTree.insert(report4);
-      }
-      List<PoliceReport> reportsInQueryRange = simpleTree.query(queryRange);
-      Assert.assertEquals(5, reportsInQueryRange.size());
+  @Test
+  public void duplicateLocations() throws IOException {
+    QuadTree tree = new QuadTree();
+    Rectangle queryRange = new Rectangle(-20.0, -20.0, -40.0, -10.0);
+    for (int i = 0; i < 5; i++) {
+      tree.insert(report4);
     }
+    Assert.assertEquals(5, tree.query(queryRange).size());
+  }
+
+  @Test
+  public void reportOnBoundaryLine() throws IOException {
+    QuadTree tree = new QuadTree();
+    PoliceReport report = new PoliceReport(0, 0, "corner case", 1234567);
+    Rectangle NWQuery = new Rectangle(90.0, -180.0, 0.0, 0.0);
+    Rectangle NEQuery = new Rectangle(90.0, 0.0, 0.0, 180.0);
+    Rectangle SEQuery = new Rectangle(0.0, 0.0, -90.0, 180.0);
+    Rectangle SWQuery = new Rectangle(0.0, -180.0, -90.0, 0.0);
+    tree.insert(report);
+    // Corner reports should appear in every query
+    Assert.assertEquals(1, tree.query(NWQuery).size());
+    Assert.assertEquals(1, tree.query(NEQuery).size());
+    Assert.assertEquals(1, tree.query(SEQuery).size());
+    Assert.assertEquals(1, tree.query(SWQuery).size());
   }
 
 }
