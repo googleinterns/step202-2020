@@ -100,12 +100,16 @@ public class QuadTreeTest extends Mockito {
     Rectangle NEQuery = new Rectangle(90.0, 0.0, 0.0, 180.0);
     Rectangle SEQuery = new Rectangle(0.0, 0.0, -90.0, 180.0);
     Rectangle SWQuery = new Rectangle(0.0, -180.0, -90.0, 0.0);
+    Rectangle fullQuery = new Rectangle(90.0, -180.0, -90.0, 180.0);
+
     tree.insert(report);
     // Corner reports should appear in every query
     Assert.assertEquals(1, tree.query(NWQuery).size());
     Assert.assertEquals(1, tree.query(NEQuery).size());
     Assert.assertEquals(1, tree.query(SEQuery).size());
     Assert.assertEquals(1, tree.query(SWQuery).size());
+    // Corner reports should only appear once
+    Assert.assertEquals(1, tree.query(fullQuery).size());
   }
 
 }
