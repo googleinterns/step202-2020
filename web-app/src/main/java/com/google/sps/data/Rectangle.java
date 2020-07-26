@@ -8,7 +8,7 @@ public class Rectangle {
   private double centerLat;
   private double centerLng;
 
-  Rectangle(double topLeftLat, double topLeftLng, double bottomRightLat, double bottomRightLng) {
+  public Rectangle(double topLeftLat, double topLeftLng, double bottomRightLat, double bottomRightLng) {
     this.topLeftLat = topLeftLat;
     this.topLeftLng = topLeftLng;
     this.bottomRightLat = bottomRightLat;

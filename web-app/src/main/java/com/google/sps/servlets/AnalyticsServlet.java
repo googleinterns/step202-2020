@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.google.sps.data.PoliceReport;
+import com.google.sps.data.Rectangle;
 import com.google.sps.data.QuadTree;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +44,13 @@ public class AnalyticsServlet extends HttpServlet {
   @Override
   public void init() {
     reportsTree = new QuadTree();
-    Set paths = getServletContext().getResourcePaths("/data");
-    System.out.println(paths);
-    
+    Set<String> paths = getServletContext().getResourcePaths("/data");
+
+    for (String path : paths) {
+      List<PoliceReport> reports = jsonToPoliceReportList(path);
+      for (PoliceReport report : reports) {
+        reportsTree.insert(report);
+      }
+    }
   }
 }
