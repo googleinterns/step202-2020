@@ -54,4 +54,36 @@ public class AnalyticsServlet extends HttpServlet {
       }
     }
   }
+
+  private Rectangle getQueryRange(List<double> latitudes, List<double> longitudes) {
+    double minLongitude = 190.0;
+    double maxLongitude = -190.0;
+    double minLatitude = 100.0;
+    double maxLatitude = -100.0;
+
+    for (double latitude : latitudes) {
+      if (latitude > maxLatitude) {
+        maxLatitude = latitude;
+      }
+      if (latitude < minLatitude) {
+        minLatitude = latitude;
+      }
+    }
+
+    for (double longitude : longitudes) {
+      if (longitude > maxLongitude) {
+        maxLongitude = longitude;
+      }
+      if (longitude < minLongitude) {
+        minLongitude = longitude;
+      }
+    }
+    return new Rectangle(maxLatitude, minLongitude, minLatitude, maxLongitude);
+  }
+
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  
+  }
+
 }
