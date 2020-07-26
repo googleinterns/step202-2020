@@ -36,6 +36,7 @@ public class AnalyticsServlet extends HttpServlet {
       }
       reader.endArray();
     } catch (Exception e) {
+      // If Json file is corrupted, just exclude that file from analysis
       return new ArrayList<PoliceReport>();
     }
     return reports;
