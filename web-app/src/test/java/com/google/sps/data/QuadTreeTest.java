@@ -29,13 +29,14 @@ public class QuadTreeTest extends Mockito {
 
   List<PoliceReport> reportList = new ArrayList<PoliceReport>();
 
-  @Before
-  public void setUp() {
-    reportList.add(report1);
-    reportList.add(report2);
-    reportList.add(report3);
-    reportList.add(report4);
-    reportList.add(report5);
+  private List<String> reportsToCrimeType(List<PoliceReport> reports) {
+    List<String> reportsCrimeType = new ArrayList<String>();
+    for (PoliceReport report : reports) {
+      reportsCrimeType.add(report.getCrimeType());
+    }
+    Collections.sort(reportsCrimeType);
+
+    return reportsCrimeType;
   }
 
   @Rule
@@ -46,20 +47,16 @@ public class QuadTreeTest extends Mockito {
 
     @Before
     public void simpleTree() {
+      reportList.add(report1);
+      reportList.add(report2);
+      reportList.add(report3);
+      reportList.add(report4);
+      reportList.add(report5);
+
       simpleTree = new QuadTree();
       for (PoliceReport report : reportList) {
         simpleTree.insert(report);
       }
-    }
-
-    private List<String> reportsToCrimeType(List<PoliceReport> reports) {
-      List<String> reportsCrimeType = new ArrayList<String>();
-      for (PoliceReport report : reports) {
-        reportsCrimeType.add(report.getCrimeType());
-      }
-      Collections.sort(reportsCrimeType);
-
-      return reportsCrimeType;
     }
 
     @Test
