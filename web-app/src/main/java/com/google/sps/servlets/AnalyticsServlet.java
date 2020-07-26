@@ -14,36 +14,37 @@ import com.google.sps.data.QuadTree;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 @WebServlet("/analytics")
 public class AnalyticsServlet extends HttpServlet {
 
   private QuadTree reportsTree;
 
-  @Override
-  public void init() {
-    reportsTree = new QuadTree();
-    InputStream input = getServletContext().getResourceAsStream("/data/2019_12_london.json");
-    /*Scanner s = new Scanner(input);
-
-    for (int i = 0; i < 5; i++) {
-      String line = s.nextLine();
-      System.out.println(line);
-    }*/
-
+  private List<PoliceReport> jsonToPoliceReportList(String path) {
+    InputStream input = getServletContext().getResourceAsStream(path);
     Gson gson = new Gson();
     JsonReader reader = new JsonReader(new InputStreamReader(input));
+    List<PoliceReport> reports = new ArrayList<PoliceReport>();
+
     try {
       reader.beginArray();
-      List<PoliceReport> reports = new ArrayList<PoliceReport>();
       while (reader.hasNext()) {
         PoliceReport report = gson.fromJson(reader, PoliceReport.class);
-        System.out.println(report.getCrimeType());
         reports.add(report);
       }
       reader.endArray();
     } catch (Exception e) {
-      System.out.println(e);
+      return new ArrayList<PoliceReport>();
     }
+    return reports;
+  }
+
+  @Override
+  public void init() {
+    reportsTree = new QuadTree();
+    Set paths = getServletContext().getResourcePaths("/data");
+    System.out.println(paths);
+    
   }
 }
