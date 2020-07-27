@@ -10,7 +10,7 @@ export function setDirections(directionsService, directionsRenderer, origin, des
       directionsRenderer.setDirections(result);
       fetch("/analytics", {
         method: "POST",
-        route: JSON.stringify(result.)
+        route: JSON.stringify(result.routes[0].overview_path)
       })
     } else if (status == "NOT_FOUND") {
       console.log("location could not be geocoded.");
