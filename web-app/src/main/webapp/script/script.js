@@ -43,6 +43,7 @@ window.onload = async () => {
   document.getElementById("menu-button").addEventListener("click", () => {
     document.getElementById("menu").style.display = "block";
   });
+  document.getElementById("analytics-button").addEventListener("click", () => showAnalytics());
   // Report
   document.getElementById("back-icon").addEventListener("click", () => {
     hideReportForm();
@@ -153,6 +154,19 @@ function hideReportForm() {
   const homeElements = document.getElementsByClassName("home");
   for (const element of homeElements) {
     element.style.display = "block";
+  }
+}
+
+function showAnalytics() {
+  document.getElementById("analytics-container").style.display = "block";
+  const homeElements = document.getElementsByClassName("home");
+  // TODO(ltwAshley): tap on map should close menu, making this unecessary
+  const menuElements = document.getElementsByClassName("menu");
+  for (const element of homeElements) {
+    element.style.display = "none";
+  }
+  for (const element of menuElements) {
+    element.style.display = "none";
   }
 }
 

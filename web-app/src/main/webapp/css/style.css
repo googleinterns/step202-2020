@@ -43,12 +43,21 @@
 }
 
 /* Analytics page */
-#analytics {
+#analytics-container {
   background-color: rgba(0, 0, 23, 0.8);
-  color: #e0e0e0;
   height: 100vh;
-  overflow: scroll;
   width: 100%;
+}
+
+#analytics {
+  color: #e0e0e0;
+  font-size: 3em;
+  overflow: scroll;
+  padding: 30px;
+}
+
+#analytics h1 {
+  text-align: center;
 }
 
 /* Options menu */
