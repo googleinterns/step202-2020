@@ -57,11 +57,20 @@
 }
 
 #analytics h1 {
+  margin: 0;
   text-align: center;
 }
 
 #num-reports {
   text-align: center;
+}
+
+#close-analytics {
+  background-image: url(/images/back-arrow.svg);
+  background-size: 50px 50px;
+  height: 50px;
+  padding: 0;
+  width: 50px;
 }
 
 /* Options menu */
