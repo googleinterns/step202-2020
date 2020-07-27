@@ -8,6 +8,10 @@ export function setDirections(directionsService, directionsRenderer, origin, des
   directionsService.route(request, (result, status) => {
     if (status == "OK") {
       directionsRenderer.setDirections(result);
+      fetch("/analytics", {
+        method: "POST",
+        route: JSON.stringify(result.)
+      })
     } else if (status == "NOT_FOUND") {
       console.log("location could not be geocoded.");
     }
