@@ -284,6 +284,7 @@ label {
 
 #analytics-button {
   background-image: url(/images/info.svg);
+  display: none;
   right: 170px;
 }
 
