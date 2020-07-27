@@ -1,5 +1,6 @@
 .report,
-.menu {
+.menu,
+.analytics {
   display: none;
 }
 
@@ -39,6 +40,15 @@
   margin-right: auto;
   max-height: 100%;
   max-width: 100%;
+}
+
+/* Analytics page */
+#analytics {
+  background-color: rgba(0, 0, 23, 0.8);
+  color: #e0e0e0;
+  height: 100vh;
+  overflow: scroll;
+  width: 100%;
 }
 
 /* Options menu */
@@ -242,12 +252,17 @@ label {
 
 #menu-button {
   background-image: url(/images/options-menu.svg);
-  left: 50px;
+  left: 40px;
 }
 
 #toggle-button {
   background-image: url(/images/toggle-view.svg);
-  right: 50px;
+  right: 40px;
+}
+
+#analytics-button {
+  background-image: url(/images/info.svg);
+  right: 170px;
 }
 
 /* Accessibility */
