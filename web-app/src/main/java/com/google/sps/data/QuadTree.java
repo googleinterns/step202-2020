@@ -126,7 +126,6 @@ public class QuadTree {
           break;
         }
       }
-
     }
 
     // Check if number of reports exceeds maximum
