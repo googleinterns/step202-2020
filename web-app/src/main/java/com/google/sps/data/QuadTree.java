@@ -27,7 +27,6 @@ public class QuadTree {
       this.reports = reports;
       this.numReports = reports.size();
     }
-
   }
 
   QuadTree() {
@@ -60,11 +59,22 @@ public class QuadTree {
   }
 
   public void insert(PoliceReport report) {
-    Node currentNode = root;
+    Node leafNode = findLeaf(root, report);
+    leafNode.numReports += 1;
+    leafNode.reports.add(report);
+    // If max capacity has been exceeded, create child nodes
+    if (leafNode.numReports > reportCapacity && leafNode.depth < maxDepth) {
+      leafNode.children = reallocateReports(leafNode.reports, leafNode.coordinates, leafNode.depth);
+      leafNode.leaf = false;
+      leafNode.reports = null;
+    }
+  }
+
+  // Find a leaf to insert the report in
+  private Node findLeaf(Node currentNode, PoliceReport report) {
     double reportLat = report.getLat();
     double reportLng = report.getLng();
 
-    // Find a leaf to insert the report in
     while (!currentNode.leaf) {
       currentNode.numReports += 1;
       for (Node child : currentNode.children) {
@@ -75,19 +85,13 @@ public class QuadTree {
       }
     }
 
-    currentNode.numReports += 1;
-    currentNode.reports.add(report);
-    // If max capacity has been exceeded, create child nodes
-    if (currentNode.numReports > reportCapacity && currentNode.depth < maxDepth) {
-      currentNode.children = reallocateReports(currentNode.reports, currentNode.coordinates, currentNode.depth);
-      currentNode.leaf = false;
-      currentNode.reports = null;
-    }
+    return currentNode;
   }
 
   private Node[] reallocateReports(ArrayList<PoliceReport> reports, Rectangle coordinates, int depth) {
     Node[] children = new Node[4];
 
+    // Create empty children
     for (Direction direction : Direction.values()) {
       Rectangle newCoordinates;
       ArrayList<PoliceReport> newReports = new ArrayList<PoliceReport>();
@@ -111,21 +115,27 @@ public class QuadTree {
           return children;
       }
 
-      for (PoliceReport report : reports) {
-        if (newCoordinates.inRectangle(report.getLat(), report.getLng())) {
-          newReports.add(report);
+      Node childNode = new Node(newCoordinates, newReports, newDepth);
+      children[direction.ordinal()] = childNode;
+    }
+
+    for (PoliceReport report : reports) {
+      for (Node childNode : children) {
+        if (childNode.coordinates.inRectangle(report.getLat(), report.getLng())) {
+          childNode.reports.add(report);
+          break;
         }
       }
 
-      Node childNode = new Node(newCoordinates, newReports, newDepth);
-      // Check if number of reports exceeds maximum
-      if (childNode.numReports > reportCapacity && newDepth < maxDepth) {
-        childNode.children = reallocateReports(newReports, newCoordinates, newDepth);
+    }
+
+    // Check if number of reports exceeds maximum
+    for (Node childNode : children) {
+      if (childNode.numReports > reportCapacity && childNode.depth < maxDepth) {
+        childNode.children = reallocateReports(childNode.reports, childNode.coordinates, childNode.depth);
         childNode.leaf = false;
         childNode.reports = null;
       }
-
-      children[direction.ordinal()] = childNode;
     }
 
     return children;
