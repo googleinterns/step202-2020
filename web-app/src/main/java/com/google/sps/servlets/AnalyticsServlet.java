@@ -12,6 +12,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.sps.data.PoliceReport;
 import com.google.sps.data.Rectangle;
 import com.google.sps.data.QuadTree;
+import com.google.sps.data.Coordinates;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -82,8 +83,15 @@ public class AnalyticsServlet extends HttpServlet {
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-  
-  }
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Coordinates[] waypoints;
+    Gson gson = new Gson();
 
+    try {
+      JsonReader reader = new JsonReader(request.getReader());
+      waypoints = new Gson().fromJson(reader, Coordinates[].class);
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+  }
 }
