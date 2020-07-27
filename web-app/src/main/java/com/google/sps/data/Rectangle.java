@@ -57,22 +57,25 @@ public class Rectangle {
   }
 
   public boolean contains(double lat, double lng) {
-    return (lat <= topLeftLat && lat >= bottomRightLat && lng >= topLeftLng && lng <= bottomRightLng);
+    return (lat <= topLeft.getLat() && lat >= bottomRight.getLat() && lng >= topLeft.getLng()
+        && lng <= bottomRight.getLng());
   }
 
   public Rectangle getNW() {
-    return new Rectangle(topLeftLat, topLeftLng, centerLat, centerLng);
+    return new Rectangle(topLeft, center);
   }
 
   public Rectangle getNE() {
-    return new Rectangle(topLeftLat, centerLng, centerLat, bottomRightLng);
+    return new Rectangle(new Coordinates(topLeft.getLat(), center.getLng()),
+        new Coordinates(center.getLat(), bottomRight.getLng()));
   }
 
   public Rectangle getSE() {
-    return new Rectangle(centerLat, centerLng, bottomRightLat, bottomRightLng);
+    return new Rectangle(center, bottomRight);
   }
 
   public Rectangle getSW() {
-    return new Rectangle(centerLat, topLeftLng, bottomRightLat, centerLng);
+    return new Rectangle(new Coordinates(center.getLat(), topLeft.getLng()),
+        new Coordinates(bottomRight.getLat(), center.getLng()));
   }
 }
