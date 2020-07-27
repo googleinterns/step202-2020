@@ -1,8 +1,8 @@
 export function setDirections(directionsService, directionsRenderer, origin, destination) {
   const request = {
     // Currently hardcoded because I can't enable geolocation on CRD
-    origin: { lat: -33.865143, lng: 151.2099 },
-    destination: destination,
+    origin: { lat: 51.5196, lng: -0.1025 },
+    destination: { lat: 51.5141, lng: -0.0876 },
     travelMode: "DRIVING",
   };
   directionsService.route(request, (result, status) => {
@@ -10,7 +10,8 @@ export function setDirections(directionsService, directionsRenderer, origin, des
       directionsRenderer.setDirections(result);
       fetch("/analytics", {
         method: "POST",
-        route: JSON.stringify(result.routes[0].overview_path)
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(result.routes[0].overview_path)
       })
     } else if (status == "NOT_FOUND") {
       console.log("location could not be geocoded.");
