@@ -33,7 +33,7 @@ public class Analysis {
     List<String>frequentTypes = new ArrayList<String>();
 
     int count = 0;
-    while (count < n) {
+    while (count < n && count < crimeTypeFrequencyPairList.size()) {
       frequentTypes.add((crimeTypeFrequencyPairList.get(crimeTypeFrequencyPairList.size()-1-count)).getKey());
       count += 1;
     }
