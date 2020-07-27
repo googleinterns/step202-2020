@@ -16,6 +16,8 @@ def csvToJson(filename):
     with open(CSV_FILE_PATH) as csvFile:
         csvReader = csv.DictReader(csvFile)
         for rows in csvReader:
+            if (not rows['Longitude'] or not rows['Latitude']):
+                continue
             entry = {
                 'yearMonth': rows['Month'],
                 'longitude': rows['Longitude'],

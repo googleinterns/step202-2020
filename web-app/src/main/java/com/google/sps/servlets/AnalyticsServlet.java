@@ -43,18 +43,18 @@ public class AnalyticsServlet extends HttpServlet {
     return reports;
   }
 
-  // @Override
-  // public void init() {
-  // reportsTree = new QuadTree();
-  // Set<String> paths = getServletContext().getResourcePaths("/data");
+  @Override
+  public void init() {
+    reportsTree = new QuadTree();
+    Set<String> paths = getServletContext().getResourcePaths("/data");
 
-  // for (String path : paths) {
-  // List<PoliceReport> reports = jsonToPoliceReportList(path);
-  // for (PoliceReport report : reports) {
-  // reportsTree.insert(report);
-  // }
-  // }
-  // }
+    for (String path : paths) {
+      List<PoliceReport> reports = jsonToPoliceReportList(path);
+      for (PoliceReport report : reports) {
+        reportsTree.insert(report);
+      }
+    }
+  }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
