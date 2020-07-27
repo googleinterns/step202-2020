@@ -56,22 +56,21 @@ public class AnalyticsServlet extends HttpServlet {
     }
   }
 
-  private Rectangle getQueryRange(List<double> latitudes, List<double> longitudes) {
+  private Rectangle getQueryRange(Coordinates[] waypoints) {
     double minLongitude = 190.0;
     double maxLongitude = -190.0;
     double minLatitude = 100.0;
     double maxLatitude = -100.0;
 
-    for (double latitude : latitudes) {
+    for (Coordinates waypoint : waypoints) {
+      double latitude = waypoint.getLat();
+      double longitude = waypoint.getLng();
       if (latitude > maxLatitude) {
         maxLatitude = latitude;
       }
       if (latitude < minLatitude) {
         minLatitude = latitude;
       }
-    }
-
-    for (double longitude : longitudes) {
       if (longitude > maxLongitude) {
         maxLongitude = longitude;
       }
@@ -79,7 +78,8 @@ public class AnalyticsServlet extends HttpServlet {
         minLongitude = longitude;
       }
     }
-    return new Rectangle(maxLatitude, minLongitude, minLatitude, maxLongitude);
+
+    return new Rectangle(new Coordinates(maxLatitude, minLongitude), new Coordinates(minLatitude, maxLongitude));
   }
 
   @Override
@@ -92,6 +92,10 @@ public class AnalyticsServlet extends HttpServlet {
       waypoints = new Gson().fromJson(reader, Coordinates[].class);
     } catch (Exception e) {
       System.out.println(e);
+      return;
     }
+
+    Rectangle queryRange = getQueryRange(waypoints);
+    
   }
 }
