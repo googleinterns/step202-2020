@@ -37,10 +37,9 @@ public class QuadTreeTest extends Mockito {
 
     return reportsCrimeType;
   }
-  
+
   @Rule
   public ErrorCollector collector = new ErrorCollector();
-
 
   public class simpleTreeTests {
     QuadTree simpleTree;
@@ -87,6 +86,16 @@ public class QuadTreeTest extends Mockito {
       List<PoliceReport> reportsInQueryRange = simpleTree.query(queryRange);
       Assert.assertEquals(0, reportsInQueryRange.size());
     }
+
+    @Test
+    public void reportOnBoundaryLine() throws IOException {
+      PoliceReport report = new PoliceReport(0, 0, "corner case", 1234567);
+      Rectangle query = new Rectangle(5.0, -5.0, -5.0, 5.0);
+      simpleTree.insert(report);
+
+      // Corner reports should only appear once
+      Assert.assertEquals(1, simpleTree.query(query).size());
+    }
   }
 
   @Test
@@ -97,26 +106,6 @@ public class QuadTreeTest extends Mockito {
       tree.insert(report4);
     }
     Assert.assertEquals(5, tree.query(queryRange).size());
-  }
-
-  @Test
-  public void reportOnBoundaryLine() throws IOException {
-    QuadTree tree = new QuadTree();
-    PoliceReport report = new PoliceReport(0, 0, "corner case", 1234567);
-    Rectangle NWQuery = new Rectangle(90.0, -180.0, 0.0, 0.0);
-    Rectangle NEQuery = new Rectangle(90.0, 0.0, 0.0, 180.0);
-    Rectangle SEQuery = new Rectangle(0.0, 0.0, -90.0, 180.0);
-    Rectangle SWQuery = new Rectangle(0.0, -180.0, -90.0, 0.0);
-    Rectangle fullQuery = new Rectangle(90.0, -180.0, -90.0, 180.0);
-
-    tree.insert(report);
-    // Corner reports should appear in every query
-    Assert.assertEquals(1, tree.query(NWQuery).size());
-    Assert.assertEquals(1, tree.query(NEQuery).size());
-    Assert.assertEquals(1, tree.query(SEQuery).size());
-    Assert.assertEquals(1, tree.query(SWQuery).size());
-    // Corner reports should only appear once
-    Assert.assertEquals(1, tree.query(fullQuery).size());
   }
 
 }
