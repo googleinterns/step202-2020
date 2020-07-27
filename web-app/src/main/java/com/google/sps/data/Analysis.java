@@ -1,6 +1,7 @@
 package com.google.sps.data;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,9 @@ public class Analysis {
         crimeTypeCountMap.put(crimeType, count + 1);
       }
     }
+  }
+
+  private List<String> getMaxThreeTypes() {
   }
 
   public Analysis(List<PoliceReport> reports) {
