@@ -45,4 +45,12 @@ public class Analysis {
     this.numReports = reports.size();
     this.frequentTypes = getTopNTypes(reports, n);
   }
+
+  public int getNumReports() {
+    return this.numReports;
+  }
+
+  public List<String> getFrequentTypes() {
+    return this.frequentTypes;
+  }
 }
