@@ -51,12 +51,16 @@
 
 #analytics {
   color: #e0e0e0;
-  font-size: 3em;
+  font-size: 2.7em;
   overflow: scroll;
   padding: 30px;
 }
 
 #analytics h1 {
+  text-align: center;
+}
+
+#num-reports {
   text-align: center;
 }
 

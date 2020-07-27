@@ -44,6 +44,8 @@ window.onload = async () => {
     document.getElementById("menu").style.display = "block";
   });
   document.getElementById("analytics-button").addEventListener("click", () => showAnalytics());
+  // Analytics
+  document.getElementById("close-analytics").addEventListener("click", () => hideAnalytics());
   // Report
   document.getElementById("back-icon").addEventListener("click", () => {
     hideReportForm();
@@ -131,10 +133,7 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
 
 function showReportForm(map, geocoder) {
   document.getElementById("form-container").style.display = "block";
-  const homeElements = document.getElementsByClassName("home");
-  for (const element of homeElements) {
-    element.style.display = "none";
-  }
+  hideHomeElements();
 
   geocoder.geocode({ location: map.getCenter() }, (results, status) => {
     if (status === "OK") {
@@ -151,21 +150,35 @@ function showReportForm(map, geocoder) {
 
 function hideReportForm() {
   document.getElementById("form-container").style.display = "none";
+  showHomeElements();
+}
+
+function showAnalytics() {
+  document.getElementById("analytics-container").style.display = "block";
+  // TODO(ltwAshley): tap on map should close menu, making this unecessary
+  const menuElements = document.getElementsByClassName("menu");
+
+  for (const element of menuElements) {
+    element.style.display = "none";
+  }
+  hideHomeElements();
+}
+
+function hideAnalytics() {
+  document.getElementById("analytics-container").style.display = "none";
+  showHomeElements();
+}
+
+function showHomeElements() {
   const homeElements = document.getElementsByClassName("home");
   for (const element of homeElements) {
     element.style.display = "block";
   }
 }
 
-function showAnalytics() {
-  document.getElementById("analytics-container").style.display = "block";
+function hideHomeElements() {
   const homeElements = document.getElementsByClassName("home");
-  // TODO(ltwAshley): tap on map should close menu, making this unecessary
-  const menuElements = document.getElementsByClassName("menu");
   for (const element of homeElements) {
-    element.style.display = "none";
-  }
-  for (const element of menuElements) {
     element.style.display = "none";
   }
 }
