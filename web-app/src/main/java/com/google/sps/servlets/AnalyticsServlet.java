@@ -96,6 +96,7 @@ public class AnalyticsServlet extends HttpServlet {
     }
 
     Rectangle queryRange = getQueryRange(waypoints);
-    
+    List<PoliceReport> reportsInQueryRange = reportsTree.query(queryRange);
+    System.out.println(reportsInQueryRange.size());
   }
 }
