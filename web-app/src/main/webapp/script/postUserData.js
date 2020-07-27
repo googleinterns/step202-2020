@@ -1,13 +1,22 @@
 export async function postUserReport(geocoder) {
-  document.getElementById("report-form").reset();
-
   const address = document.getElementById("location-input").value;
   geocoder.geocode({ address: address }, async (results, status) => {
     if (status === "OK") {
       const coordinates = results[0].geometry.location;
-      const data = reportFormToURLQuery(coordinates.lat(), coordinates.lng());
+
+      let data;
+      try {
+        data = reportFormToURLQuery(coordinates.lat(), coordinates.lng());
+      } catch (error) {
+        console.log(error);
+        return;
+      }
+
       const url = await fetchBlobstoreUrl();
       fetch(url, { method: "POST", body: data });
+      document.getElementById("report-form").reset();
+      hideReportForm();
+
     } else {
       console.error("Geocode was not successful: " + status);
     }
