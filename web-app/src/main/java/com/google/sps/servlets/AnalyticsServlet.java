@@ -124,10 +124,6 @@ public class AnalyticsServlet extends HttpServlet {
 
     Rectangle queryRange = getQueryRange(waypoints);
     List<PoliceReport> reportsInQueryRange = reportsTree.query(queryRange);
-    System.out.println(reportsInQueryRange.size());
-    Coordinates p1 = new Coordinates(0.0, 0.0);
-    Coordinates p2 = new Coordinates(1.0, 1.0);
-    Coordinates p3 = new Coordinates(0.0, 1.0);
-    System.out.println(distanceFromSegment(p1, p2, p3));
+
   }
 }
