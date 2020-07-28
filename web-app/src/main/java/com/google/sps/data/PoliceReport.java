@@ -12,4 +12,16 @@ public class PoliceReport {
     this.crimeType = crimeType;
     this.timeStamp = timeStamp;
   }
+
+  public double getLat() {
+    return latitude;
+  }
+
+  public double getLng() {
+    return longitude;
+  }
+
+  public String getCrimeType() {
+    return crimeType;
+  }
 }
