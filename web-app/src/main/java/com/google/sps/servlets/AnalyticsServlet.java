@@ -122,8 +122,30 @@ public class AnalyticsServlet extends HttpServlet {
       return;
     }
 
+    if (waypoints.length < 2) {
+      return;
+    }
+
     Rectangle queryRange = getQueryRange(waypoints);
     List<PoliceReport> reportsInQueryRange = reportsTree.query(queryRange);
+    
+    List<PoliceReport> reportsNearLine = new ArrayList<PoliceReport>();
 
+    for (PoliceReport report : reportsInQueryRange) {
+      Coordinates reportLocation = new Coordinates(report.getLat(), report.getLng());
+
+      int index = 0;
+      while (index < waypoins.length - 1) {
+        Coordinates start = waypoints[index];
+        Coordinates end = waypoints[index + 1];
+
+        if (distanceFromSegment(start, end, reportLocation) < 0.005) {
+          reportsNearLine.add(report);
+          break;
+        }
+      }
+    }
+
+    
   }
 }
