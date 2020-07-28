@@ -1,10 +1,10 @@
 package com.google.sps.data;
 
 public class Rectangle {
-  double topLeftLat;
-  double topLeftLng;
-  double bottomRightLat;
-  double bottomRightLng;
+  private double topLeftLat;
+  private double topLeftLng;
+  private double bottomRightLat;
+  private double bottomRightLng;
 
   Rectangle(double topLeftLat, double topLeftLng, double bottomRightLat, double bottomRightLng) {
     this.topLeftLat = topLeftLat;
@@ -13,19 +13,19 @@ public class Rectangle {
     this.bottomRightLng = bottomRightLng;
   }
 
-  double getTopLeftLat() {
+  public double getTopLeftLat() {
     return topLeftLat;
   }
 
-  double getTopLeftLng() {
+  public double getTopLeftLng() {
     return topLeftLng;
   }
 
-  double getBottomRightLat() {
+  public double getBottomRightLat() {
     return bottomRightLat;
   }
 
-  double getBottomRightLng() {
+  public double getBottomRightLng() {
     return bottomRightLng;
   }
 }
