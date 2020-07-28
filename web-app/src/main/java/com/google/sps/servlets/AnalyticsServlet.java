@@ -151,5 +151,10 @@ public class AnalyticsServlet extends HttpServlet {
     Analysis analysis = new Analysis(reportsNearLine, 3);
     System.out.println(analysis.getNumReports());
     System.out.println(analysis.getFrequentTypes());
+
+    response.setContentType("application/json");
+    Gson gson = new Gson();
+    String json = gson.toJson(analysis);
+    response.getWriter().println(json);
   }
 }
