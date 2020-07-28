@@ -55,5 +55,4 @@ public class QuadTree {
     }
     System.out.printf("%n");
   }
-
 }
