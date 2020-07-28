@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+import java.lang.Math;
 
 @WebServlet("/analytics")
 public class AnalyticsServlet extends HttpServlet {
@@ -82,6 +83,32 @@ public class AnalyticsServlet extends HttpServlet {
     return new Rectangle(new Coordinates(maxLatitude, minLongitude), new Coordinates(minLatitude, maxLongitude));
   }
 
+  private double square(double num) {
+    return (num*num);
+  }
+
+  private double distanceSquared(Coordinates start, Coordinates end) {
+    return square(start.getLng()-end.getLng()) + square(start.getLat()-end.getLat());
+  }
+
+  private double distanceFromSegment(Coordinates start, Coordinates end, Coordinates point) {
+    double segmentDistanceSquared = distanceSquared(start, end);
+
+    if (segmentDistanceSquared == 0) {
+      return Math.sqrt(distanceSquared(start, point));
+    }
+
+    double projectionScale = 
+      ((point.getLng() - start.getLng()) * (end.getLng()-start.getLng()) + (point.getLat() - start.getLat()) * (end.getLat()-start.getLat()))
+      / segmentDistanceSquared;
+    projectionScale = Math.max(0, Math.min(1, projectionScale));
+    
+    Coordinates projection = 
+      new Coordinates(start.getLat() + projectionScale * (end.getLat() - start.getLat()), start.getLng() + projectionScale * (end.getLng() - start.getLng()));
+
+    return Math.sqrt(distanceSquared(point, projection));
+  }
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Coordinates[] waypoints;
@@ -98,5 +125,9 @@ public class AnalyticsServlet extends HttpServlet {
     Rectangle queryRange = getQueryRange(waypoints);
     List<PoliceReport> reportsInQueryRange = reportsTree.query(queryRange);
     System.out.println(reportsInQueryRange.size());
+    Coordinates p1 = new Coordinates(0.0, 0.0);
+    Coordinates p2 = new Coordinates(1.0, 1.0);
+    Coordinates p3 = new Coordinates(0.0, 1.0);
+    System.out.println(distanceFromSegment(p1, p2, p3));
   }
 }
