@@ -13,6 +13,7 @@ import com.google.sps.data.PoliceReport;
 import com.google.sps.data.Rectangle;
 import com.google.sps.data.QuadTree;
 import com.google.sps.data.Coordinates;
+import com.google.sps.data.Analysis;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -135,17 +136,20 @@ public class AnalyticsServlet extends HttpServlet {
       Coordinates reportLocation = new Coordinates(report.getLat(), report.getLng());
 
       int index = 0;
-      while (index < waypoins.length - 1) {
+      while (index < waypoints.length - 1) {
         Coordinates start = waypoints[index];
         Coordinates end = waypoints[index + 1];
 
-        if (distanceFromSegment(start, end, reportLocation) < 0.005) {
+        if (distanceFromSegment(start, end, reportLocation) < 0.0001) {
           reportsNearLine.add(report);
           break;
         }
+        index += 1;
       }
     }
 
-    
+    Analysis analysis = new Analysis(reportsNearLine, 3);
+    System.out.println(analysis.getNumReports());
+    System.out.println(analysis.getFrequentTypes());
   }
 }
