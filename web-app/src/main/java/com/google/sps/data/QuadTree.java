@@ -2,6 +2,8 @@ package com.google.sps.data;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Arrays;
 import java.util.Deque;
 
 public class QuadTree {
@@ -14,15 +16,15 @@ public class QuadTree {
   }
 
   private class Node {
-    Rectangle coordinates;
+    Rectangle bounds;
     Node[] children;
     boolean leaf = true;
     int depth;
     int numReports;
-    ArrayList<PoliceReport> reports;
+    List<PoliceReport> reports;
 
-    Node(Rectangle coordinates, ArrayList<PoliceReport> reports, int depth) {
-      this.coordinates = coordinates;
+    Node(Rectangle bounds, List<PoliceReport> reports, int depth) {
+      this.bounds = bounds;
       this.depth = depth;
       this.reports = reports;
       this.numReports = reports.size();
@@ -30,8 +32,8 @@ public class QuadTree {
   }
 
   QuadTree() {
-    Rectangle coordinates = new Rectangle(90.0, -180.0, -90.0, 180.0);
-    root = new Node(coordinates, new ArrayList<PoliceReport>(), 0);
+    Rectangle bounds = new Rectangle(90.0, -180.0, -90.0, 180.0);
+    root = new Node(bounds, new ArrayList<PoliceReport>(), 0);
   }
 
   public void printTree() {
@@ -45,8 +47,8 @@ public class QuadTree {
         System.out.printf("%n");
         currentLevel = node.depth;
       }
-      System.out.printf("(%f, %f), (%f, %f) ", node.coordinates.getTopLeftLat(), node.coordinates.getTopLeftLng(),
-          node.coordinates.getBottomRightLat(), node.coordinates.getBottomRightLng());
+      System.out.printf("(%f, %f), (%f, %f) ", node.bounds.getTopLeftLat(), node.bounds.getTopLeftLng(),
+          node.bounds.getBottomRightLat(), node.bounds.getBottomRightLng());
       System.out.printf("%d", node.numReports);
       if (!node.leaf) {
         for (Direction direction : Direction.values()) {
@@ -58,13 +60,38 @@ public class QuadTree {
     System.out.printf("%n");
   }
 
+  public List<PoliceReport> query(Rectangle range) {
+    return findAllReports(range, root);
+  }
+
+  private List<PoliceReport> findAllReports(Rectangle range, Node node) {
+    List<PoliceReport> reports = new ArrayList<PoliceReport>();
+
+    if (!node.bounds.intersects(range)) {
+      return reports;
+    }
+    if (node.leaf) {
+      for (PoliceReport report : node.reports) {
+        if (range.contains(report.getLat(), report.getLng())) {
+          reports.add(report);
+        }
+      }
+      return reports;
+    }
+
+    for (Node child : node.children) {
+      reports.addAll(findAllReports(range, child));
+    }
+    return reports;
+  }
+
   public void insert(PoliceReport report) {
     Node leafNode = findLeaf(root, report);
     leafNode.numReports += 1;
     leafNode.reports.add(report);
     // If max capacity has been exceeded, create child nodes
     if (leafNode.numReports > reportCapacity && leafNode.depth < maxDepth) {
-      leafNode.children = reallocateReports(leafNode.reports, leafNode.coordinates, leafNode.depth);
+      leafNode.children = reallocateReports(leafNode.reports, leafNode.bounds, leafNode.depth);
       leafNode.leaf = false;
       leafNode.reports = null;
     }
@@ -78,7 +105,7 @@ public class QuadTree {
     while (!currentNode.leaf) {
       currentNode.numReports += 1;
       for (Node child : currentNode.children) {
-        if (child.coordinates.inRectangle(reportLat, reportLng)) {
+        if (child.bounds.contains(reportLat, reportLng)) {
           currentNode = child;
           break;
         }
@@ -88,18 +115,19 @@ public class QuadTree {
     return currentNode;
   }
 
-  private Node[] reallocateReports(ArrayList<PoliceReport> reports, Rectangle coordinates, int depth) {
+
+  private Node[] reallocateReports(List<PoliceReport> reports, Rectangle bounds, int depth) {
     Node[] children = new Node[4];
 
     int newDepth = depth + 1;
-    children[Direction.NW.ordinal()] = new Node(coordinates.getNW(), new ArrayList<PoliceReport>(), newDepth);
-    children[Direction.NE.ordinal()] = new Node(coordinates.getNE(), new ArrayList<PoliceReport>(), newDepth);
-    children[Direction.SE.ordinal()] = new Node(coordinates.getSE(), new ArrayList<PoliceReport>(), newDepth);
-    children[Direction.SW.ordinal()] = new Node(coordinates.getSW(), new ArrayList<PoliceReport>(), newDepth);
+    children[Direction.NW.ordinal()] = new Node(bounds.getNW(), new ArrayList<PoliceReport>(), newDepth);
+    children[Direction.NE.ordinal()] = new Node(bounds.getNE(), new ArrayList<PoliceReport>(), newDepth);
+    children[Direction.SE.ordinal()] = new Node(bounds.getSE(), new ArrayList<PoliceReport>(), newDepth);
+    children[Direction.SW.ordinal()] = new Node(bounds.getSW(), new ArrayList<PoliceReport>(), newDepth);
 
     for (PoliceReport report : reports) {
       for (Node childNode : children) {
-        if (childNode.coordinates.inRectangle(report.getLat(), report.getLng())) {
+        if (childNode.bounds.contains(report.getLat(), report.getLng())) {
           childNode.reports.add(report);
           break;
         }
@@ -109,7 +137,7 @@ public class QuadTree {
     // Check if number of reports exceeds maximum
     for (Node childNode : children) {
       if (childNode.numReports > reportCapacity && childNode.depth < maxDepth) {
-        childNode.children = reallocateReports(childNode.reports, childNode.coordinates, childNode.depth);
+        childNode.children = reallocateReports(childNode.reports, childNode.bounds, childNode.depth);
         childNode.leaf = false;
         childNode.reports = null;
       }
