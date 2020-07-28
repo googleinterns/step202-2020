@@ -153,7 +153,6 @@ public class AnalyticsServlet extends HttpServlet {
     System.out.println(analysis.getFrequentTypes());
 
     response.setContentType("application/json");
-    Gson gson = new Gson();
     String json = gson.toJson(analysis);
     response.getWriter().println(json);
   }
