@@ -91,33 +91,11 @@ public class QuadTree {
   private Node[] reallocateReports(ArrayList<PoliceReport> reports, Rectangle coordinates, int depth) {
     Node[] children = new Node[4];
 
-    // Create empty children
-    for (Direction direction : Direction.values()) {
-      Rectangle newCoordinates;
-      ArrayList<PoliceReport> newReports = new ArrayList<PoliceReport>();
-      int newDepth = depth + 1;
-
-      switch (direction) {
-        case NW:
-          newCoordinates = coordinates.getNW();
-          break;
-        case NE:
-          newCoordinates = coordinates.getNE();
-          break;
-        case SE:
-          newCoordinates = coordinates.getSE();
-          break;
-        case SW:
-          newCoordinates = coordinates.getSW();
-          break;
-        default:
-          System.out.println("Unexpected case in switch statement");
-          return children;
-      }
-
-      Node childNode = new Node(newCoordinates, newReports, newDepth);
-      children[direction.ordinal()] = childNode;
-    }
+    int newDepth = depth + 1;
+    children[Direction.NW.ordinal()] = new Node(coordinates.getNW(), new ArrayList<PoliceReport>(), newDepth);
+    children[Direction.NE.ordinal()] = new Node(coordinates.getNE(), new ArrayList<PoliceReport>(), newDepth);
+    children[Direction.SE.ordinal()] = new Node(coordinates.getSE(), new ArrayList<PoliceReport>(), newDepth);
+    children[Direction.SW.ordinal()] = new Node(coordinates.getSW(), new ArrayList<PoliceReport>(), newDepth);
 
     for (PoliceReport report : reports) {
       for (Node childNode : children) {
