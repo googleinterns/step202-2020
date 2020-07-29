@@ -5,7 +5,7 @@ export async function setDirections(directionsService, directionsRenderer, origi
     destination: { lat: 51.5141, lng: -0.0876 },
     travelMode: "DRIVING",
   };
-  directionsService.route(request, (result, status) => {
+  directionsService.route(request, async (result, status) => {
     if (status == "OK") {
       directionsRenderer.setDirections(result);
 
