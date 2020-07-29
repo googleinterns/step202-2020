@@ -41,8 +41,8 @@ import java.lang.Math;
 public class MyBenchmark {
   static long seed = 5;
   static Random rnd = new Random(seed);
-  static int numReports = 5;
-  static int numWaypoints = 2;
+  static int numReports = 3000;
+  static int numWaypoints = 400;
 
   @State(Scope.Thread)
   public static class MyState {
@@ -77,5 +77,4 @@ public class MyBenchmark {
     List<Coordinates> results = naive.search(state.reports, state.waypoints);
     blackhole.consume(results);
   }
-
 }
