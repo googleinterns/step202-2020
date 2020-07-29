@@ -3,7 +3,6 @@ package com.google.sps.data;
 import de.bechte.junit.runners.context.HierarchicalContextRunner;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.junit.runners.Suite.SuiteClasses;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.Assert;
@@ -42,7 +41,7 @@ public class QuadTreeTest extends Mockito {
   @Rule
   public ErrorCollector collector = new ErrorCollector();
 
-  public class TestQuery {
+  public class SimpleTreeTests {
     QuadTree simpleTree;
 
     @Before
@@ -64,7 +63,7 @@ public class QuadTreeTest extends Mockito {
       Rectangle queryRange = new Rectangle(85.0, 15.0, 25.0, 50.0);
       List<PoliceReport> reportsInQueryRange = simpleTree.query(queryRange);
       Assert.assertEquals(2, reportsInQueryRange.size());
-      
+
       List<String> reportsCrimeType = reportsToCrimeType(reportsInQueryRange);
       collector.checkThat("test1", IsEqual.equalTo(reportsCrimeType.get(0)));
       collector.checkThat("test5", IsEqual.equalTo(reportsCrimeType.get(1)));
@@ -87,6 +86,26 @@ public class QuadTreeTest extends Mockito {
       List<PoliceReport> reportsInQueryRange = simpleTree.query(queryRange);
       Assert.assertEquals(0, reportsInQueryRange.size());
     }
+
+    @Test
+    public void reportOnBoundaryLine() throws IOException {
+      PoliceReport report = new PoliceReport(0, 0, "corner case", 1234567);
+      Rectangle query = new Rectangle(5.0, -5.0, -5.0, 5.0);
+      simpleTree.insert(report);
+
+      // Corner reports should only appear once
+      Assert.assertEquals(1, simpleTree.query(query).size());
+    }
+  }
+
+  @Test
+  public void duplicateLocations() throws IOException {
+    QuadTree tree = new QuadTree();
+    Rectangle queryRange = new Rectangle(-20.0, -20.0, -40.0, -10.0);
+    for (int i = 0; i < 5; i++) {
+      tree.insert(report4);
+    }
+    Assert.assertEquals(5, tree.query(queryRange).size());
   }
 
 }
