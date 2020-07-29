@@ -31,17 +31,24 @@
 
 package org.sample;
 
-import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.infra.Blackhole;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyBenchmark {
 
-    @Benchmark
-    public void testMethod() {
-        // This is a demo/sample template for building your JMH benchmarks. Edit as
-        // needed.
-        // Put your benchmark code here.
-        Coordinates foo = new Coordinates(0.0, 0.5);
-        System.out.println(new Rectangle(foo, new Coordinates(5.0, 5.0)));
-    }
+  @State(Scope.Thread)
+  public static class MyState {
+    public Coordinates[] reports = new Coordinates[] { new Coordinates(0.0, 5.0), new Coordinates(5.0, 5.0) };
+    public Coordinates[] waypoints = new Coordinates[] { new Coordinates(0.0, 5.0), new Coordinates(5.0, 5.0) };
+  }
+
+  @Benchmark
+  public void testMethod(MyState state, Blackhole blackhole) {
+    NaiveImplementation naive = new NaiveImplementation();
+    List<Coordinates> results = naive.search(state.reports, state.waypoints);
+    blackhole.consume(results);
+  }
 
 }
