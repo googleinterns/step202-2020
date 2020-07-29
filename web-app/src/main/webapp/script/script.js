@@ -28,7 +28,7 @@ window.onload = async () => {
   document.getElementById("search-location").addEventListener("keydown", async (e) => {
     if (e.code === "Enter") {
       e.preventDefault();
-      await setDirections(
+      setDirections(
         directionsService,
         directionsRenderer,
         getUserLocation(),
