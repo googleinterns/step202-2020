@@ -5,7 +5,7 @@ export async function setDirections(directionsService, directionsRenderer, origi
     destination: { lat: 51.5141, lng: -0.0876 },
     travelMode: "DRIVING",
   };
-  directionsService.route(request, async (result, status) => {
+  const analytics = directionsService.route(request, async (result, status) => {
     if (status == "OK") {
       directionsRenderer.setDirections(result);
 
@@ -13,13 +13,12 @@ export async function setDirections(directionsService, directionsRenderer, origi
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(result.routes[0].overview_path)
-      });
-      const analytics = await response.json();
-
-      document.getElementById("num-reports").innerText = analytics.numReports;
-      
+      }); 
+      return await response.json();
     } else if (status == "NOT_FOUND") {
       console.log("location could not be geocoded.");
     }
+    return null;
   });
+  return analytics;
 }
