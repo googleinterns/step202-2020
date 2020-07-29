@@ -72,7 +72,7 @@ public class MyBenchmark {
   }
 
   @Benchmark
-  public void testMethod(MyState state, Blackhole blackhole) {
+  public void naiveTest(MyState state, Blackhole blackhole) {
     NaiveImplementation naive = new NaiveImplementation();
     List<Coordinates> results = naive.search(state.reports, state.waypoints);
     blackhole.consume(results);
