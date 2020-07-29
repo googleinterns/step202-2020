@@ -41,7 +41,7 @@ public class QuadTreeTest extends Mockito {
   @Rule
   public ErrorCollector collector = new ErrorCollector();
 
-  public class simpleTreeTests {
+  public class SimpleTreeTests {
     QuadTree simpleTree;
 
     @Before
