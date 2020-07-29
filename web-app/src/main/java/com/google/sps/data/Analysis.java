@@ -7,12 +7,17 @@ import java.util.List;
 import java.util.Collections;
 
 public class Analysis {
+
+  public Analysis(List<PoliceReport> reports, int n) {
+    this.numReports = reports.size();
+    this.frequentTypes = getTopNTypes(reports, n);
+  }
+
   private final int numReports;
   private final List<String> frequentTypes;
-  private HashMap<String, Integer> crimeTypeCountMap;
 
-  private void countCrimeType(List<PoliceReport> reports) {
-    crimeTypeCountMap = new HashMap<String, Integer>();
+  private HashMap<String, Integer> countCrimeType(List<PoliceReport> reports) {
+    HashMap<String, Integer> crimeTypeCountMap = new HashMap<String, Integer>();
 
     for (PoliceReport report : reports) {
       String crimeType = report.getCrimeType();
@@ -23,10 +28,12 @@ public class Analysis {
         crimeTypeCountMap.put(crimeType, count + 1);
       }
     }
+    
+    return crimeTypeCountMap;
   }
 
   private List<String> getTopNTypes(List<PoliceReport> reports, int n) {
-    countCrimeType(reports);
+    HashMap<String, Integer> crimeTypeCountMap = countCrimeType(reports);
 
     List<Entry<String, Integer>> crimeTypeFrequencyPairList = new ArrayList<>(crimeTypeCountMap.entrySet());
     crimeTypeFrequencyPairList.sort(Entry.comparingByValue());
@@ -39,11 +46,6 @@ public class Analysis {
     }
 
     return frequentTypes;
-  }
-
-  public Analysis(List<PoliceReport> reports, int n) {
-    this.numReports = reports.size();
-    this.frequentTypes = getTopNTypes(reports, n);
   }
 
   public int getNumReports() {
