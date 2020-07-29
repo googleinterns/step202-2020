@@ -4,13 +4,13 @@ public class PoliceReport {
   private final double latitude;
   private final double longitude;
   private final String crimeType;
-  private final long timeStamp;
+  private final long timestamp;
 
-  public PoliceReport(double latitude, double longitude, String crimeType, long timeStamp) {
+  public PoliceReport(double latitude, double longitude, String crimeType, long timestamp) {
     this.latitude = latitude;
     this.longitude = longitude;
     this.crimeType = crimeType;
-    this.timeStamp = timeStamp;
+    this.timestamp = timestamp;
   }
 
   public double getLat() {
@@ -23,5 +23,9 @@ public class PoliceReport {
 
   public String getCrimeType() {
     return crimeType;
+  }
+
+  public long getTimestamp() {
+    return timestamp;
   }
 }
