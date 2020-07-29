@@ -54,10 +54,8 @@ export async function loadPoliceReports(map) {
 }
 
 export function filterReports(reports, uncheckedCategories, numberOfMonths) {
-  const reportsDate = new Date();
   // Only check first report because all reports have same date if in same file
-  reportsDate.setMonth(Number(reports[0].yearMonth.substring(5, 7)));
-  reportsDate.setYear(Number(reports[0].yearMonth.substring(0, 4)));
+  const reportsDate = new Date(reports[0].timestamp*1000);
 
   if (reports.length !== 0 && !isReportwithinTimeFrame(reportsDate, numberOfMonths)) {
     return [];
