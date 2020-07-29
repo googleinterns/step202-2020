@@ -6,6 +6,7 @@
 import csv
 import json
 import sys
+import datetime
 
 
 def csvToJson(filename):
@@ -18,8 +19,13 @@ def csvToJson(filename):
         for rows in csvReader:
             if (not rows['Longitude'] or not rows['Latitude']):
                 continue
+
+            date = rows['Month']
+            year = int(date[:4])
+            month = int(date[5:7])
+
             entry = {
-                'yearMonth': rows['Month'],
+                'timestamp': datetime.datetime(year, month, 1).timestamp(),
                 'longitude': rows['Longitude'],
                 'latitude': rows['Latitude'],
                 'crimeType': rows['Crime type']
