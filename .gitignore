@@ -22,6 +22,7 @@ web-app/target/
 
 # JMH
 test/src/main/java/org/sample/Reference/
+test/target/
 
 # Compiled class file
 *.class
