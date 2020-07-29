@@ -33,15 +33,13 @@ public class NaiveImplementation {
   public List<Coordinates> search(Coordinates[] reports, Coordinates[] waypoints) {
     List<Coordinates> reportsNearLine = new ArrayList<Coordinates>();
 
-    for (Coordinates report : reportsNearLine) {
-      Coordinates reportLocation = new Coordinates(report.getLat(), report.getLng());
+    for (Coordinates report : reports) {
 
       int index = 0;
       while (index < waypoints.length - 1) {
         Coordinates start = waypoints[index];
         Coordinates end = waypoints[index + 1];
-
-        if (distanceFromSegment(start, end, reportLocation) < 0.0001) {
+        if (distanceFromSegment(start, end, report) < 0.0001) {
           reportsNearLine.add(report);
           break;
         }
