@@ -35,13 +35,40 @@ import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.lang.Math;
 
 public class MyBenchmark {
+  static long seed = 5;
+  static Random rnd = new Random(seed);
+  static int numReports = 5;
+  static int numWaypoints = 2;
 
   @State(Scope.Thread)
   public static class MyState {
-    public Coordinates[] reports = new Coordinates[] { new Coordinates(0.0, 5.0), new Coordinates(5.0, 5.0) };
-    public Coordinates[] waypoints = new Coordinates[] { new Coordinates(0.0, 5.0), new Coordinates(5.0, 5.0) };
+    public Coordinates[] reports = generateCoordList(true);
+    public Coordinates[] waypoints = generateCoordList(false);
+  }
+
+  private static Coordinates[] generateCoordList(boolean reports) {
+    int limit;
+
+    if (reports) {
+      limit = numReports;
+    } else {
+      limit = numWaypoints;
+    }
+
+    Coordinates[] coordList = new Coordinates[limit];
+    for (int i = 0; i < limit; i++) {
+      coordList[i] = getRandomCoord();
+    }
+
+    return coordList;
+  }
+
+  private static Coordinates getRandomCoord() {
+    return new Coordinates(rnd.nextDouble() * 181.0 - 90.0, rnd.nextDouble() * 361.0 - 180.0);
   }
 
   @Benchmark
