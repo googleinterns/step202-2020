@@ -53,8 +53,7 @@ public class MyBenchmark {
 
   @Benchmark
   public void naiveTest(MyState state, Blackhole blackhole) {
-    NaiveImplementation naive = new NaiveImplementation();
-    List<PoliceReport> results = naive.search(state.reports, state.waypoints);
+    List<PoliceReport> results = NaiveImplementation.search(state.reports, state.waypoints);
     blackhole.consume(results);
   }
 

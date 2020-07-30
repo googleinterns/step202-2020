@@ -5,7 +5,7 @@ import java.util.List;
 import java.lang.Math;
 
 public class NaiveImplementation {
-  public List<PoliceReport> search(PoliceReport[] reports, Coordinates[] waypoints) {
+  public static List<PoliceReport> search(PoliceReport[] reports, Coordinates[] waypoints) {
     List<PoliceReport> reportsNearLine = new ArrayList<PoliceReport>();
 
     for (PoliceReport report : reports) {
