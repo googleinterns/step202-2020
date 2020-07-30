@@ -30,16 +30,16 @@ public class NaiveImplementation {
     return Math.sqrt(distanceSquared(point, projection));
   }
 
-  public List<Coordinates> search(Coordinates[] reports, Coordinates[] waypoints) {
-    List<Coordinates> reportsNearLine = new ArrayList<Coordinates>();
+  public List<PoliceReport> search(PoliceReport[] reports, Coordinates[] waypoints) {
+    List<PoliceReport> reportsNearLine = new ArrayList<PoliceReport>();
 
-    for (Coordinates report : reports) {
+    for (PoliceReport report : reports) {
 
       int index = 0;
       while (index < waypoints.length - 1) {
         Coordinates start = waypoints[index];
         Coordinates end = waypoints[index + 1];
-        if (distanceFromSegment(start, end, report) < 0.0001) {
+        if (distanceFromSegment(start, end, new Coordinates(report.getLat(), report.getLng())) < 0.0001) {
           reportsNearLine.add(report);
           break;
         }

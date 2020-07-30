@@ -46,21 +46,23 @@ public class MyBenchmark {
 
   @State(Scope.Thread)
   public static class MyState {
-    public Coordinates[] reports = generateCoordList(true);
-    public Coordinates[] waypoints = generateCoordList(false);
+    public PoliceReport[] reports = generateReportList();
+    public Coordinates[] waypoints = generateCoordList();
   }
 
-  private static Coordinates[] generateCoordList(boolean reports) {
-    int limit;
-
-    if (reports) {
-      limit = numReports;
-    } else {
-      limit = numWaypoints;
+  private static PoliceReport[] generateReportList() {
+    PoliceReport[] reportList = new PoliceReport[numReports];
+    for (int i = 0; i < numReports; i++) {
+      Coordinates coord = getRandomCoord();
+      reportList[i] = new PoliceReport(coord.getLat(), coord.getLng(), "incidentType", 1234567);
     }
 
-    Coordinates[] coordList = new Coordinates[limit];
-    for (int i = 0; i < limit; i++) {
+    return reportList;
+  }
+
+  private static Coordinates[] generateCoordList() {
+    Coordinates[] coordList = new Coordinates[numWaypoints];
+    for (int i = 0; i < numWaypoints; i++) {
       coordList[i] = getRandomCoord();
     }
 
@@ -74,7 +76,7 @@ public class MyBenchmark {
   @Benchmark
   public void naiveTest(MyState state, Blackhole blackhole) {
     NaiveImplementation naive = new NaiveImplementation();
-    List<Coordinates> results = naive.search(state.reports, state.waypoints);
+    List<PoliceReport> results = naive.search(state.reports, state.waypoints);
     blackhole.consume(results);
   }
 }
