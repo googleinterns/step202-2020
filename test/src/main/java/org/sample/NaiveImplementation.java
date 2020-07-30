@@ -5,15 +5,15 @@ import java.util.List;
 import java.lang.Math;
 
 public class NaiveImplementation {
-  private double square(double num) {
+  private static double square(double num) {
     return (num * num);
   }
 
-  private double distanceSquared(Coordinates start, Coordinates end) {
+  private static double distanceSquared(Coordinates start, Coordinates end) {
     return square(start.getLng() - end.getLng()) + square(start.getLat() - end.getLat());
   }
 
-  private double distanceFromSegment(Coordinates start, Coordinates end, Coordinates point) {
+  private static double distanceFromSegment(Coordinates start, Coordinates end, Coordinates point) {
     double segmentDistanceSquared = distanceSquared(start, end);
 
     if (segmentDistanceSquared == 0) {
@@ -30,7 +30,7 @@ public class NaiveImplementation {
     return Math.sqrt(distanceSquared(point, projection));
   }
 
-  public List<PoliceReport> search(PoliceReport[] reports, Coordinates[] waypoints) {
+  public static List<PoliceReport> search(PoliceReport[] reports, Coordinates[] waypoints) {
     List<PoliceReport> reportsNearLine = new ArrayList<PoliceReport>();
 
     for (PoliceReport report : reports) {
