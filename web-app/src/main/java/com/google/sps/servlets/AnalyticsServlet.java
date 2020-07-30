@@ -14,6 +14,7 @@ import com.google.sps.data.Rectangle;
 import com.google.sps.data.QuadTree;
 import com.google.sps.data.Coordinates;
 import com.google.sps.data.Analysis;
+import com.google.sps.data.Distance;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -58,58 +59,6 @@ public class AnalyticsServlet extends HttpServlet {
     }
   }
 
-  private Rectangle getQueryRange(Coordinates[] waypoints) {
-    double minLongitude = 190.0;
-    double maxLongitude = -190.0;
-    double minLatitude = 100.0;
-    double maxLatitude = -100.0;
-
-    for (Coordinates waypoint : waypoints) {
-      double latitude = waypoint.getLat();
-      double longitude = waypoint.getLng();
-      if (latitude > maxLatitude) {
-        maxLatitude = latitude;
-      }
-      if (latitude < minLatitude) {
-        minLatitude = latitude;
-      }
-      if (longitude > maxLongitude) {
-        maxLongitude = longitude;
-      }
-      if (longitude < minLongitude) {
-        minLongitude = longitude;
-      }
-    }
-
-    return new Rectangle(new Coordinates(maxLatitude, minLongitude), new Coordinates(minLatitude, maxLongitude));
-  }
-
-  private double square(double num) {
-    return (num*num);
-  }
-
-  private double distanceSquared(Coordinates start, Coordinates end) {
-    return square(start.getLng()-end.getLng()) + square(start.getLat()-end.getLat());
-  }
-
-  private double distanceFromSegment(Coordinates start, Coordinates end, Coordinates point) {
-    double segmentDistanceSquared = distanceSquared(start, end);
-
-    if (segmentDistanceSquared == 0) {
-      return Math.sqrt(distanceSquared(start, point));
-    }
-
-    double projectionScale = 
-      ((point.getLng() - start.getLng()) * (end.getLng()-start.getLng()) + (point.getLat() - start.getLat()) * (end.getLat()-start.getLat()))
-      / segmentDistanceSquared;
-    projectionScale = Math.max(0, Math.min(1, projectionScale));
-    
-    Coordinates projection = 
-      new Coordinates(start.getLat() + projectionScale * (end.getLat() - start.getLat()), start.getLng() + projectionScale * (end.getLng() - start.getLng()));
-
-    return Math.sqrt(distanceSquared(point, projection));
-  }
-
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Coordinates[] waypoints;
@@ -127,7 +76,7 @@ public class AnalyticsServlet extends HttpServlet {
       return;
     }
 
-    Rectangle queryRange = getQueryRange(waypoints);
+    Rectangle queryRange = Distance.getQueryRange(waypoints);
     List<PoliceReport> reportsInQueryRange = reportsTree.query(queryRange);
     
     List<PoliceReport> reportsNearLine = new ArrayList<PoliceReport>();
@@ -140,7 +89,7 @@ public class AnalyticsServlet extends HttpServlet {
         Coordinates start = waypoints[index];
         Coordinates end = waypoints[index + 1];
 
-        if (distanceFromSegment(start, end, reportLocation) < 0.0001) {
+        if (Distance.distanceFromSegment(start, end, reportLocation) < 0.0001) {
           reportsNearLine.add(report);
           break;
         }

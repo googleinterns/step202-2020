@@ -8,7 +8,6 @@ export async function setDirections(directionsService, directionsRenderer, origi
   directionsService.route(request, async (result, status) => {
     if (status == "OK") {
       directionsRenderer.setDirections(result);
-
       const response = await fetch("/analytics", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
