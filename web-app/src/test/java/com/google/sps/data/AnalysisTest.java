@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 @RunWith(JUnit4.class)
 public class AnalysisTest {
@@ -22,8 +23,8 @@ public class AnalysisTest {
     Analysis analysis = new Analysis(reportList, 2);
     Assert.assertEquals(6, analysis.getNumReports());
     Assert.assertEquals(2, analysis.getFrequentTypes().size());
-    Assert.assertEquals("theft", analysis.getFrequentTypes().get(0));
-    Assert.assertEquals("drugs", analysis.getFrequentTypes().get(1));
+    List<String> expectedFrequentTypes = Arrays.asList(new String[]{"theft", "drugs"});
+    Assert.assertEquals(expectedFrequentTypes, analysis.getFrequentTypes());
   }
 
   @Test
@@ -52,7 +53,7 @@ public class AnalysisTest {
     Analysis analysis = new Analysis(reportList, 4);
     Assert.assertEquals(3, analysis.getNumReports());
     Assert.assertEquals(2, analysis.getFrequentTypes().size());
-    Assert.assertEquals("theft", analysis.getFrequentTypes().get(0));
-    Assert.assertEquals("arson", analysis.getFrequentTypes().get(1));
+    List<String> expectedFrequentTypes = Arrays.asList(new String[]{"theft", "arson"});
+    Assert.assertEquals(expectedFrequentTypes, analysis.getFrequentTypes());
   }
 }
