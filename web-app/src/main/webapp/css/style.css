@@ -1,5 +1,6 @@
 .report,
-.menu {
+.menu,
+.analytics {
   display: none;
 }
 
@@ -39,6 +40,37 @@
   margin-right: auto;
   max-height: 100%;
   max-width: 100%;
+}
+
+/* Analytics page */
+#analytics-container {
+  background-color: rgba(0, 0, 23, 0.8);
+  height: 100vh;
+  width: 100%;
+}
+
+#analytics {
+  color: #e0e0e0;
+  font-size: 2.7em;
+  overflow: scroll;
+  padding: 30px;
+}
+
+#analytics h1 {
+  margin: 0;
+  text-align: center;
+}
+
+#num-reports {
+  text-align: center;
+}
+
+#close-analytics {
+  background-image: url(/images/back-arrow.svg);
+  background-size: 50px 50px;
+  height: 50px;
+  padding: 0;
+  width: 50px;
 }
 
 /* Options menu */
@@ -242,12 +274,18 @@ label {
 
 #menu-button {
   background-image: url(/images/options-menu.svg);
-  left: 50px;
+  left: 40px;
 }
 
 #toggle-button {
   background-image: url(/images/toggle-view.svg);
-  right: 50px;
+  right: 40px;
+}
+
+#analytics-button {
+  background-image: url(/images/info.svg);
+  display: none;
+  right: 170px;
 }
 
 /* Accessibility */
