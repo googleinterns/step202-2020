@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
+import java.lang.Math;
 
 public class Analysis {
 
@@ -39,10 +40,8 @@ public class Analysis {
     crimeTypeFrequencyPairList.sort(Entry.comparingByValue());
     List<String>frequentTypes = new ArrayList<String>();
 
-    int count = 0;
-    while (count < n && count < crimeTypeFrequencyPairList.size()) {
-      frequentTypes.add((crimeTypeFrequencyPairList.get(crimeTypeFrequencyPairList.size()-1-count)).getKey());
-      count += 1;
+    for (int i = 0; i < Math.min(crimeTypeFrequencyPairList.size(), n); i++) {
+      frequentTypes.add((crimeTypeFrequencyPairList.get(crimeTypeFrequencyPairList.size()-1-i)).getKey());
     }
 
     return frequentTypes;
