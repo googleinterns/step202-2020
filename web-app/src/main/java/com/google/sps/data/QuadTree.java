@@ -32,7 +32,7 @@ public class QuadTree {
   }
 
   public QuadTree() {
-    Rectangle bounds = new Rectangle(90.0, -180.0, -90.0, 180.0);
+    Rectangle bounds = new Rectangle(new Coordinates(90.0, -180.0), new Coordinates(-90.0, 180.0));
     root = new Node(bounds, new ArrayList<PoliceReport>(), 0);
   }
 
@@ -114,7 +114,6 @@ public class QuadTree {
 
     return currentNode;
   }
-
 
   private Node[] reallocateReports(List<PoliceReport> reports, Rectangle bounds, int depth) {
     Node[] children = new Node[4];

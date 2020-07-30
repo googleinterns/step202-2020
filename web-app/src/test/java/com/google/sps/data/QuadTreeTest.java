@@ -60,7 +60,7 @@ public class QuadTreeTest extends Mockito {
 
     @Test
     public void simpleQuery() throws IOException {
-      Rectangle queryRange = new Rectangle(85.0, 15.0, 25.0, 50.0);
+      Rectangle queryRange = new Rectangle(new Coordinates(85.0, 15.0), new Coordinates(25.0, 50.0));
       List<PoliceReport> reportsInQueryRange = simpleTree.query(queryRange);
       Assert.assertEquals(2, reportsInQueryRange.size());
 
@@ -71,7 +71,7 @@ public class QuadTreeTest extends Mockito {
 
     @Test
     public void overlapTwoChildrenQuery() throws IOException {
-      Rectangle queryRange = new Rectangle(40.0, -30.0, -40.0, -10.0);
+      Rectangle queryRange = new Rectangle(new Coordinates(40.0, -30.0), new Coordinates(-40.0, -10.0));
       List<PoliceReport> reportsInQueryRange = simpleTree.query(queryRange);
       Assert.assertEquals(2, reportsInQueryRange.size());
 
@@ -82,7 +82,7 @@ public class QuadTreeTest extends Mockito {
 
     @Test
     public void noReportsInRange() throws IOException {
-      Rectangle queryRange = new Rectangle(10.0, -10.0, -10.0, 10.0);
+      Rectangle queryRange = new Rectangle(new Coordinates(10.0, -10.0), new Coordinates(-10.0, 10.0));
       List<PoliceReport> reportsInQueryRange = simpleTree.query(queryRange);
       Assert.assertEquals(0, reportsInQueryRange.size());
     }
