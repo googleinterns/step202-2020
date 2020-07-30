@@ -9,18 +9,23 @@ public class NaiveImplementation {
     List<PoliceReport> reportsNearLine = new ArrayList<PoliceReport>();
 
     for (PoliceReport report : reports) {
-
-      int index = 0;
-      while (index < waypoints.length - 1) {
-        Coordinates start = waypoints[index];
-        Coordinates end = waypoints[index + 1];
-        if (Distance.distanceFromSegment(start, end, new Coordinates(report.getLat(), report.getLng())) < 0.0001) {
-          reportsNearLine.add(report);
-          break;
-        }
-        index += 1;
+      if (reportNearLine(report, waypoints)) {
+        reportsNearLine.add(report);
       }
     }
     return reportsNearLine;
+  }
+
+  private static boolean reportNearLine(PoliceReport report, Coordinates[] waypoints) {
+    int index = 0;
+    while (index < waypoints.length - 1) {
+      Coordinates start = waypoints[index];
+      Coordinates end = waypoints[index + 1];
+      if (Distance.distanceFromSegment(start, end, new Coordinates(report.getLat(), report.getLng())) < 0.0001) {
+        return true;
+      }
+      index += 1;
+    }
+    return false;
   }
 }
