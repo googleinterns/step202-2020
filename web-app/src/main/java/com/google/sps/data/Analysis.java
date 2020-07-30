@@ -5,14 +5,20 @@ import java.util.Map.Entry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
+import java.lang.Math;
 
 public class Analysis {
+
+  public Analysis(List<PoliceReport> reports, int n) {
+    this.numReports = reports.size();
+    this.frequentTypes = getTopNTypes(reports, n);
+  }
+
   private final int numReports;
   private final List<String> frequentTypes;
-  private HashMap<String, Integer> crimeTypeCountMap;
 
-  private void countCrimeType(List<PoliceReport> reports) {
-    crimeTypeCountMap = new HashMap<String, Integer>();
+  private HashMap<String, Integer> countCrimeType(List<PoliceReport> reports) {
+    HashMap<String, Integer> crimeTypeCountMap = new HashMap<String, Integer>();
 
     for (PoliceReport report : reports) {
       String crimeType = report.getCrimeType();
@@ -23,27 +29,22 @@ public class Analysis {
         crimeTypeCountMap.put(crimeType, count + 1);
       }
     }
+    
+    return crimeTypeCountMap;
   }
 
   private List<String> getTopNTypes(List<PoliceReport> reports, int n) {
-    countCrimeType(reports);
+    HashMap<String, Integer> crimeTypeCountMap = countCrimeType(reports);
 
     List<Entry<String, Integer>> crimeTypeFrequencyPairList = new ArrayList<>(crimeTypeCountMap.entrySet());
     crimeTypeFrequencyPairList.sort(Entry.comparingByValue());
     List<String>frequentTypes = new ArrayList<String>();
 
-    int count = 0;
-    while (count < n && count < crimeTypeFrequencyPairList.size()) {
-      frequentTypes.add((crimeTypeFrequencyPairList.get(crimeTypeFrequencyPairList.size()-1-count)).getKey());
-      count += 1;
+    for (int i = 0; i < Math.min(crimeTypeFrequencyPairList.size(), n); i++) {
+      frequentTypes.add((crimeTypeFrequencyPairList.get(crimeTypeFrequencyPairList.size()-1-i)).getKey());
     }
 
     return frequentTypes;
-  }
-
-  public Analysis(List<PoliceReport> reports, int n) {
-    this.numReports = reports.size();
-    this.frequentTypes = getTopNTypes(reports, n);
   }
 
   public int getNumReports() {
