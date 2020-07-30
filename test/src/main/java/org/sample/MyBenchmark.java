@@ -70,7 +70,7 @@ public class MyBenchmark {
   }
 
   private static Coordinates getRandomCoord() {
-    return new Coordinates(rnd.nextDouble() * 181.0 - 90.0, rnd.nextDouble() * 361.0 - 180.0);
+    return new Coordinates(rnd.nextDouble() * 180.0 - 90.0, rnd.nextDouble() * 360.0 - 180.0);
   }
 
   @Benchmark
