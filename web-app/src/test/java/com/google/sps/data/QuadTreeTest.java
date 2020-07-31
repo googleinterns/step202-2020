@@ -90,7 +90,7 @@ public class QuadTreeTest extends Mockito {
     @Test
     public void reportOnBoundaryLine() throws IOException {
       PoliceReport report = new PoliceReport(0, 0, "corner case", 1234567);
-      Rectangle query = new Rectangle(5.0, -5.0, -5.0, 5.0);
+      Rectangle query = new Rectangle(new Coordinates(5.0, -5.0), new Coordinates(-5.0, 5.0));
       simpleTree.insert(report);
 
       // Corner reports should only appear once
@@ -101,7 +101,7 @@ public class QuadTreeTest extends Mockito {
   @Test
   public void duplicateLocations() throws IOException {
     QuadTree tree = new QuadTree();
-    Rectangle queryRange = new Rectangle(-20.0, -20.0, -40.0, -10.0);
+    Rectangle queryRange = new Rectangle(new Coordinates(-20.0, -20.0), new Coordinates(-40.0, -10.0));
     for (int i = 0; i < 5; i++) {
       tree.insert(report4);
     }
