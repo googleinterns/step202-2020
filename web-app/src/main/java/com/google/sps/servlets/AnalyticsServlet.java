@@ -89,7 +89,7 @@ public class AnalyticsServlet extends HttpServlet {
         Coordinates start = waypoints[index];
         Coordinates end = waypoints[index + 1];
 
-        if (Distance.distanceFromSegment(start, end, reportLocation) < 0.0001) {
+        if (Distance.distanceSquaredFromSegment(start, end, reportLocation) < 1e-8) {
           reportsNearLine.add(report);
           break;
         }
