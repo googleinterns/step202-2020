@@ -40,7 +40,7 @@ public class Distance {
   public static double distanceSquaredFromSegment(Coordinates start, Coordinates end, Coordinates point) {
     double segmentDistanceSquared = distanceSquared(start, end);
 
-    if (segmentDistanceSquared == 0) {
+    if (segmentDistanceSquared < 1e-10) {
       return distanceSquared(start, point);
     }
 
