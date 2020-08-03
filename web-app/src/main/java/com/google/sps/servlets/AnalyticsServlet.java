@@ -59,6 +59,21 @@ public class AnalyticsServlet extends HttpServlet {
     }
   }
 
+  private boolean isReportNearLine(PoliceReport report, Coordinates[] waypoints) {
+    Coordinates reportLocation = new Coordinates(report.getLat(), report.getLng());
+    int index = 0;
+    while (index < waypoints.length - 1) {
+      Coordinates start = waypoints[index];
+      Coordinates end = waypoints[index + 1];
+
+      if (Distance.distanceSquaredFromSegment(start, end, reportLocation) < 1e-8) {
+        return true;
+      }
+      index += 1;
+    }
+    return false;
+  }
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Coordinates[] waypoints;
@@ -82,25 +97,13 @@ public class AnalyticsServlet extends HttpServlet {
     List<PoliceReport> reportsNearLine = new ArrayList<PoliceReport>();
 
     for (PoliceReport report : reportsInQueryRange) {
-      Coordinates reportLocation = new Coordinates(report.getLat(), report.getLng());
-
-      int index = 0;
-      while (index < waypoints.length - 1) {
-        Coordinates start = waypoints[index];
-        Coordinates end = waypoints[index + 1];
-
-        if (Distance.distanceFromSegment(start, end, reportLocation) < 0.0001) {
-          reportsNearLine.add(report);
-          break;
-        }
-        index += 1;
+      if (isReportNearLine(report, waypoints)) {
+        reportsNearLine.add(report);
       }
     }
 
     Analysis analysis = new Analysis(reportsNearLine, 3);
-    System.out.println(analysis.getNumReports());
-    System.out.println(analysis.getFrequentTypes());
-
+    
     response.setContentType("application/json");
     String json = gson.toJson(analysis);
     response.getWriter().println(json);

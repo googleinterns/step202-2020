@@ -42,7 +42,10 @@ export async function loadPoliceReports(map) {
       for (const marker of markers) {
         google.maps.event.addListener(marker, "click", () => {
           const contentString =
-            `<div id="info-window"><p>${marker.crimeType}</p><p>${marker.date}</p></div>`;
+            `<div id="info-window">
+            <p>${marker.crimeType}</p>
+            <p>${marker.date.getFullYear()}-${marker.date.getMonth()}</p>
+            </div>`;
           mapComponents.infoWindow.setContent(contentString);
           mapComponents.infoWindow.open(map, marker);
         });
@@ -54,10 +57,8 @@ export async function loadPoliceReports(map) {
 }
 
 export function filterReports(reports, uncheckedCategories, numberOfMonths) {
-  const reportsDate = new Date();
   // Only check first report because all reports have same date if in same file
-  reportsDate.setMonth(Number(reports[0].yearMonth.substring(5, 7)));
-  reportsDate.setYear(Number(reports[0].yearMonth.substring(0, 4)));
+  const reportsDate = new Date(reports[0].timestamp*1000);
 
   if (reports.length !== 0 && !isReportwithinTimeFrame(reportsDate, numberOfMonths)) {
     return [];
@@ -82,7 +83,7 @@ function createMarkers(map, reports) {
           lng: Number(report.longitude),
         },
         map: map,
-        date: report.yearMonth,
+        date: new Date(report.timestamp*1000),
         crimeType: report.crimeType,
       })
   );

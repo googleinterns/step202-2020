@@ -37,11 +37,11 @@ public class Distance {
     return square(start.getLng()-end.getLng()) + square(start.getLat()-end.getLat());
   }
 
-  public static double distanceFromSegment(Coordinates start, Coordinates end, Coordinates point) {
+  public static double distanceSquaredFromSegment(Coordinates start, Coordinates end, Coordinates point) {
     double segmentDistanceSquared = distanceSquared(start, end);
 
-    if (segmentDistanceSquared == 0) {
-      return Math.sqrt(distanceSquared(start, point));
+    if (segmentDistanceSquared < 1e-10) {
+      return distanceSquared(start, point);
     }
 
     double projectionScale = 
@@ -52,6 +52,6 @@ public class Distance {
     Coordinates projection = 
       new Coordinates(start.getLat() + projectionScale * (end.getLat() - start.getLat()), start.getLng() + projectionScale * (end.getLng() - start.getLng()));
 
-    return Math.sqrt(distanceSquared(point, projection));
+    return distanceSquared(point, projection);
   }
 }
