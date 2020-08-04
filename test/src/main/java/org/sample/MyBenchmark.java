@@ -48,6 +48,19 @@ public class MyBenchmark {
   public static class MyState {
     public PoliceReport[] reports = generateReportList();
     public Coordinates[] waypoints = generateCoordList();
+    public QuadTree reportsTree = generateQuadTree(reports);
+  }
+
+  @Benchmark
+  public void naiveTest(MyState state, Blackhole blackhole) {
+    List<PoliceReport> results = NaiveImplementation.search(state.reports, state.waypoints);
+    blackhole.consume(results);
+  }
+
+  @Benchmark
+  public void quadtreeTest(MyState state, Blackhole blackhole) {
+    List<PoliceReport> results = QuadtreeImplementation.search(state.reportsTree, state.waypoints);
+    blackhole.consume(results);
   }
 
   private static PoliceReport[] generateReportList() {
@@ -58,6 +71,14 @@ public class MyBenchmark {
     }
 
     return reportList;
+  }
+
+  private static QuadTree generateQuadTree(PoliceReport[] reports) {
+    QuadTree reportsTree = new QuadTree();
+    for (PoliceReport report : reports) {
+      reportsTree.insert(report);
+    }
+    return reportsTree;
   }
 
   private static Coordinates[] generateCoordList() {
@@ -71,11 +92,5 @@ public class MyBenchmark {
 
   private static Coordinates getRandomCoord() {
     return new Coordinates(rnd.nextDouble() * 180.0 - 90.0, rnd.nextDouble() * 360.0 - 180.0);
-  }
-
-  @Benchmark
-  public void naiveTest(MyState state, Blackhole blackhole) {
-    List<PoliceReport> results = NaiveImplementation.search(state.reports, state.waypoints);
-    blackhole.consume(results);
   }
 }
