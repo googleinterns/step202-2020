@@ -12,13 +12,17 @@ web-app/src/main/webapp/jasmine/node_modules/
 .idea/
 *.iml
 *.iws
- 
+
 # Maven
 log/
 web-app/target/
 
 # VSCode
 .vscode/
+
+# JMH
+test/src/main/java/org/sample/Reference/
+test/target/
 
 # Compiled class file
 *.class
