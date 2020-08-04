@@ -61,15 +61,13 @@ public class AnalyticsServlet extends HttpServlet {
 
   private boolean isReportNearLine(PoliceReport report, Coordinates[] waypoints) {
     Coordinates reportLocation = new Coordinates(report.getLat(), report.getLng());
-    int index = 0;
-    while (index < waypoints.length - 1) {
+    for (int index = 0; index < waypoints.length - 1; i++) {
       Coordinates start = waypoints[index];
       Coordinates end = waypoints[index + 1];
 
       if (Distance.distanceSquaredFromSegment(start, end, reportLocation) < 1e-8) {
         return true;
       }
-      index += 1;
     }
     return false;
   }
