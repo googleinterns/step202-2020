@@ -25,7 +25,7 @@ window.onload = async () => {
   const map = initMap();
   // Search bar
   directionsRenderer.setMap(map);
-  document.getElementById("search-location").addEventListener("keydown", (e) => {
+  document.getElementById("search-location").addEventListener("keydown", async (e) => {
     if (e.code === "Enter") {
       e.preventDefault();
       setDirections(
