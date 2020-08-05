@@ -101,7 +101,8 @@ public class ReportServlet extends HttpServlet {
       System.out.println("yest image");
       reportEntity.setProperty("imageUrl", getUploadedFileUrl(request, "image"));
     } else {
-      System.out.println("no image");
+      System.out.println(request.getParameter("image"));
+      System.out.println(request.getParameter("latitude"));
     }
     return reportEntity;
   }
