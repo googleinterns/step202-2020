@@ -42,6 +42,7 @@ function reportFormToURLQuery(latitude, longitude) {
   formData.append("latitude", latitude);
   formData.append("longitude", longitude);
   formData.append("image", document.getElementById("attach-image").files[0]);
+  console.log(formData);
 
   return formData;
 }
