@@ -80,7 +80,11 @@ function initMap() {
     center: { lat: 51.5074, lng: -0.1278 },
     zoom: 13,
     disableDefaultUI: true,
-    minZoom: 2,
+    minZoom: 3,
+    restriction: {
+      latLngBounds: {north: 85, south: -85, west: -180, east: 180},
+      strictBounds: true
+    },
   });
   return map;
 }
