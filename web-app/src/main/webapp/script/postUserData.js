@@ -1,4 +1,4 @@
-import { hideReportForm } from "/script/script.js";
+import { hideReportForm } from "/script/showAndHide.js";
 
 export async function postUserReport(geocoder) {
   const address = document.getElementById("location-input").value;
