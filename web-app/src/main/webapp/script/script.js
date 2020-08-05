@@ -39,7 +39,7 @@ window.onload = async () => {
   // Bottom dock
   document
     .getElementById("report-button")
-    .addEventListener("click", () => showReportForm(map, geocoder));
+    .addEventListener("click", async () => showReportForm(map, geocoder));
   document.getElementById("menu-button").addEventListener("click", () => {
     document.getElementById("menu").style.display = "block";
   });
@@ -131,7 +131,13 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
   infoWindow.open(map);
 }
 
-function showReportForm(map, geocoder) {
+async function showReportForm(map, geocoder) {
+  const loginStatus = await fetchAndParseJson("/login");
+  if (!loginStatus.loggedIn) {
+    alert("Please log in to post the report!");
+    location.replace(loginStatus.url);
+  }
+
   document.getElementById("form-container").style.display = "block";
   hideHomeElements();
 
