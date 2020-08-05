@@ -80,6 +80,7 @@ function initMap() {
     center: { lat: 51.5074, lng: -0.1278 },
     zoom: 13,
     disableDefaultUI: true,
+    minZoom: 2,
   });
   return map;
 }
