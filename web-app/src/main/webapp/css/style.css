@@ -33,6 +33,8 @@
 
 #info-window {
   font-size: 2.5em;
+  max-height: 70%;
+  overflow: scroll;
 }
 
 #info-image {
