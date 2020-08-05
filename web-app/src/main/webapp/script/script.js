@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { fetchAndParseJson, loadPoliceReports, fetchMarkers } from "/script/loadData.js";
-import { postUserReport } from "/script/postUserData.js"
+import { postUserReport } from "/script/postUserData.js";
 import { setDirections } from "/script/directions.js";
 
 let mapMarkers = [];
@@ -148,7 +148,7 @@ function showReportForm(map, geocoder) {
   });
 }
 
-function hideReportForm() {
+export function hideReportForm() {
   document.getElementById("form-container").style.display = "none";
   showHomeElements();
 }
