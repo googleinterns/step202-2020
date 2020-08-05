@@ -61,7 +61,7 @@ public class AnalyticsServlet extends HttpServlet {
 
   private boolean isReportNearLine(PoliceReport report, Coordinates[] waypoints) {
     Coordinates reportLocation = new Coordinates(report.getLat(), report.getLng());
-    for (int index = 0; index < waypoints.length - 1; i++) {
+    for (int index = 0; index < waypoints.length - 1; index++) {
       Coordinates start = waypoints[index];
       Coordinates end = waypoints[index + 1];
 
@@ -91,7 +91,7 @@ public class AnalyticsServlet extends HttpServlet {
 
     Rectangle queryRange = Distance.getQueryRange(waypoints);
     List<PoliceReport> reportsInQueryRange = reportsTree.query(queryRange);
-    
+
     List<PoliceReport> reportsNearLine = new ArrayList<PoliceReport>();
 
     for (PoliceReport report : reportsInQueryRange) {
@@ -101,7 +101,7 @@ public class AnalyticsServlet extends HttpServlet {
     }
 
     Analysis analysis = new Analysis(reportsNearLine, 3);
-    
+
     response.setContentType("application/json");
     String json = gson.toJson(analysis);
     response.getWriter().println(json);
