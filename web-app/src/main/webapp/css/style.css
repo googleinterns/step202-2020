@@ -138,13 +138,6 @@ input[type="checkbox"] {
   margin: -5px 0;
 }
 
-#custom-interval {
-  background-color: rgba(0, 0, 23, 0.3);
-  color: #e0e0e0;
-  font-size: 30px;
-  width: 130px;
-}
-
 .desc {
   font-size: 30px;
 }
@@ -277,15 +270,10 @@ label {
   left: 40px;
 }
 
-#toggle-button {
-  background-image: url(/images/toggle-view.svg);
-  right: 40px;
-}
-
 #analytics-button {
   background-image: url(/images/info.svg);
   display: none;
-  right: 170px;
+  right: 40px;
 }
 
 /* Accessibility */
