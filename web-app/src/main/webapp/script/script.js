@@ -31,7 +31,7 @@ window.onload = async () => {
       setDirections(
         directionsService,
         directionsRenderer,
-        getUserLocation(),
+        map.getCenter(),
         document.getElementById("search-location").value
       );
     }
