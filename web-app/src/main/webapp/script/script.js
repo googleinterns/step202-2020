@@ -99,6 +99,7 @@ function getUserLocation() {
   );
 }
 
+// Hardcode user's initial location to a point in London
 function displayUserLocation(map) {
   const infoWindow = new google.maps.InfoWindow();
 
@@ -112,7 +113,7 @@ function displayUserLocation(map) {
     return;
   }
 
-  const userPosition = getUserLocation();
+  const userPosition = { lat: 51.5074, lng: -0.1278 };
   if (userPosition === null) {
     showMessageOnInfoWindow("Please enable location services.", map.getCenter(), map, infoWindow);
     return;
