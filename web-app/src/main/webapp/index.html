@@ -10,9 +10,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 
-  <script
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtnOIOa1q7Mwn8OeRkeXdNPxpbaWT2ZFw"
-  type="text/javascript"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtnOIOa1q7Mwn8OeRkeXdNPxpbaWT2ZFw"
+    type="text/javascript"></script>
   <script type="module" src="script/loadData.js"></script>
   <script type="module" src="script/postUserData.js"></script>
   <script type="module" src="script/directions.js"></script>
@@ -42,7 +41,8 @@
       <div id="report-button"><span class="sr-only">report new
           incident</span></div>
     </a>
-    <button id="analytics-button" class="small-button icon-button"><span class="sr-only">analytics for route</span></button>
+    <button id="analytics-button" class="small-button icon-button"><span class="sr-only">analytics for
+        route</span></button>
     <button id="toggle-button" class="small-button icon-button"><span class="sr-only">toggle view</span></button>
   </div>
   <!-- Route Analytics -->
@@ -50,7 +50,7 @@
     <div id="analytics">
       <div class="row">
         <button id="close-analytics" class="icon-button"><span class="sr-only">return
-          to home screen</span></button>
+            to home screen</span></button>
       </div>
       <div class="row">
         <h1>Reports along your route:</h1>
@@ -80,8 +80,7 @@
     <div id="time-frame-options">
       <div class="row">
         <div class="two columns right">
-          <input type="radio" class="time-frame" id="four-weeks" name="time-frame"
-            value="1">
+          <input type="radio" class="time-frame" id="four-weeks" name="time-frame" value="1">
         </div>
         <div class="ten columns">
           <label for="four-weeks">Last 4 weeks</label>
@@ -89,8 +88,7 @@
       </div>
       <div class="row">
         <div class="two columns right">
-          <input type="radio" class="time-frame" id="three-months" name="time-frame"
-            value="3">
+          <input type="radio" class="time-frame" id="three-months" name="time-frame" value="3">
         </div>
         <div class="ten columns">
           <label for="three-months">Last 3 months</label>
@@ -98,8 +96,7 @@
       </div>
       <div class="row">
         <div class="two columns right">
-          <input type="radio" class="time-frame" id="six-months" name="time-frame"
-            value="6" checked>
+          <input type="radio" class="time-frame" id="six-months" name="time-frame" value="6" checked>
         </div>
         <div class="ten columns">
           <label for="six-months">Last 6 months</label>
@@ -107,122 +104,111 @@
       </div>
       <div class="row">
         <div class="two columns right">
-          <input type="radio" class="time-frame" id="twelve-months" name="time-frame"
-            value="12">
+          <input type="radio" class="time-frame" id="twelve-months" name="time-frame" value="12">
         </div>
         <div class="ten columns">
-        <label for="twelve-months">Last 12 months</label>
+          <label for="twelve-months">Last 12 months</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="two columns right">
+          <input type="radio" class="time-frame" id="custom-radio" name="time-frame" value="custom">
+        </div>
+        <div class="ten columns">
+          <label for="custom-radio">Custom:</label>
+        </div>
+      </div>
+      <div class="row last-row">
+        <div class="six columns right desc">
+          Last
+        </div>
+        <div class="three columns">
+          <input type="number" id="custom-interval" name="custom-interval">
+        </div>
+        <div class="three columns desc">
+          months
+        </div>
       </div>
     </div>
-    <div class="row">
-      <div class="two columns right">
-        <input type="radio" class="time-frame" id="custom-radio" name="time-frame"
-          value="custom">
-      </div>
-      <div class="ten columns">
-        <label for="custom-radio">Custom:</label>
-      </div>
+    <!-- Category -->
+    <div class="row menu-subheading">
+      <h2>Category</h2>
     </div>
-    <div class="row last-row">
-      <div class="six columns right desc">
-        Last
+    <div id="category-options">
+      <div class="row">
+        <div class="two columns right">
+          <input type="checkbox" class="category" id="p-one" name="category" value="drugs" checked="checked">
+        </div>
+        <div class="ten columns">
+          <label for="p-one">Drugs</label>
+        </div>
       </div>
-      <div class="three columns">
-        <input type="number" id="custom-interval" name="custom-interval">
+      <div class="row">
+        <div class="two columns right">
+          <input type="checkbox" class="category" id="p-two" name="category" value="burglary" checked="checked">
+        </div>
+        <div class="ten columns">
+          <label for="p-two">Burglary</label>
+        </div>
       </div>
-      <div class="three columns desc">
-        months
+      <div class="row">
+        <div class="two columns right">
+          <input type="checkbox" class="category" id="p-three" name="category" value="arson" checked="checked">
+        </div>
+        <div class="ten columns">
+          <label for="p-three">Criminal damage and arson</label>
+        </div>
       </div>
+      <div class="row">
+        <div class="two columns right">
+          <input type="checkbox" class="category" id="p-four" name="category" value="theft">
+        </div>
+        <div class="ten columns">
+          <label for="p-four">Theft</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="two columns right">
+          <input type="checkbox" class="category" id="p-five" name="category" value="weapons">
+        </div>
+        <div class="ten columns">
+          <label for="p-five">Possesion of weapons</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="two columns right">
+          <input type="checkbox" class="category" id="p-six" name="category" value="violence">
+        </div>
+        <div class="ten columns">
+          <label for="p-six">Violence and sexual offences</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="two columns right">
+          <input type="checkbox" class="category" id="p-seven" name="category" value="order">
+        </div>
+        <div class="ten columns">
+          <label for="p-seven">Public order</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="two columns right">
+          <input type="checkbox" class="category" id="p-eight" name="category" value="anti-social">
+        </div>
+        <div class="ten columns">
+          <label for="p-eight">Anti-social behaviour</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="two columns right">
+          <input type="checkbox" class="category" id="p-nine" name="category" value="other crime">
+        </div>
+        <div class="ten columns">
+          <label for="p-nine">Other crime</label>
+        </div>
+      </div>
+      <button id="select-all-cats" class="menu-button">Select all</button>
     </div>
-  </div>
-	<!-- Category -->
-	<div class="row menu-subheading">
-		<h2>Category</h2>
-	</div>
-	<div id="category-options">
-		<div class="row">
-			<div class="two columns right">
-				<input type="checkbox" class="category" id="p-one" name="category"
-					value="drugs" checked="checked">
-			</div>
-			<div class="ten columns">
-				<label for="p-one">Drugs</label>
-		</div>
-	</div>
-	<div class="row">
-		<div class="two columns right">
-			<input type="checkbox" class="category" id="p-two" name="category"
-				value="burglary" checked="checked">
-		</div>
-		<div class="ten columns">
-			<label for="p-two">Burglary</label>
-		</div>
-	</div>
-	<div class="row">
-		<div class="two columns right">
-			<input type="checkbox" class="category" id="p-three" name="category"
-			value="arson" checked="checked">
-		</div>
-			<div class="ten columns">
-				<label for="p-three">Criminal damage and arson</label>
-			</div>
-    </div>
-    <div class="row">
-      <div class="two columns right">
-        <input type="checkbox" class="category" id="p-four" name="category"
-          value="theft">
-      </div>
-      <div class="ten columns">
-        <label for="p-four">Theft</label>
-      </div>
-    </div>
-    <div class="row">
-      <div class="two columns right">
-        <input type="checkbox" class="category" id="p-five" name="category"
-          value="weapons">
-      </div>
-      <div class="ten columns">
-        <label for="p-five">Possesion of weapons</label>
-      </div>
-    </div>
-    <div class="row">
-      <div class="two columns right">
-        <input type="checkbox" class="category" id="p-six" name="category"
-          value="violence">
-      </div>
-      <div class="ten columns">
-        <label for="p-six">Violence and sexual offences</label>
-      </div>
-    </div>
-    <div class="row">
-      <div class="two columns right">
-        <input type="checkbox" class="category" id="p-seven" name="category"
-          value="order">
-      </div>
-      <div class="ten columns">
-        <label for="p-seven">Public order</label>
-      </div>
-    </div>
-    <div class="row">
-      <div class="two columns right">
-        <input type="checkbox" class="category" id="p-eight" name="category"
-          value="anti-social">
-      </div>
-      <div class="ten columns">
-        <label for="p-eight">Anti-social behaviour</label>
-      </div>
-    </div>
-    <div class="row">
-      <div class="two columns right">
-        <input type="checkbox" class="category" id="p-nine" name="category"
-          value="other crime">
-      </div>
-      <div class="ten columns">
-        <label for="p-nine">Other crime</label>
-      </div>
-    </div>
-    <button id="select-all-cats" class="menu-button">Select all</button>
-   </div>
     <!-- Time of day -->
     <div class="row menu-subheading">
       <h2>Time of Day</h2>
@@ -295,8 +281,15 @@
         <label for="category-input">Category of incident</label>
         <select class="u-full-width" type="text" id="category-input">
           <option selected disabled>Category</option>
-          <option value="foo">foo</option>
-          <option value="bar">bar</option>
+          <option value="Anti-social behaviour">Anti-social behaviour</option>
+          <option value="Burglary">Burglary</option>
+          <option value="Criminal damage and arson">Criminal Damage and Arson</option>
+          <option value="Drugs">Drugs</option>
+          <option value="Possession of weapons">Possession of Weapons</option>
+          <option value="Public order">Public order</option>
+          <option value="Theft">Theft</option>
+          <option value="Violence and sexual offences">Violence and sexual offences</option>
+          <option value="Other">Other</option>
         </select>
       </div>
       <label for="description-input">Description</label>
