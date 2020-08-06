@@ -41,7 +41,6 @@ export async function loadPoliceReports(map) {
       const markers = createMarkers(map, filteredReports);
       for (const marker of markers) {
         marker.addListener("click", () => {
-          console.log("click");
           const contentString =
             `<div id="info-window">
             <p>${marker.crimeType}</p>
