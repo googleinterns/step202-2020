@@ -65,6 +65,7 @@ window.onload = async () => {
   timeFrameOptions.addEventListener('change', () => { loadPoliceReports(map) });
   const categoryOptions = document.getElementById("category-options");
   categoryOptions.addEventListener('change', () => { loadPoliceReports(map) });
+  document.getElementById("select-all-cats").addEventListener("click", toggleCategories);
   // Load user reports
   const userReports = await fetchAndParseJson("/report");
   fetchMarkers(map, userReports);
@@ -148,4 +149,22 @@ function setLoginStatus(loginStatus) {
   loginLogout.addEventListener("click", () => {
     location.replace(loginStatus.url);
   });
+}
+
+function toggleCategories() {
+  const checkboxes = document.getElementsByClassName("category");
+  const toggleButton = document.getElementById("select-all-cats")
+  if (toggleButton.value === "select") {
+    toggleButton.value = "deselect";
+    toggleButton.innerHTML = "Deselect all";
+    for (const checkbox of checkboxes) {
+      checkbox.checked = true;
+    }
+  } else if (toggleButton.value === "deselect") {
+    toggleButton.value = "select";
+    toggleButton.innerHTML = "Select all";
+    for (const checkbox of checkboxes) {
+      checkbox.checked = false;
+    }
+  }
 }
