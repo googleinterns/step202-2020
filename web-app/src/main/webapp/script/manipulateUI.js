@@ -46,6 +46,6 @@ function hideHomeElements() {
   }
 }
 
-function hideOptionMenu() {
+export function hideOptionMenu() {
   document.getElementById("menu").style.display = "none";
 }
