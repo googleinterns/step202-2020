@@ -1,3 +1,5 @@
+import { hideReportForm } from "/script/manipulateUI.js"
+
 export async function postUserReport(geocoder) {
   const address = document.getElementById("location-input").value;
   geocoder.geocode({ address: address }, async (results, status) => {
