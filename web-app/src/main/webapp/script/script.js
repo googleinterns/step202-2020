@@ -65,7 +65,7 @@ window.onload = async () => {
   timeFrameOptions.addEventListener('change', () => { loadPoliceReports(map) });
   const categoryOptions = document.getElementById("category-options");
   categoryOptions.addEventListener('change', () => { loadPoliceReports(map) });
-  document.getElementById("select-all-cats").addEventListener("click", toggleCategories);
+  // document.getElementById("select-all-cats").addEventListener("click", toggleCategories);
   // Load user reports
   const userReports = await fetchAndParseJson("/report");
   fetchMarkers(map, userReports);
