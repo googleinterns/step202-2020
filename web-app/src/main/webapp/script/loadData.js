@@ -46,6 +46,9 @@ export async function loadPoliceReports(map) {
             <p>${marker.crimeType}</p>
             <p>${marker.date.getFullYear()}-${marker.date.getMonth()}</p>
             </div>`;
+          if (!mapComponents.infoWindow) {
+            mapComponents.infoWindow = new google.maps.InfoWindow();
+          }
           mapComponents.infoWindow.setContent(contentString);
           mapComponents.infoWindow.open(map, marker);
         });
@@ -54,11 +57,20 @@ export async function loadPoliceReports(map) {
     })
   );
   mapComponents.mapMarkers = markersArrayForEachReports.flat();
+  map.addListener("click", closeOpenWindows);
+  document.getElementById("dock").addEventListener("click", closeOpenWindows);
+}
+
+function closeOpenWindows() {
+  if (mapComponents.infoWindow) {
+    mapComponents.infoWindow.close();
+    mapComponents.activeInfoWindow = null;
+  }
 }
 
 export function filterReports(reports, uncheckedCategories, numberOfMonths) {
   // Only check first report because all reports have same date if in same file
-  const reportsDate = new Date(reports[0].timestamp*1000);
+  const reportsDate = new Date(reports[0].timestamp * 1000);
 
   if (reports.length !== 0 && !isReportwithinTimeFrame(reportsDate, numberOfMonths)) {
     return [];
@@ -83,7 +95,7 @@ function createMarkers(map, reports) {
           lng: Number(report.longitude),
         },
         map: map,
-        date: new Date(report.timestamp*1000),
+        date: new Date(report.timestamp * 1000),
         crimeType: report.crimeType,
       })
   );
@@ -115,12 +127,15 @@ export async function fetchMarkers(map, userReports) {
     createMarkerForDisplay(map, userReport, uiState);
   });
 
-  map.addListener("click", () => {
-    if (uiState.activeInfoWindow) {
-      uiState.activeInfoWindow.close();
-      uiState.activeInfoWindow = null;
-    }
-  });
+  map.addListener("click", () => { closeOpenInfoWindows(uiState) });
+  document.getElementById("dock").addEventListener("click", () => { closeOpenInfoWindows(uiState) });
+}
+
+function closeOpenInfoWindows(uiState) {
+  if (uiState.activeInfoWindow) {
+    uiState.activeInfoWindow.close();
+    uiState.activeInfoWindow = null;
+  };
 }
 
 function createMarkerForDisplay(map, data, uiState) {
