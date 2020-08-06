@@ -26,7 +26,7 @@
     <form id="address-form">
       <div class="row">
         <div class="two-thirds columns">
-          <input class="u-full-width" type="text" placeholder="Search" id="search-location">
+          <input class="u-full-width" type="text" placeholder="Destination" id="search-location">
         </div>
       </div>
     </form>
@@ -44,7 +44,6 @@
           incident</span></div>
     </a>
     <button id="analytics-button" class="small-button icon-button"><span class="sr-only">analytics for route</span></button>
-    <button id="toggle-button" class="small-button icon-button"><span class="sr-only">toggle view</span></button>
   </div>
   <!-- Route Analytics -->
   <div id="analytics-container" class="analytics">
@@ -63,11 +62,11 @@
   <!-- Options menu -->
   <div id="menu" class="menu">
     <div class="row">
-      <div class="seven columns">
+      <div class="nine columns">
         <button id="close-menu" class="icon-button"><span class="sr-only">close
             options menu</span></button>
       </div>
-      <div class="five columns" id="auth-container">
+      <div class="three columns" id="auth-container">
         <a id="login-logout"></a>
       </div>
     </div>
@@ -106,33 +105,13 @@
           <label for="six-months">Last 6 months</label>
         </div>
       </div>
-      <div class="row">
+      <div class="last-row row">
         <div class="two columns right">
           <input type="radio" class="time-frame" id="twelve-months" name="time-frame"
             value="12">
         </div>
         <div class="ten columns">
         <label for="twelve-months">Last 12 months</label>
-      </div>
-    </div>
-    <div class="row">
-      <div class="two columns right">
-        <input type="radio" class="time-frame" id="custom-radio" name="time-frame"
-          value="custom">
-      </div>
-      <div class="ten columns">
-        <label for="custom-radio">Custom:</label>
-      </div>
-    </div>
-    <div class="row last-row">
-      <div class="six columns right desc">
-        Last
-      </div>
-      <div class="three columns">
-        <input type="number" id="custom-interval" name="custom-interval">
-      </div>
-      <div class="three columns desc">
-        months
       </div>
     </div>
   </div>
@@ -224,44 +203,6 @@
     </div>
     <button id="select-all-cats" class="menu-button">Select all</button>
    </div>
-    <!-- Time of day -->
-    <div class="row menu-subheading">
-      <h2>Time of Day</h2>
-    </div>
-    <div class="row">
-      <div class="two columns right">
-        <input type="checkbox" id="morning" name="time-of-day" value="morning" checked="checked">
-      </div>
-      <div class="ten columns">
-        <label for="morning">Morning</label>
-      </div>
-    </div>
-    <div class="row">
-      <div class="two columns right">
-        <input type="checkbox" id="afternoon" name="time-of-day" value="afternoon" checked="checked">
-      </div>
-      <div class="ten columns">
-        <label for="afternoon">Afternoon</label>
-      </div>
-    </div>
-    <div class="row">
-      <div class="two columns right">
-        <input type="checkbox" id="evening" name="time-of-day" value="evening" checked="checked">
-      </div>
-      <div class="ten columns">
-        <label for="evening">Evening</label>
-      </div>
-    </div>
-    <div class="row">
-      <div class="two columns right">
-        <input type="checkbox" id="night" name="time-of-day" value="night" checked="checked">
-      </div>
-      <div class="ten columns">
-        <label for="night">Night</label>
-      </div>
-    </div>
-    <button id="select-all-times" class="menu-button">Select all</button>
-  </div>
   <!-- Submit report -->
   <div id="form-container" class="report">
     <div class="row">
