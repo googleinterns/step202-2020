@@ -1,7 +1,7 @@
 class MapComponents {
   constructor() {
     this.mapMarkers = [];
-    this.infoWindow = new google.maps.InfoWindow();
+    this.activeInfoWindow = new google.maps.InfoWindow();
   }
 }
 
@@ -46,8 +46,10 @@ export async function loadPoliceReports(map) {
             <p>${marker.crimeType}</p>
             <p>${marker.date.getFullYear()}-${marker.date.getMonth()}</p>
             </div>`;
-          mapComponents.infoWindow.setContent(contentString);
-          mapComponents.infoWindow.open(map, marker);
+          const infoWindow = new google.maps.InfoWindow({ content: infoParagraph });
+          closeActiveWindow();
+          infoWindow.open(map, marker);
+          MapComponents.activeInfoWindow = infoWindow;
         });
       }
       return markers;
@@ -58,7 +60,7 @@ export async function loadPoliceReports(map) {
 
 export function filterReports(reports, uncheckedCategories, numberOfMonths) {
   // Only check first report because all reports have same date if in same file
-  const reportsDate = new Date(reports[0].timestamp*1000);
+  const reportsDate = new Date(reports[0].timestamp * 1000);
 
   if (reports.length !== 0 && !isReportwithinTimeFrame(reportsDate, numberOfMonths)) {
     return [];
@@ -83,7 +85,7 @@ function createMarkers(map, reports) {
           lng: Number(report.longitude),
         },
         map: map,
-        date: new Date(report.timestamp*1000),
+        date: new Date(report.timestamp * 1000),
         crimeType: report.crimeType,
       })
   );
@@ -109,21 +111,22 @@ function isReportwithinTimeFrame(reportsDate, numberOfMonths) {
 }
 
 export async function fetchMarkers(map, userReports) {
-  let uiState = { activeInfoWindow: null };
-
   userReports.forEach((userReport) => {
-    createMarkerForDisplay(map, userReport, uiState);
+    createMarkerForDisplay(map, userReport);
   });
 
-  map.addListener("click", () => {
-    if (uiState.activeInfoWindow) {
-      uiState.activeInfoWindow.close();
-      uiState.activeInfoWindow = null;
-    }
-  });
+  map.addListener("click", closeActiveWindow);
+  document.getElementById("dock").addEventListener("click", closeActiveWindow);
 }
 
-function createMarkerForDisplay(map, data, uiState) {
+function closeActiveWindow() {
+  if (MapComponents.activeInfoWindow) {
+    MapComponents.activeInfoWindow.close();
+    MapComponents.activeInfoWindow = null;
+  }
+}
+
+function createMarkerForDisplay(map, data) {
   const marker = new google.maps.Marker({
     position: { lat: data.latitude, lng: data.longitude },
     map: map,
@@ -148,10 +151,8 @@ function createMarkerForDisplay(map, data, uiState) {
 
   const infoWindow = new google.maps.InfoWindow({ content: infoParagraph });
   marker.addListener("click", () => {
-    if (uiState.activeInfoWindow) {
-      uiState.activeInfoWindow.close();
-    }
+    closeActiveWindow();
     infoWindow.open(map, marker);
-    uiState.activeInfoWindow = infoWindow;
+    MapComponents.activeInfoWindow = infoWindow;
   });
 }
