@@ -72,7 +72,7 @@ window.onload = async () => {
   // Load police reports
   loadPoliceReports(map);
   // User location and log in
-  displayUserLocation(map);
+  // displayUserLocation(map);
   const loginStatus = await fetchAndParseJson("/login");
   setLoginStatus(loginStatus);
 };
