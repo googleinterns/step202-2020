@@ -20,14 +20,8 @@ export async function loadPoliceReports(map) {
   }
   mapComponents.mapMarkers = [];
 
-  const FILE_NAMES = [
-    "2019_12_london",
-    "2020_01_london",
-    "2020_02_london",
-    "2020_03_london",
-    "2020_04_london",
-    "2020_05_london",
-  ];
+  const FILE_NAMES = await fetchAndParseJson("../data/METADATA.json");
+
   const uncheckedCategoriesElement = Array.from(
     document.querySelectorAll("input.category:not(:checked)")
   );
@@ -41,8 +35,7 @@ export async function loadPoliceReports(map) {
       const markers = createMarkers(map, filteredReports);
       for (const marker of markers) {
         google.maps.event.addListener(marker, "click", () => {
-          const contentString =
-            `<div id="info-window">
+          const contentString = `<div id="info-window">
             <p>${marker.crimeType}</p>
             <p>${marker.date.getFullYear()}-${marker.date.getMonth()}</p>
             </div>`;
@@ -58,7 +51,7 @@ export async function loadPoliceReports(map) {
 
 export function filterReports(reports, uncheckedCategories, numberOfMonths) {
   // Only check first report because all reports have same date if in same file
-  const reportsDate = new Date(reports[0].timestamp*1000);
+  const reportsDate = new Date(reports[0].timestamp * 1000);
 
   if (reports.length !== 0 && !isReportwithinTimeFrame(reportsDate, numberOfMonths)) {
     return [];
@@ -83,7 +76,7 @@ function createMarkers(map, reports) {
           lng: Number(report.longitude),
         },
         map: map,
-        date: new Date(report.timestamp*1000),
+        date: new Date(report.timestamp * 1000),
         crimeType: report.crimeType,
       })
   );
@@ -103,7 +96,9 @@ function isReportwithinTimeFrame(reportsDate, numberOfMonths) {
   const today = new Date();
   const monthDiff =
     (today.getFullYear() - reportsDate.getFullYear()) * 12 +
-    today.getMonth() + 1 - reportsDate.getMonth();
+    today.getMonth() +
+    1 -
+    reportsDate.getMonth();
 
   return monthDiff < numberOfMonths;
 }
