@@ -13,9 +13,9 @@
 // limitations under the License.
 
 import { fetchAndParseJson, loadPoliceReports, fetchMarkers } from "/script/loadData.js";
-import { postUserReport } from "/script/postUserData.js"
+import { postUserReport } from "/script/postUserData.js";
 import { setDirections } from "/script/directions.js";
-import { showReportForm, hideReportForm, showAnalytics, hideAnalytics } from "/script/manipulateUI.js"
+import { showReportForm, hideReportForm, showAnalytics, hideAnalytics } from "/script/manipulateUI.js";
 
 window.onload = async () => {
   const geocoder = new google.maps.Geocoder();
