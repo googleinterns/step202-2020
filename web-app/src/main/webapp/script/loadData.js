@@ -40,13 +40,14 @@ export async function loadPoliceReports(map) {
       const filteredReports = filterReports(reports, uncheckedCategories, numberOfMonths);
       const markers = createMarkers(map, filteredReports);
       for (const marker of markers) {
-        google.maps.event.addListener(marker, "click", () => {
+        marker.addListener("click", () => {
+          console.log("click");
           const contentString =
             `<div id="info-window">
             <p>${marker.crimeType}</p>
             <p>${marker.date.getFullYear()}-${marker.date.getMonth()}</p>
             </div>`;
-          const infoWindow = new google.maps.InfoWindow({ content: infoParagraph });
+          const infoWindow = new google.maps.InfoWindow({ content: contentString });
           closeActiveWindow();
           infoWindow.open(map, marker);
           MapComponents.activeInfoWindow = infoWindow;
