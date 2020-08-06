@@ -7,10 +7,13 @@ import csv
 import json
 import sys
 import datetime
+import os
+from pathlib import Path
 
 
-def csvToJson(filename):
-    CSV_FILE_PATH = filename + '.csv'
+def csvToJson(path):
+    CSV_FILE_PATH = path
+    filename = Path(path).stem
     JSON_FILE_PATH = filename + '.json'
 
     data = []
@@ -37,7 +40,7 @@ def csvToJson(filename):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Incorrect number of arguments.")
-        quit()
-    csvToJson(sys.argv[1])
+    for file in os.listdir("data"):
+        if file.endswith(".csv"):
+            relativePath = os.path.join("data/", file)
+            csvToJson(relativePath)
