@@ -8,7 +8,7 @@
 #map {
   /* TODO(AshleyLTW) placeholder until we add a map */
   background-color: #add8e6;
-  height: 100vh;
+  height: 100%;
   position: absolute;
   width: 100%;
   z-index: -1;
@@ -79,7 +79,7 @@
   border: 1px solid rgba(0, 0, 23, 0.8);
   box-shadow: 10px 0 10px rgba(0, 0, 0, 0.4);
   color: #e0e0e0;
-  height: 100vh;
+  height: 100%;
   overflow: scroll;
   position: absolute;
   width: 600px;
