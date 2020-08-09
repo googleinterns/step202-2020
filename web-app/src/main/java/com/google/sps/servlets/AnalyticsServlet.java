@@ -13,10 +13,13 @@ import com.google.sps.data.PoliceReport;
 import com.google.sps.data.Rectangle;
 import com.google.sps.data.QuadTree;
 import com.google.sps.data.Coordinates;
+import com.google.sps.data.Analysis;
+import com.google.sps.data.Distance;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+import java.lang.Math;
 
 @WebServlet("/analytics")
 public class AnalyticsServlet extends HttpServlet {
@@ -56,6 +59,19 @@ public class AnalyticsServlet extends HttpServlet {
     }
   }
 
+  private boolean isReportNearLine(PoliceReport report, Coordinates[] waypoints) {
+    Coordinates reportLocation = new Coordinates(report.getLat(), report.getLng());
+    for (int i = 0; i < waypoints.length - 1; i++) {
+      Coordinates start = waypoints[i];
+      Coordinates end = waypoints[i + 1];
+
+      if (Distance.distanceSquaredFromSegment(start, end, reportLocation) < 1e-8) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Coordinates[] waypoints;
@@ -66,6 +82,28 @@ public class AnalyticsServlet extends HttpServlet {
       waypoints = new Gson().fromJson(reader, Coordinates[].class);
     } catch (Exception e) {
       System.out.println(e);
+      return;
     }
+
+    if (waypoints.length < 2) {
+      return;
+    }
+
+    Rectangle queryRange = Distance.getQueryRange(waypoints);
+    List<PoliceReport> reportsInQueryRange = reportsTree.query(queryRange);
+
+    List<PoliceReport> reportsNearLine = new ArrayList<PoliceReport>();
+
+    for (PoliceReport report : reportsInQueryRange) {
+      if (isReportNearLine(report, waypoints)) {
+        reportsNearLine.add(report);
+      }
+    }
+
+    Analysis analysis = new Analysis(reportsNearLine, 3);
+
+    response.setContentType("application/json");
+    String json = gson.toJson(analysis);
+    response.getWriter().println(json);
   }
 }
