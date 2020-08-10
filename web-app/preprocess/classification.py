@@ -28,17 +28,29 @@ def loadDict():
             return pickle.load(f)
     return {}
 
+def generateWordVector(lemmatizedCrimeTypeWords):
+    model = models.KeyedVectors.load_word2vec_format(
+        '../../GoogleNews-vectors-negative300.bin', binary=True)
+    for word in lemmatizedCrimeTypeWords:
+        wordVector += model[word]
+    print(wordVector)
+
 def classify(crimeType):
     lemmatizedCrimeTypeWords = simplifyText(crimeType)
     lemmatizedCrimeType = ' '.join(lemmatizedCrimeTypeWords)    
 
     categoryDict = loadDict()
     matchingCategory = categoryDict.get(lemmatizedCrimeType, None)
-    if (matchingCategory != None):
+    if matchingCategory != None:
         return matchingCategory
-    print("no match")
-#w = models.KeyedVectors.load_word2vec_format(
-#    '../../GoogleNews-vectors-negative300.bin', binary=True)
+
+    crimeTypeWordVector = generateWordVector(lemmatizedCrimeTypeWords)
+    classifiedCategory = knn(crimeTypeWordVector)
+
+    categoryDict[lemmatizedCrimeType] = classifiedCategory
+    saveDict(categoryDict)
+
+    return classifiedCategory
 
 categories = ['theft', 'violence', 'drugs']
 word = sys.argv[1]
