@@ -139,18 +139,6 @@ public class ReportServlet extends HttpServlet {
   }
 
   /**
-   * @return the request parameter, or the default value if the parameter was not
-   *         specified by the client
-   */
-  private static String getParameter(HttpServletRequest request, String name, String defaultValue) {
-    String value = request.getParameter(name);
-    if (value == null) {
-      return defaultValue;
-    }
-    return value;
-  }
-
-  /**
    * Returns a URL that points to the uploaded file, or null if the user didn't
    * upload a file.
    */
