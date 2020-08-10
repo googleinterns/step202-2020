@@ -15,7 +15,7 @@
 import { fetchAndParseJson, loadPoliceReports, fetchMarkers } from "/script/loadData.js";
 import { postUserReport } from "/script/postUserData.js";
 import { setDirections } from "/script/directions.js";
-import { showReportForm, hideReportForm, showAnalytics, hideAnalytics } from "/script/manipulateUI.js";
+import { showReportForm, hideReportForm, showAnalytics, hideAnalytics, hideOptionMenu } from "/script/manipulateUI.js"
 
 window.onload = async () => {
   const geocoder = new google.maps.Geocoder();
@@ -36,6 +36,7 @@ window.onload = async () => {
     }
   });
   // Bottom dock
+  document.getElementById("dock-background").addEventListener("click", hideOptionMenu);
   document
     .getElementById("report-button")
     .addEventListener("click", async () => showReportForm(map, geocoder));
@@ -58,7 +59,8 @@ window.onload = async () => {
   // Menu
   document
     .getElementById("close-menu")
-    .addEventListener("click", () => (document.getElementById("menu").style.display = "none"));
+    .addEventListener("click", hideOptionMenu);
+  map.addListener("click", hideOptionMenu);
   const timeFrameOptions = document.getElementById("time-frame-options");
   timeFrameOptions.addEventListener('change', () => { loadPoliceReports(map) });
   const categoryOptions = document.getElementById("category-options");

@@ -9,6 +9,7 @@ export async function showReportForm(map, geocoder) {
 
   document.getElementById("form-container").style.display = "block";
   hideHomeElements();
+  hideOptionMenu();
 
   geocoder.geocode({ location: map.getCenter() }, (results, status) => {
     if (status === "OK") {
@@ -30,12 +31,7 @@ export function hideReportForm() {
 
 export function showAnalytics() {
   document.getElementById("analytics-container").style.display = "block";
-  // TODO(ltwAshley): tap on map should close menu, making this unecessary
-  const menuElements = document.getElementsByClassName("menu");
-
-  for (const element of menuElements) {
-    element.style.display = "none";
-  }
+  hideOptionMenu();
   hideHomeElements();
 }
 
@@ -56,4 +52,8 @@ function hideHomeElements() {
   for (const element of homeElements) {
     element.style.display = "none";
   }
+}
+
+export function hideOptionMenu() {
+  document.getElementById("menu").style.display = "none";
 }
