@@ -1,4 +1,10 @@
-export async function postUserReport(geocoder) {
+export async function postUserReport(e, geocoder) {
+  const missingFields = findMissingFields();
+  console.log(missingFields);
+  if (missingFields.length !== 0) {
+    alertMissingFields(missingFields);
+    return;
+  }
   const address = document.getElementById("location-input").value;
   geocoder.geocode({ address: address }, async (results, status) => {
     if (status === "OK") {
@@ -21,6 +27,33 @@ export async function postUserReport(geocoder) {
       console.error("Geocode was not successful: " + status);
     }
   });
+}
+
+function findMissingFields() {
+  const compulsoryFields = document.getElementsByClassName("compulsory");
+  let missingFields = [];
+
+  for (const field of compulsoryFields) {
+    if (!field.value) {
+      missingFields.push(field.name);
+    }
+  }
+  if (document.getElementById("category-input").value === "Category") {
+    missingFields.push(document.getElementById("category-input").name);
+  }
+  return missingFields
+}
+
+function alertMissingFields(missingFields) {
+  let errorMessage = "Please fill in the ";
+  errorMessage += missingFields.join(', ');
+  if (missingFields.length === 1) {
+    errorMessage += " field.";
+  } else if (missingFields.length > 1) {
+    errorMessage += " fields.";
+  }
+  alert(errorMessage);
+  return false;
 }
 
 function reportFormToURLQuery(latitude, longitude) {
