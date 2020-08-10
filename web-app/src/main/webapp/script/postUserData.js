@@ -1,10 +1,10 @@
 export async function postUserReport(e, geocoder) {
   const missingFields = findMissingFields();
   console.log(missingFields);
-  // if (missingFields.length !== 0) {
-  //   alertMissingFields(missingFields);
-  //   return;
-  // }
+  if (missingFields.length !== 0) {
+    alertMissingFields(missingFields);
+    return;
+  }
   const address = document.getElementById("location-input").value;
   geocoder.geocode({ address: address }, async (results, status) => {
     if (status === "OK") {
@@ -34,7 +34,7 @@ function findMissingFields() {
   let missingFields = [];
 
   for (const field of compulsoryFields) {
-    if (!field.value) {
+    if (!field.value.trim()) {
       missingFields.push(field.name);
     }
   }
