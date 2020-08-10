@@ -45,7 +45,6 @@ public class ReportServletTest extends Mockito {
     when(request.getParameter("timestamp")).thenReturn("2017-06-01T08:30");
     when(request.getParameter("incidentType")).thenReturn("Theft");
     when(request.getParameter("description")).thenReturn("Sample request for testing");
-    when(request.getParameter("image")).thenReturn("no images");
 
     Entity testReport = ReportServlet.createReportEntity(request, response);
 

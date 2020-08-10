@@ -11,7 +11,7 @@ import com.google.gson.Gson;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-
+  
   private static class LoginStatus {
     private String url;
     private Boolean loggedIn;
@@ -27,9 +27,9 @@ public class LoginServlet extends HttpServlet {
     UserService userService = UserServiceFactory.getUserService();
     LoginStatus loginStatus;
     if (!userService.isUserLoggedIn()) {
-      loginStatus = new LoginStatus(userService.createLoginURL("/"), false);
+      loginStatus = new LoginStatus(userService.createLoginURL("/index.html"), false);
     } else {
-      loginStatus = new LoginStatus(userService.createLogoutURL("/"), true);
+      loginStatus = new LoginStatus(userService.createLogoutURL("/index.html"), true);
     }
 
     Gson gson = new Gson();
