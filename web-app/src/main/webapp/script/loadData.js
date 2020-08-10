@@ -1,7 +1,7 @@
 class MapComponents {
   constructor() {
     this.mapMarkers = [];
-    this.infoWindow = new google.maps.InfoWindow();
+    this.activeInfoWindow = new google.maps.InfoWindow();
   }
 }
 
@@ -34,19 +34,30 @@ export async function loadPoliceReports(map) {
       const filteredReports = filterReports(reports, uncheckedCategories, numberOfMonths);
       const markers = createMarkers(map, filteredReports);
       for (const marker of markers) {
-        google.maps.event.addListener(marker, "click", () => {
+        marker.addListener("click", () => {
           const contentString = `<div id="info-window">
             <p>${marker.crimeType}</p>
             <p>${marker.date.getFullYear()}-${marker.date.getMonth()}</p>
             </div>`;
-          mapComponents.infoWindow.setContent(contentString);
-          mapComponents.infoWindow.open(map, marker);
+          const infoWindow = new google.maps.InfoWindow({ content: contentString });
+          closeActiveWindow();
+          infoWindow.open(map, marker);
+          MapComponents.activeInfoWindow = infoWindow;
         });
       }
       return markers;
     })
   );
   mapComponents.mapMarkers = markersArrayForEachReports.flat();
+  map.addListener("click", closeOpenWindows);
+  document.getElementById("dock").addEventListener("click", closeOpenWindows);
+}
+
+function closeOpenWindows() {
+  if (mapComponents.infoWindow) {
+    mapComponents.infoWindow.close();
+    mapComponents.activeInfoWindow = null;
+  }
 }
 
 export function filterReports(reports, uncheckedCategories, numberOfMonths) {
@@ -104,21 +115,22 @@ function isReportwithinTimeFrame(reportsDate, numberOfMonths) {
 }
 
 export async function fetchMarkers(map, userReports) {
-  let uiState = { activeInfoWindow: null };
-
   userReports.forEach((userReport) => {
-    createMarkerForDisplay(map, userReport, uiState);
+    createMarkerForDisplay(map, userReport);
   });
 
-  map.addListener("click", () => {
-    if (uiState.activeInfoWindow) {
-      uiState.activeInfoWindow.close();
-      uiState.activeInfoWindow = null;
-    }
-  });
+  map.addListener("click", closeActiveWindow);
+  document.getElementById("dock").addEventListener("click", closeActiveWindow);
 }
 
-function createMarkerForDisplay(map, data, uiState) {
+function closeActiveWindow() {
+  if (MapComponents.activeInfoWindow) {
+    MapComponents.activeInfoWindow.close();
+    MapComponents.activeInfoWindow = null;
+  }
+}
+
+function createMarkerForDisplay(map, data) {
   const marker = new google.maps.Marker({
     position: { lat: data.latitude, lng: data.longitude },
     map: map,
@@ -143,10 +155,8 @@ function createMarkerForDisplay(map, data, uiState) {
 
   const infoWindow = new google.maps.InfoWindow({ content: infoParagraph });
   marker.addListener("click", () => {
-    if (uiState.activeInfoWindow) {
-      uiState.activeInfoWindow.close();
-    }
+    closeActiveWindow();
     infoWindow.open(map, marker);
-    uiState.activeInfoWindow = infoWindow;
+    MapComponents.activeInfoWindow = infoWindow;
   });
 }

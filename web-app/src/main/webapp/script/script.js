@@ -13,10 +13,9 @@
 // limitations under the License.
 
 import { fetchAndParseJson, loadPoliceReports, fetchMarkers } from "/script/loadData.js";
-import { postUserReport } from "/script/postUserData.js"
+import { postUserReport } from "/script/postUserData.js";
 import { setDirections } from "/script/directions.js";
-
-let mapMarkers = [];
+import { showReportForm, hideReportForm, showAnalytics, hideAnalytics, hideOptionMenu } from "/script/manipulateUI.js"
 
 window.onload = async () => {
   const geocoder = new google.maps.Geocoder();
@@ -37,6 +36,7 @@ window.onload = async () => {
     }
   });
   // Bottom dock
+  document.getElementById("dock-background").addEventListener("click", hideOptionMenu);
   document
     .getElementById("report-button")
     .addEventListener("click", async () => showReportForm(map, geocoder));
@@ -59,7 +59,8 @@ window.onload = async () => {
   // Menu
   document
     .getElementById("close-menu")
-    .addEventListener("click", () => (document.getElementById("menu").style.display = "none"));
+    .addEventListener("click", hideOptionMenu);
+  map.addListener("click", hideOptionMenu);
   const timeFrameOptions = document.getElementById("time-frame-options");
   timeFrameOptions.addEventListener('change', () => { loadPoliceReports(map) });
   const categoryOptions = document.getElementById("category-options");
@@ -80,6 +81,11 @@ function initMap() {
     center: { lat: 51.5074, lng: -0.1278 },
     zoom: 13,
     disableDefaultUI: true,
+    minZoom: 3,
+    restriction: {
+      latLngBounds: {north: 85, south: -85, west: -180, east: 180},
+      strictBounds: true
+    },
   });
   return map;
 }
@@ -130,64 +136,6 @@ function showMessageOnInfoWindow(message, position, map, infoWindow) {
   infoWindow.setPosition(position);
   infoWindow.setContent(`<h3>${message}</h3>`);
   infoWindow.open(map);
-}
-
-async function showReportForm(map, geocoder) {
-  const loginStatus = await fetchAndParseJson("/login");
-  if (!loginStatus.loggedIn) {
-    alert("Please log in to post the report!");
-    location.replace(loginStatus.url);
-  }
-
-  document.getElementById("form-container").style.display = "block";
-  hideHomeElements();
-
-  geocoder.geocode({ location: map.getCenter() }, (results, status) => {
-    if (status === "OK") {
-      if (results[0]) {
-        document.getElementById("location-input").value = results[0].formatted_address;
-      } else {
-        console.error("No results found");
-      }
-    } else {
-      console.error("Geocoder failed due to: " + status);
-    }
-  });
-}
-
-function hideReportForm() {
-  document.getElementById("form-container").style.display = "none";
-  showHomeElements();
-}
-
-function showAnalytics() {
-  document.getElementById("analytics-container").style.display = "block";
-  // TODO(ltwAshley): tap on map should close menu, making this unecessary
-  const menuElements = document.getElementsByClassName("menu");
-
-  for (const element of menuElements) {
-    element.style.display = "none";
-  }
-  hideHomeElements();
-}
-
-function hideAnalytics() {
-  document.getElementById("analytics-container").style.display = "none";
-  showHomeElements();
-}
-
-function showHomeElements() {
-  const homeElements = document.getElementsByClassName("home");
-  for (const element of homeElements) {
-    element.style.display = "block";
-  }
-}
-
-function hideHomeElements() {
-  const homeElements = document.getElementsByClassName("home");
-  for (const element of homeElements) {
-    element.style.display = "none";
-  }
 }
 
 function setLoginStatus(loginStatus) {
