@@ -54,6 +54,7 @@ public class ReportServlet extends HttpServlet {
     }
   };
 
+  private static String INCIDENT_TYPE_DEFAULT_VALUE = "Category";
   private static DateFormat timeStampFormatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
 
   @Override
@@ -68,17 +69,32 @@ public class ReportServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Entity reportEntity = createReportEntity(request, response);
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(reportEntity);
+    System.out.println(isInputValid(request, response));
+    if (isInputValid(request, response)) {
+      Entity reportEntity = createReportEntity(request, response);
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+      datastore.put(reportEntity);
+    }
+  }
+
+  private boolean isInputValid(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    for (String paramName : PARAM_DEFAULT_MAP.keySet()) {
+      String value = request.getParameter(paramName);
+      if (value.trim().isEmpty()) {
+        return false;
+      }
+      if (paramName.equals("incidentType") && value.equals(INCIDENT_TYPE_DEFAULT_VALUE)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   public static Entity createReportEntity(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Entity reportEntity = new Entity("Report");
 
     for (String paramName : PARAM_DEFAULT_MAP.keySet()) {
-      String defaultValue = PARAM_DEFAULT_MAP.get(paramName);
-      String value = getParameter(request, paramName, defaultValue);
+      String value = request.getParameter(paramName);
       switch (paramName) {
         case "latitude":
         case "longitude":
@@ -92,6 +108,11 @@ public class ReportServlet extends HttpServlet {
             response.getWriter().println(exception);
           }
           break;
+        case "description":
+          if (value == null) {
+            value = "";
+          }
+          reportEntity.setProperty(paramName, value);
         default:
           reportEntity.setProperty(paramName, value);
       }
