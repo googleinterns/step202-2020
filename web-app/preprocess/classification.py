@@ -6,6 +6,7 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import os
 import pickle
+import numpy as np
 
 
 def simplifyText(crimeType):
@@ -31,9 +32,12 @@ def loadDict():
 def generateWordVector(lemmatizedCrimeTypeWords):
     model = models.KeyedVectors.load_word2vec_format(
         '../../GoogleNews-vectors-negative300.bin', binary=True)
-    for word in lemmatizedCrimeTypeWords:
-        wordVector += model[word]
-    print(wordVector)
+    for i in range(len(lemmatizedCrimeTypeWords)):
+        if i == 0:
+            wordVector = np.copy(model[lemmatizedCrimeTypeWords[i]])
+        else: wordVector += model[lemmatizedCrimeTypeWords[i]]
+        
+    return wordVector
 
 def classify(crimeType):
     lemmatizedCrimeTypeWords = simplifyText(crimeType)
@@ -45,12 +49,12 @@ def classify(crimeType):
         return matchingCategory
 
     crimeTypeWordVector = generateWordVector(lemmatizedCrimeTypeWords)
-    classifiedCategory = knn(crimeTypeWordVector)
+    #classifiedCategory = knn(crimeTypeWordVector)
 
-    categoryDict[lemmatizedCrimeType] = classifiedCategory
-    saveDict(categoryDict)
+    #categoryDict[lemmatizedCrimeType] = classifiedCategory
+    #saveDict(categoryDict)
 
-    return classifiedCategory
+    #return classifiedCategory
 
 categories = ['theft', 'violence', 'drugs']
 word = sys.argv[1]
