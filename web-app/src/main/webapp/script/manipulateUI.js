@@ -1,4 +1,12 @@
-export function showReportForm(map, geocoder) {
+import { fetchAndParseJson } from "/script/loadData.js";
+
+export async function showReportForm(map, geocoder) {
+  const loginStatus = await fetchAndParseJson("/login");
+  if (!loginStatus.loggedIn) {
+    alert("Please log in to post the report!");
+    location.replace(loginStatus.url);
+  }
+
   document.getElementById("form-container").style.display = "block";
   hideHomeElements();
   hideOptionMenu();

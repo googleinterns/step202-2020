@@ -1,7 +1,6 @@
 export async function setDirections(directionsService, directionsRenderer, origin, destination) {
   const request = {
-    // Currently hardcoded because I can't enable geolocation on CRD
-    origin: { lat: 51.5196, lng: -0.1025 },
+    origin: origin,
     destination: destination,
     travelMode: "DRIVING",
   };

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { fetchAndParseJson, loadPoliceReports, fetchMarkers } from "/script/loadData.js";
-import { postUserReport } from "/script/postUserData.js"
+import { postUserReport } from "/script/postUserData.js";
 import { setDirections } from "/script/directions.js";
 import { showReportForm, hideReportForm, showAnalytics, hideAnalytics, hideOptionMenu } from "/script/manipulateUI.js"
 
@@ -81,6 +81,11 @@ function initMap() {
     center: { lat: 51.5074, lng: -0.1278 },
     zoom: 13,
     disableDefaultUI: true,
+    minZoom: 3,
+    restriction: {
+      latLngBounds: {north: 85, south: -85, west: -180, east: 180},
+      strictBounds: true
+    },
   });
   return map;
 }
