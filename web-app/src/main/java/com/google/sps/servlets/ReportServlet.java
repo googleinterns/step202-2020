@@ -61,7 +61,6 @@ public class ReportServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    System.out.println(isInputValid(request, response));
     if (isInputValid(request, response)) {
       Entity reportEntity = createReportEntity(request, response);
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
