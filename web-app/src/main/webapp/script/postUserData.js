@@ -52,7 +52,6 @@ function alertMissingFields(missingFields) {
     errorMessage += " fields.";
   }
   alert(errorMessage);
-  return false;
 }
 
 function reportFormToURLQuery(latitude, longitude) {
