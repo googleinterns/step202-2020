@@ -100,9 +100,6 @@ public class ReportServlet extends HttpServlet {
           }
           break;
         case "description":
-          if (value == null) {
-            value = "";
-          }
           reportEntity.setProperty(paramName, value);
         default:
           reportEntity.setProperty(paramName, value);
