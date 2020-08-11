@@ -1,4 +1,3 @@
-from gensim import models
 import sys
 import nltk
 import string
@@ -7,13 +6,16 @@ from nltk.stem import WordNetLemmatizer
 import os
 import pickle
 import numpy as np
+import fasttext.util
 
 
 def simplifyText(crimeType):
-    crimeType = crimeType.lower()
-    crimeTypeWords = nltk.word_tokenize(crimeType)
-    crimeTypeWordsNoPunct = [word for word in crimeTypeWords if word not in string.punctuation]
-    crimeTypeWordsNoStopwords = [word for word in crimeTypeWordsNoPunct if word not in stopwords.words('english')]
+    crimeTypeLower = crimeType.lower()
+    crimeTypeNoHyphen = crimeTypeLower.replace('-', ' ')
+    crimeTypeNoPunct = crimeTypeNoHyphen.translate(str.maketrans("", "", string.punctuation))
+
+    crimeTypeWords = nltk.word_tokenize(crimeTypeNoPunct)
+    crimeTypeWordsNoStopwords = [word for word in crimeTypeWords if word not in stopwords.words('english')]
     lemmatizer = WordNetLemmatizer()
     lemmatizedCrimeTypeWords = [lemmatizer.lemmatize(word) for word in crimeTypeWordsNoStopwords]
     
@@ -30,14 +32,13 @@ def loadDict():
     return {}
 
 def generateWordVector(lemmatizedCrimeTypeWords):
-    model = models.KeyedVectors.load_word2vec_format(
-        '../../GoogleNews-vectors-negative300.bin', binary=True)
+    ft = fasttext.load_model('cc.en.300.bin')
     for i in range(len(lemmatizedCrimeTypeWords)):
         if i == 0:
-            wordVector = np.copy(model[lemmatizedCrimeTypeWords[i]])
-        else: wordVector += model[lemmatizedCrimeTypeWords[i]]
-        
+            wordVector = np.copy(ft.get_word_vector(lemmatizedCrimeTypeWords[i]))
+        else: wordVector += ft.get_word_vector(lemmatizedCrimeTypeWords[i])
     return wordVector
+
 
 def classify(crimeType):
     lemmatizedCrimeTypeWords = simplifyText(crimeType)
