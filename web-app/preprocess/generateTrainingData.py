@@ -26,8 +26,6 @@ def crimeTypeCategoryMap():
     
     return categoryDict
 
-
-
 if __name__ == "__main__":
     categoryDict = crimeTypeCategoryMap()
 
