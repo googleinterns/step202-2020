@@ -1,15 +1,16 @@
-from gensim import models
+from classification import generateWordVector, saveDict
+import fasttext.util
 
 def crimeTypeCategoryMap():
     categoryDict = {}
     categoryDict["theft"] = "Theft Crimes"
-    categoryDict["shoplifting"] = "Theft Crimes"
-    categoryDict["robbery"] = "Theft Crimes"
+    categoryDict["vehicle crime"] = "Theft Crimes"
     categoryDict["burglary"] = "Theft Crimes"
+    categoryDict["larceny"] = "Theft Crimes"
     categoryDict["assault"] = "Violent Crimes"
     categoryDict["violent crime"] = "Violent Crimes"
-    categoryDict["sexual assult"] = "Violent Crimes"
     categoryDict["arson"] = "Violent Crimes"
+    categoryDict["robbery"] = "Violent Crimes"
     categoryDict["disorderly conduct"] = "Disorderly Conduct"
     categoryDict["anti social behaviour"] = "Disorderly Conduct"
     categoryDict["public order"] = "Disorderly Conduct"
@@ -28,5 +29,15 @@ def crimeTypeCategoryMap():
 
 
 if __name__ == "__main__":
-    model = models.KeyedVectors.load_word2vec_format(
-        '../../GoogleNews-vectors-negative300.bin', binary=True)
+    categoryDict = crimeTypeCategoryMap()
+
+    ft = fasttext.load_model('cc.en.300.bin')
+    crimeTypeWordVectorsDict = {}
+
+    for crimeType in categoryDict:
+        crimeTypeWords = crimeType.split()
+        crimeTypeWordVector = generateWordVector(crimeTypeWords, ft)
+        crimeTypeWordVectorsDict[crimeType] = crimeTypeWordVector
+
+    saveDict("categoryDict", categoryDict)
+    saveDict("crimeTypeWordVectorsDict", crimeTypeWordVectorsDict)
