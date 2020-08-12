@@ -12,3 +12,4 @@ if __name__ == "__main__":
 
     with open(JSON_FILE_PATH, 'w') as jsonFile:
         jsonFile.write(json.dumps(filenames, indent=2))
+        

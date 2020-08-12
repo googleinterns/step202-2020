@@ -35,7 +35,8 @@ export async function loadPoliceReports(map) {
       const markers = createMarkers(map, filteredReports);
       for (const marker of markers) {
         marker.addListener("click", () => {
-          const contentString = `<div id="info-window">
+          const contentString =
+            `<div id="info-window">
             <p>${marker.crimeType}</p>
             <p>${marker.date.getFullYear()}-${marker.date.getMonth()}</p>
             </div>`;
@@ -107,9 +108,7 @@ function isReportwithinTimeFrame(reportsDate, numberOfMonths) {
   const today = new Date();
   const monthDiff =
     (today.getFullYear() - reportsDate.getFullYear()) * 12 +
-    today.getMonth() +
-    1 -
-    reportsDate.getMonth();
+    today.getMonth() + 1 - reportsDate.getMonth();
 
   return monthDiff < numberOfMonths;
 }
