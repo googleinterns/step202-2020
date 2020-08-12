@@ -26,14 +26,14 @@ def saveDict(dictName, dictToSave):
     with open(dictName + '.pkl', 'wb') as f:
         pickle.dump(dictToSave, f, pickle.HIGHEST_PROTOCOL)
 
+def loadpkl(filename):
+     with open(filename + '.pkl', 'rb') as f:
+        return pickle.load(f)
+
 def loadDict():
     if (os.path.isfile('categoryClassificationDict.pkl')):
         return loadpkl(categoryClassificationDict)
     return {}
-
-def loadpkl(filename):
-     with open(filename + '.pkl', 'rb') as f:
-        return pickle.load(f)
 
 def generateWordVector(lemmatizedCrimeTypeWords, ft):
     for i in range(len(lemmatizedCrimeTypeWords)):
