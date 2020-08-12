@@ -9,6 +9,7 @@ import sys
 import datetime
 import os
 from pathlib import Path
+from classification import classify
 
 
 def csvToJson(path):
@@ -27,11 +28,14 @@ def csvToJson(path):
             year = int(date[:4])
             month = int(date[5:7])
 
+            category = classify(rows['Crime type'])
+
             entry = {
                 'timestamp': datetime.datetime(year, month, 1).timestamp(),
                 'longitude': rows['Longitude'],
                 'latitude': rows['Latitude'],
-                'crimeType': rows['Crime type']
+                'crimeType': rows['Crime type'],
+                'category': category
             }
             data.append(entry)
 
