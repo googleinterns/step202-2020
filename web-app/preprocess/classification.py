@@ -28,8 +28,7 @@ def saveDict(dictName, dictToSave):
 
 def loadDict():
     if (os.path.isfile('categoryClassificationDict.pkl')):
-        with open('categoryClassificationDict.pkl', 'rb') as f:
-            return pickle.load(f)
+        return loadpkl(categoryClassificationDict)
     return {}
 
 def loadpkl(filename):
