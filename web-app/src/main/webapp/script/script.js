@@ -54,7 +54,7 @@ window.onload = async () => {
   document.getElementById("map-icon").addEventListener("click", () => hideReportForm);
   document
     .getElementById("submit-button")
-    .addEventListener("click", (e) => postUserReport(e, geocoder));
+    .addEventListener("click", (e) => postUserReport(geocoder));
   document.getElementById("map-icon").addEventListener("click", () => hideReportForm);
   // Menu
   document

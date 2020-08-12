@@ -1,4 +1,4 @@
-export async function postUserReport(e, geocoder) {
+export async function postUserReport(geocoder) {
   const missingFields = findMissingFields();
   if (missingFields.length !== 0) {
     alertMissingFields(missingFields);
