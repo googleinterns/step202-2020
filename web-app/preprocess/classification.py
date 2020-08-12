@@ -8,7 +8,7 @@ import pickle
 import numpy as np
 import fasttext.util
 from scipy.spatial.distance import cosine
-
+# Remove "other" from list of stopwords in order to classify crime types such as "other crime", "etc"
 
 def simplifyText(crimeType):
     crimeTypeLower = crimeType.lower()
@@ -32,7 +32,7 @@ def loadpkl(filename):
 
 def loadDict():
     if (os.path.isfile('categoryClassificationDict.pkl')):
-        return loadpkl(categoryClassificationDict)
+        return loadpkl('categoryClassificationDict')
     return {}
 
 def generateWordVector(lemmatizedCrimeTypeWords, ft):
@@ -67,7 +67,7 @@ def classify(crimeType):
     ft = fasttext.load_model('cc.en.300.bin')
     crimeTypeWordVector = generateWordVector(lemmatizedCrimeTypeWords, ft)
     classifiedCategory = nearestNeighbor(crimeTypeWordVector)
-
+    
     categoryClassificationDict[lemmatizedCrimeType] = classifiedCategory
     saveDict("categoryClassificationDict", categoryClassificationDict)
 
