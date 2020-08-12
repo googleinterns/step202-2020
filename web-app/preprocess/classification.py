@@ -68,24 +68,8 @@ def classify(crimeType):
     ft = fasttext.load_model('cc.en.300.bin')
     crimeTypeWordVector = generateWordVector(lemmatizedCrimeTypeWords, ft)
     classifiedCategory = nearestNeighbor(crimeTypeWordVector)
-    print(classifiedCategory)
 
-    #categoryClassificationDict[lemmatizedCrimeType] = classifiedCategory
-    #saveDict("categoryClassificationDict", categoryClassificationDict)
+    categoryClassificationDict[lemmatizedCrimeType] = classifiedCategory
+    saveDict("categoryClassificationDict", categoryClassificationDict)
 
-    #return classifiedCategory
-
-#categories = ['theft', 'violence', 'drugs']
-word = sys.argv[1]
-
-classify(word)
-"""
-maxSimilarity = 0
-crimeType = ""
-for cat in categories:
-    similarity = w.similarity(cat, word)
-    print(cat, similarity)
-    if (maxSimilarity < similarity):
-        maxSimilarity = similarity
-        crimeType = cat
-print(crimeType)"""
+    return classifiedCategory
