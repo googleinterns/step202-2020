@@ -32,7 +32,7 @@ def loadpkl(filename):
 
 def loadDict():
     if (os.path.isfile('categoryClassificationDict.pkl')):
-        return loadpkl(categoryClassificationDict)
+        return loadpkl('categoryClassificationDict')
     return {}
 
 def generateWordVector(lemmatizedCrimeTypeWords, ft):
