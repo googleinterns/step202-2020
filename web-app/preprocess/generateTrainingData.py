@@ -1,6 +1,7 @@
 from classification import generateWordVector, saveDict
 import fasttext.util
 
+
 def crimeTypeCategoryMap():
     categoryDict = {}
     categoryDict["theft"] = "Theft Crimes"
@@ -23,8 +24,9 @@ def crimeTypeCategoryMap():
     categoryDict["juvenile crime"] = "Other Crimes"
     categoryDict["weapon possession"] = "Other Crimes"
     categoryDict["vandalism"] = "Other Crimes"
-    
+
     return categoryDict
+
 
 if __name__ == "__main__":
     categoryDict = crimeTypeCategoryMap()
