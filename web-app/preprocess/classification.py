@@ -89,3 +89,6 @@ def classify(crimeType):
     saveDict("categoryClassificationDict", categoryClassificationDict)
 
     return classifiedCategory
+
+word = sys.argv[1]
+print(classify(word))
