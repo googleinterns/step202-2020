@@ -72,7 +72,7 @@ export function filterReports(reports, uncheckedCategories, numberOfMonths) {
     if (!report.latitude || !report.longitude) {
       return false;
     }
-    return displayCrimeType(uncheckedCategories, report.crimeType);
+    return displayCrimeType(uncheckedCategories, report.category);
   });
 
   return filteredReports;
@@ -93,10 +93,10 @@ function createMarkers(map, reports) {
   );
 }
 
-function displayCrimeType(uncheckedCategories, crimeType) {
+function displayCrimeType(uncheckedCategories, reportCategory) {
   // Don't display if category unchecked
   for (const category of uncheckedCategories) {
-    if (crimeType.toLowerCase().includes(category)) {
+    if (reportCategory === category) {
       return false;
     }
   }
