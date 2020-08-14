@@ -8,10 +8,11 @@ import pickle
 import numpy as np
 import fasttext.util
 from scipy.spatial.distance import cosine
-# Remove "other" from list of stopwords in order to classify crime types such as "other crime", "etc"
+from typing import List, Dict
+''' Remove "other" from list of stopwords in order to classify crime types such as "other crime", "etc" '''
 
 
-def simplifyText(crimeType):
+def simplifyText(crimeType: str) -> List[str]:
     crimeTypeLower = crimeType.lower()
     crimeTypeNoHyphen = crimeTypeLower.replace('-', ' ')
     crimeTypeNoPunct = crimeTypeNoHyphen.translate(
@@ -30,23 +31,23 @@ def simplifyText(crimeType):
     return lemmatizedCrimeTypeWords
 
 
-def saveDict(dictName, dictToSave):
+def saveDict(dictName: str, dictToSave: Dict[any, any]):
     with open(dictName + '.pkl', 'wb') as f:
         pickle.dump(dictToSave, f, pickle.HIGHEST_PROTOCOL)
 
 
-def loadpkl(filename):
+def loadpkl(filename: str):
     with open(filename + '.pkl', 'rb') as f:
         return pickle.load(f)
 
 
-def loadDict():
+def loadDict() -> Dict[str, str]:
     if (os.path.isfile('categoryClassificationDict.pkl')):
         return loadpkl('categoryClassificationDict')
     return {}
 
 
-def generateWordVector(lemmatizedCrimeTypeWords, ft):
+def generateWordVector(lemmatizedCrimeTypeWords: List[str], ft: any) -> any:
     for i in range(len(lemmatizedCrimeTypeWords)):
         if i == 0:
             wordVector = np.copy(
@@ -56,7 +57,7 @@ def generateWordVector(lemmatizedCrimeTypeWords, ft):
     return wordVector
 
 
-def nearestNeighbor(crimeTypeWordVector):
+def nearestNeighbor(crimeTypeWordVector: any) -> str:
     categoryDict = loadpkl("categoryDict")
     crimeTypeWordVectorsDict = loadpkl("crimeTypeWordVectorsDict")
 
@@ -71,7 +72,7 @@ def nearestNeighbor(crimeTypeWordVector):
     return nearest
 
 
-def classify(crimeType):
+def classify(crimeType: str) -> str:
     lemmatizedCrimeTypeWords = simplifyText(crimeType)
     lemmatizedCrimeType = ' '.join(lemmatizedCrimeTypeWords)
 
@@ -89,3 +90,7 @@ def classify(crimeType):
     saveDict("categoryClassificationDict", categoryClassificationDict)
 
     return classifiedCategory
+
+
+word = sys.argv[1]
+print(classify(word))
