@@ -19,11 +19,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -43,17 +43,10 @@ import com.google.sps.data.Report;
 @WebServlet("/report")
 public class ReportServlet extends HttpServlet {
 
-  private static Map<String, String> PARAM_DEFAULT_MAP = new HashMap<String, String>() {
-    {
-      put("title", "");
-      put("latitude", "0.0");
-      put("longitude", "0.0");
-      put("timestamp", "0");
-      put("incidentType", "etc");
-      put("description", "");
-    }
-  };
+  private static List<String> COMPULSORY_PARAM_KEY = Arrays.asList("title", "latitude", "longitude", "timestamp",
+      "incidentType", "description");
 
+  private static String INCIDENT_TYPE_DEFAULT_VALUE = "Category";
   private static DateFormat timeStampFormatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
 
   @Override
@@ -68,17 +61,31 @@ public class ReportServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Entity reportEntity = createReportEntity(request, response);
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(reportEntity);
+    if (isInputValid(request, response)) {
+      Entity reportEntity = createReportEntity(request, response);
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+      datastore.put(reportEntity);
+    }
+  }
+
+  private boolean isInputValid(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    for (String paramName : COMPULSORY_PARAM_KEY) {
+      String value = request.getParameter(paramName);
+      if (value.trim().isEmpty()) {
+        return false;
+      }
+      if (paramName.equals("incidentType") && value.equals(INCIDENT_TYPE_DEFAULT_VALUE)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   public static Entity createReportEntity(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Entity reportEntity = new Entity("Report");
 
-    for (String paramName : PARAM_DEFAULT_MAP.keySet()) {
-      String defaultValue = PARAM_DEFAULT_MAP.get(paramName);
-      String value = getParameter(request, paramName, defaultValue);
+    for (String paramName : COMPULSORY_PARAM_KEY) {
+      String value = request.getParameter(paramName);
       switch (paramName) {
         case "latitude":
         case "longitude":
@@ -92,6 +99,8 @@ public class ReportServlet extends HttpServlet {
             response.getWriter().println(exception);
           }
           break;
+        case "description":
+          reportEntity.setProperty(paramName, value);
         default:
           reportEntity.setProperty(paramName, value);
       }
@@ -123,18 +132,6 @@ public class ReportServlet extends HttpServlet {
       markers.add(marker);
     }
     return markers;
-  }
-
-  /**
-   * @return the request parameter, or the default value if the parameter was not
-   *         specified by the client
-   */
-  private static String getParameter(HttpServletRequest request, String name, String defaultValue) {
-    String value = request.getParameter(name);
-    if (value == null) {
-      return defaultValue;
-    }
-    return value;
   }
 
   /**
