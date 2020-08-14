@@ -30,17 +30,13 @@ export async function postUserReport(geocoder) {
 
 function findMissingFields() {
   const compulsoryFields = document.getElementsByClassName("compulsory");
-  let missingFields = [];
+  let missingFields = Object.values(compulsoryFields).filter(field => !field.value.trim()).map(field => field.name);
 
-  for (const field of compulsoryFields) {
-    if (!field.value.trim()) {
-      missingFields.push(field.name);
-    }
-  }
   if (document.getElementById("category-input").value === "Category") {
     missingFields.push(document.getElementById("category-input").name);
   }
-  return missingFields
+
+  return missingFields;
 }
 
 function alertMissingFields(missingFields) {
