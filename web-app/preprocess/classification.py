@@ -8,66 +8,88 @@ import pickle
 import numpy as np
 import fasttext.util
 from scipy.spatial.distance import cosine
-# Remove "other" from list of stopwords in order to classify crime types such as "other crime", "etc"
+from typing import List, Dict
+''' Remove "other" from list of stopwords in order to classify crime types such as "other crime", "etc" '''
 
-def simplifyText(crimeType):
+
+def simplifyText(crimeType: str) -> List[str]:
     crimeTypeLower = crimeType.lower()
     crimeTypeNoHyphen = crimeTypeLower.replace('-', ' ')
-    crimeTypeNoPunct = crimeTypeNoHyphen.translate(str.maketrans("", "", string.punctuation))
+    crimeTypeNoPunct = crimeTypeNoHyphen.translate(
+        str.maketrans("", "", string.punctuation))
 
     crimeTypeWords = nltk.word_tokenize(crimeTypeNoPunct)
-    crimeTypeWordsNoStopwords = [word for word in crimeTypeWords if word not in stopwords.words('english')]
+    crimeTypeWordsNoStopwords = [
+        word for word in crimeTypeWords
+        if word not in stopwords.words('english')
+    ]
     lemmatizer = WordNetLemmatizer()
-    lemmatizedCrimeTypeWords = [lemmatizer.lemmatize(word) for word in crimeTypeWordsNoStopwords]
-    
+    lemmatizedCrimeTypeWords = [
+        lemmatizer.lemmatize(word) for word in crimeTypeWordsNoStopwords
+    ]
+
     return lemmatizedCrimeTypeWords
 
-def saveDict(dictName, dictToSave):
+
+def saveDict(dictName: str, dictToSave: Dict[any, any]):
     with open(dictName + '.pkl', 'wb') as f:
         pickle.dump(dictToSave, f, pickle.HIGHEST_PROTOCOL)
 
-def loadpkl(filename):
-     with open(filename + '.pkl', 'rb') as f:
+
+def loadpkl(filename: str):
+    with open(filename + '.pkl', 'rb') as f:
         return pickle.load(f)
 
-def loadDict():
-    if (os.path.isfile('categoryClassificationDict.pkl')):
+
+def loadDict() -> Dict[str, str]:
+    if os.path.isfile('categoryClassificationDict.pkl'):
         return loadpkl('categoryClassificationDict')
+
     return {}
 
-def generateWordVector(lemmatizedCrimeTypeWords, ft):
-    for i in range(len(lemmatizedCrimeTypeWords)):
-        if i == 0:
-            wordVector = np.copy(ft.get_word_vector(lemmatizedCrimeTypeWords[i]))
-        else: wordVector += ft.get_word_vector(lemmatizedCrimeTypeWords[i])
+
+def generateWordVector(lemmatizedCrimeTypeWords: List[str], ft: any) -> any:
+    if len(lemmatizedCrimeTypeWords) == 0:
+        return
+
+    wordVector = np.copy(ft.get_word_vector(lemmatizedCrimeTypeWords[0]))
+
+    for i in range(1, len(lemmatizedCrimeTypeWords)):
+        wordVector += ft.get_word_vector(lemmatizedCrimeTypeWords[i])
+
     return wordVector
 
-def nearestNeighbor(crimeTypeWordVector):
+
+def nearestNeighbor(crimeTypeWordVector: any) -> str:
     categoryDict = loadpkl("categoryDict")
     crimeTypeWordVectorsDict = loadpkl("crimeTypeWordVectorsDict")
 
     nearest = None
     maxCosSimilarity = 0
     for crimeType in categoryDict:
-        cosSimilarity = 1 - cosine(crimeTypeWordVectorsDict[crimeType], crimeTypeWordVector)
+        cosSimilarity = 1 - cosine(crimeTypeWordVectorsDict[crimeType],
+                                   crimeTypeWordVector)
         if cosSimilarity > maxCosSimilarity:
             maxCosSimilarity = cosSimilarity
             nearest = categoryDict[crimeType]
+
     return nearest
 
-def classify(crimeType):
+
+def classify(crimeType: str) -> str:
     lemmatizedCrimeTypeWords = simplifyText(crimeType)
-    lemmatizedCrimeType = ' '.join(lemmatizedCrimeTypeWords)    
+    lemmatizedCrimeType = ' '.join(lemmatizedCrimeTypeWords)
 
     categoryClassificationDict = loadDict()
-    matchingCategory = categoryClassificationDict.get(lemmatizedCrimeType, None)
-    if matchingCategory != None:
+    matchingCategory = categoryClassificationDict.get(lemmatizedCrimeType,
+                                                      None)
+    if matchingCategory is not None:
         return matchingCategory
 
     ft = fasttext.load_model('cc.en.300.bin')
     crimeTypeWordVector = generateWordVector(lemmatizedCrimeTypeWords, ft)
     classifiedCategory = nearestNeighbor(crimeTypeWordVector)
-    
+
     categoryClassificationDict[lemmatizedCrimeType] = classifiedCategory
     saveDict("categoryClassificationDict", categoryClassificationDict)
 

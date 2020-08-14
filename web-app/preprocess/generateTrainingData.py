@@ -1,30 +1,33 @@
 from classification import generateWordVector, saveDict
 import fasttext.util
 
+
 def crimeTypeCategoryMap():
-    categoryDict = {}
-    categoryDict["theft"] = "Theft Crimes"
-    categoryDict["vehicle crime"] = "Theft Crimes"
-    categoryDict["burglary"] = "Theft Crimes"
-    categoryDict["larceny"] = "Theft Crimes"
-    categoryDict["assault"] = "Violent Crimes"
-    categoryDict["violent crime"] = "Violent Crimes"
-    categoryDict["arson"] = "Violent Crimes"
-    categoryDict["robbery"] = "Violent Crimes"
-    categoryDict["disorderly conduct"] = "Disorderly Conduct"
-    categoryDict["anti social behaviour"] = "Disorderly Conduct"
-    categoryDict["public order"] = "Disorderly Conduct"
-    categoryDict["disturb peace"] = "Disorderly Conduct"
-    categoryDict["drug"] = "Statutory Crimes"
-    categoryDict["alcohol violation"] = "Statutory Crimes"
-    categoryDict["traffic offense"] = "Statutory Crimes"
-    categoryDict["white collar crime"] = "Statutory Crimes"
-    categoryDict["other crime"] = "Other Crimes"
-    categoryDict["juvenile crime"] = "Other Crimes"
-    categoryDict["weapon possession"] = "Other Crimes"
-    categoryDict["vandalism"] = "Other Crimes"
-    
+    categoryDict = {
+        "theft": "Theft Crimes",
+        "vehicle crime": "Theft Crimes",
+        "burglary": "Theft Crimes",
+        "larceny": "Theft Crimes",
+        "assault": "Violent Crimes",
+        "arson": "Violent Crimes",
+        "violent crime": "Violent Crimes",
+        "robbery": "Violent Crimes",
+        "disorderly conduct": "Disorderly Conduct",
+        "anti social behaviour": "Disorderly Conduct",
+        "public order": "Disorderly Conduct",
+        "disturb peace": "Disorderly Conduct",
+        "drug": "Statutory Crimes",
+        "alcohol violation": "Statutory Crimes",
+        "traffic offense": "Statutory Crimes",
+        "white collar crime": "Statutory Crimes",
+        "other crime": "Other Crimes",
+        "juvenile crime": "Other Crimes",
+        "weapon possession": "Other Crimes",
+        "vandalism": "Other Crimes"
+    }
+
     return categoryDict
+
 
 if __name__ == "__main__":
     categoryDict = crimeTypeCategoryMap()

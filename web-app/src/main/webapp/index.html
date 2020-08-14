@@ -190,12 +190,12 @@
     <form id="report-form">
       <div class="row">
         <label for="title-input">Title</label>
-        <input class="u-full-width" type="text" placeholder="Title" id="title-input" />
+        <input name="title" class="u-full-width compulsory" type="text" placeholder="Title" id="title-input" />
       </div>
       <div class="row">
         <div class="eleven columns">
           <label for="location-input">Location</label>
-          <input class="u-full-width" type="text" placeholder="Location" id="location-input" />
+          <input name="location" class="u-full-width compulsory" type="text" placeholder="Location" id="location-input" />
         </div>
         <div class="one column">
           <button id="map-icon" class="icon-button"><span class="sr-only">pick
@@ -204,11 +204,11 @@
       </div>
       <div class="row">
         <label for="time-input">Date and time</label>
-        <input class="u-full-width" type="datetime-local" placeholder="Time" id="time-input" />
+        <input name="time" class="u-full-width compulsory" type="datetime-local" placeholder="Time" id="time-input" />
       </div>
       <div class="row">
         <label for="category-input">Category of incident</label>
-        <select class="u-full-width" type="text" id="category-input">
+        <select class="u-full-width" type="text" id="category-input" name="category">
           <option selected disabled>Category</option>
           <option value="Theft Crimes">Theft Crimes</option>
           <option value="Violent Crimes">Violent Crimes</option>
@@ -218,7 +218,7 @@
         </select>
       </div>
       <label for="description-input">Description</label>
-      <textarea placeholder="Tell us more about what happened" class="u-full-width" id="description-input"></textarea>
+      <textarea name="description" placeholder="Tell us more about what happened" class="u-full-width compulsory" id="description-input"></textarea>
       <div class="row">
         <div class="two-thirds columns">
           <label for="attach-image">Attach an image (optional)</label>
