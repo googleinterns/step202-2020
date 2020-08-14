@@ -42,18 +42,21 @@ def loadpkl(filename: str):
 
 
 def loadDict() -> Dict[str, str]:
-    if (os.path.isfile('categoryClassificationDict.pkl')):
+    if os.path.isfile('categoryClassificationDict.pkl'):
         return loadpkl('categoryClassificationDict')
+
     return {}
 
 
 def generateWordVector(lemmatizedCrimeTypeWords: List[str], ft: any) -> any:
-    for i in range(len(lemmatizedCrimeTypeWords)):
-        if i == 0:
-            wordVector = np.copy(
-                ft.get_word_vector(lemmatizedCrimeTypeWords[i]))
-        else:
-            wordVector += ft.get_word_vector(lemmatizedCrimeTypeWords[i])
+    if len(lemmatizedCrimeTypeWords) == 0:
+        return
+
+    wordVector = np.copy(ft.get_word_vector(lemmatizedCrimeTypeWords[0]))
+
+    for i in range(1, len(lemmatizedCrimeTypeWords)):
+        wordVector += ft.get_word_vector(lemmatizedCrimeTypeWords[i])
+
     return wordVector
 
 
@@ -69,6 +72,7 @@ def nearestNeighbor(crimeTypeWordVector: any) -> str:
         if cosSimilarity > maxCosSimilarity:
             maxCosSimilarity = cosSimilarity
             nearest = categoryDict[crimeType]
+
     return nearest
 
 
@@ -90,7 +94,3 @@ def classify(crimeType: str) -> str:
     saveDict("categoryClassificationDict", categoryClassificationDict)
 
     return classifiedCategory
-
-
-word = sys.argv[1]
-print(classify(word))
